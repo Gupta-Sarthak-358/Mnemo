@@ -15,6 +15,7 @@ from PyQt6.QtWidgets import (
     QApplication, QWidget, QVBoxLayout, QHBoxLayout,
     QLineEdit, QLabel, QScrollArea,
     QDialog, QPushButton, QComboBox, QSizePolicy,
+    QGraphicsDropShadowEffect,
 )
 from .icons import icon_label, icon_pixmap
 
@@ -482,13 +483,18 @@ def run_ui():
                     border-color: {C['accent']};
                 }}
             """)
+            shadow = QGraphicsDropShadowEffect()
+            shadow.setBlurRadius(12)
+            shadow.setOffset(0, 2)
+            shadow.setColor(QColor(0, 0, 0, 50))
+            self.setGraphicsEffect(shadow)
             outer = QVBoxLayout(self)
-            outer.setContentsMargins(12, 12, 12, 12)
-            outer.setSpacing(16)
+            outer.setContentsMargins(10, 10, 10, 10)
+            outer.setSpacing(12)
 
             # Header row: icon + title/author + confidence
             header = QHBoxLayout()
-            header.setSpacing(16)
+            header.setSpacing(12)
 
             icon_w = QWidget()
             icon_w.setFixedSize(40, 48)
@@ -673,6 +679,11 @@ def run_ui():
                     border-left-color: {C['accent']};
                 }}
             """)
+            shadow = QGraphicsDropShadowEffect()
+            shadow.setBlurRadius(8)
+            shadow.setOffset(0, 1)
+            shadow.setColor(QColor(0, 0, 0, 40))
+            self.setGraphicsEffect(shadow)
             self.setCursor(Qt.CursorShape.PointingHandCursor)
             outer = QHBoxLayout(self)
             outer.setContentsMargins(12, 12, 12, 12)
@@ -928,7 +939,7 @@ def run_ui():
             self.scroll_content = QWidget()
             self.scroll_content.setStyleSheet(f"background: {C['bg']};")
             self.scroll_layout = QVBoxLayout(self.scroll_content)
-            self.scroll_layout.setContentsMargins(24, 16, 24, 16)
+            self.scroll_layout.setContentsMargins(24, 8, 24, 8)
             self.scroll_layout.setSpacing(0)
             self.scroll_layout.setAlignment(Qt.AlignmentFlag.AlignTop)
             self.scroll.setWidget(self.scroll_content)

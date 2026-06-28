@@ -8,7 +8,7 @@ from pathlib import Path
 
 from .config import DB_PATH
 
-CURRENT_SCHEMA_VERSION = 10
+CURRENT_SCHEMA_VERSION = 11
 
 FTS_STOPWORDS = {
     "the","a","an","and","or","but","in","on","at","to","for","of","by","with",
@@ -63,6 +63,8 @@ def run_migrations(conn):
         run_migration_9(conn)
     if version < 10:
         run_migration_10(conn)
+    if version < 11:
+        run_migration_11(conn)
     _backfill_chunk_metadata(conn)
 
 
@@ -103,6 +105,25 @@ def run_migration_10(conn):
     conn.execute(
         "INSERT INTO schema_version VALUES (?, ?)", (10, time.time())
     )
+
+
+def run_migration_11(conn):
+    from .enrich import extract_concepts as extract_concepts_fn
+    rows = conn.execute(
+        "SELECT cm.chunk_id, c.text FROM chunk_metadata cm JOIN chunks c ON cm.chunk_id = c.id"
+    ).fetchall()
+    print(f"[migration 11] Re-enriching {len(rows)} chunks with improved concepts...")
+    for i, row in enumerate(rows):
+        new_concepts = extract_concepts_fn(row["text"])
+        conn.execute(
+            "UPDATE chunk_metadata SET concepts = ?, enriched_at = ? WHERE chunk_id = ?",
+            (json.dumps(new_concepts), time.time(), row["chunk_id"]),
+        )
+        if i > 0 and i % 200 == 0:
+            conn.commit()
+    conn.execute("INSERT INTO schema_version VALUES (?, ?)", (11, time.time()))
+    conn.commit()
+    print(f"[migration 11] Done.")
 
 
 def _backfill_chunk_metadata(conn):

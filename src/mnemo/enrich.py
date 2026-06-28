@@ -1,5 +1,4 @@
 import re
-import json
 from collections import Counter
 
 STOPWORDS = {
@@ -13,6 +12,33 @@ STOPWORDS = {
     "i","me","my","we","our","you","your","they","them","their","what",
     "which","who","whom","none","very","too","up","down","out","off",
     "than","because","from","like","get","got","has","been","being",
+}
+
+# Structural/document words that appear in headers/footers but aren't content
+STRUCTURAL_WORDS = {
+    "chapter","chapters","edition","editions","book","books","page","pages",
+    "figure","figures","table","tables","section","sections","appendix",
+    "index","preface","introduction","contents","content","copyright",
+    "published","publisher","author","authors","title","review",
+    "example","examples","exercise","exercises","problem","problems",
+    "solution","solutions","answer","answers","question","questions",
+    "reference","references","bibliography","notes","note","summary",
+    "overview","conclusion","conclusions","part","parts",
+    "unit","units","lesson","lessons","topic","topics","list","lists",
+    "item","items","equation","equations",
+    "algorithm","algorithms","property","properties","definition",
+    "definitions","theorem","theorems","lemma","corollary","proof",
+    "proposition","remark","remarks","tip","tips","warning","warnings",
+    "caution","important","following","follows","shown","shows",
+    "given","gives","called","known","defined","describe","describes",
+    "discuss","discusses","explain","explains","illustrate","illustrates",
+    "provide","provides","require","requires","consider","considers",
+    "contain","contains","include","includes","consist","consists",
+    "comprise","comprises","various","different","multiple",
+    "several","specific","general","common","typical","usual",
+    "previous","earlier","later","above","below",
+    "without","within","through","during","since","until","while",
+    "because","though","although","unless","whereas",
 }
 
 
@@ -35,18 +61,41 @@ def extract_heading(text):
 def extract_concepts(text, max_concepts=4):
     if not text:
         return []
-    words = re.findall(r"\b[a-zA-Z]{3,}\b", text.lower())
-    words = [w for w in words if w not in STOPWORDS]
-    if not words:
-        return []
-    freqs = Counter(words)
-    common = freqs.most_common(max_concepts + 4)
+
+    words_lower = text.lower()
+    bigrams = re.findall(r"\b([a-zA-Z]{3,})\s+([a-zA-Z]{3,})\b", words_lower)
+    single_words = re.findall(r"\b[a-zA-Z]{3,}\b", words_lower)
+
+    # Filter single words: >= 4 chars, not stopwords or structural
+    filtered = [
+        w for w in single_words
+        if len(w) >= 4
+        and w not in STOPWORDS
+        and w not in STRUCTURAL_WORDS
+    ]
+
+    # Score bigrams by combined frequency of their component words
+    word_freqs = Counter(filtered)
+    bigram_scores = []
+    for a, b in bigrams:
+        if (a not in STOPWORDS and b not in STOPWORDS
+                and a not in STRUCTURAL_WORDS and b not in STRUCTURAL_WORDS
+                and len(a) >= 3 and len(b) >= 3):
+            score = word_freqs.get(a, 0) + word_freqs.get(b, 0)
+            bigram_scores.append((f"{a} {b}", score))
+    bigram_scores.sort(key=lambda x: -x[1])
+
     concepts = []
-    for word, count in common:
-        if count >= 2:
+    for bg, _ in bigram_scores:
+        concepts.append(bg)
+        if len(concepts) >= max_concepts:
+            return concepts[:max_concepts]
+
+    # Fill remaining with frequent single words
+    for word, count in word_freqs.most_common(max_concepts * 2):
+        if count >= 2 or not concepts:
             concepts.append(word)
             if len(concepts) >= max_concepts:
                 break
-    if not concepts:
-        concepts = [common[0][0]] if common else []
+
     return concepts[:max_concepts]

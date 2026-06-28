@@ -469,26 +469,6 @@ def run_ui():
             self._snippet_widget = None
             self._build()
 
-        @staticmethod
-        def _make_badge(score):
-            if score >= 0.70:
-                label_text = "Strong"
-                bg = "#1A3A2A"
-                dot = "🟢"
-            elif score >= 0.50:
-                label_text = "Good"
-                bg = "#3A3A1A"
-                dot = "🟡"
-            else:
-                label_text = "Mention"
-                bg = "#2A2A2A"
-                dot = "⚪"
-            badge = QLabel(f"{dot} {label_text}")
-            badge.setFont(QFont("Segoe UI", 11))
-            badge.setStyleSheet(f"background: {bg}; color: {C['fg']}; padding: 2px 10px; border-radius: 10px;")
-            badge.setFixedHeight(22)
-            return badge
-
         def _build(self):
             self.setObjectName("featuredCard")
             self.setAttribute(Qt.WidgetAttribute.WA_Hover)
@@ -543,7 +523,10 @@ def run_ui():
                 title_col.addWidget(a)
             header.addLayout(title_col, 1)
 
-            header.addWidget(self._make_badge(self._data.get("score", 0)))
+            conf = QLabel(confidence_label(self._data.get("score", 0)))
+            conf.setFont(QFont("Segoe UI", 12))
+            conf.setStyleSheet(f"color: {C['muted']}; background: transparent;")
+            header.addWidget(conf)
             outer.addLayout(header)
 
             # Why this matched — one-sentence explanation from snippet
@@ -705,7 +688,10 @@ def run_ui():
             name.setFont(QFont("Segoe UI", 12))
             name.setStyleSheet(f"color: {C['fg']}; background: transparent;")
             top.addWidget(name, 1)
-            top.addWidget(FeaturedCard._make_badge(self._data.get("score", 0)))
+            conf = QLabel(confidence_label(self._data.get("score", 0)))
+            conf.setFont(QFont("Segoe UI", 11))
+            conf.setStyleSheet(f"color: {C['muted']}; background: transparent;")
+            top.addWidget(conf)
             outer.addLayout(top)
 
             meta = QHBoxLayout()
@@ -969,22 +955,42 @@ def run_ui():
 
         def _show_empty_state(self):
             self._clear_results()
+            has_content = False
+
             # Continue Reading section
             if self._last_open:
+                has_content = True
                 sec = QLabel("CONTINUE READING")
                 sec.setFont(QFont("Segoe UI", 11, QFont.Weight.Medium))
                 sec.setStyleSheet(f"color: {C['secondary']}; background: transparent; letter-spacing: 0.08em; padding-bottom: 4px;")
                 self.scroll_layout.addWidget(sec)
 
                 cr = QWidget()
-                cr.setStyleSheet(f"background: {C['card_bg']}; border: 1px solid {C['border']}; border-radius: 8px;")
+                cr.setObjectName("continueCard")
+                cr.setStyleSheet(f"""
+                    #continueCard {{
+                        background: {C['card_bg']}; border: 1px solid {C['border']}; border-radius: 8px;
+                    }}
+                    #continueCard:hover {{ border-color: {C['card_hover']}; }}
+                """)
                 cr_layout = QHBoxLayout(cr)
-                cr_layout.setContentsMargins(12, 10, 12, 10)
-                cr_layout.setSpacing(10)
-                icon = icon_label("book", 20, C['accent'])
+                cr_layout.setContentsMargins(12, 12, 12, 12)
+                cr_layout.setSpacing(12)
+
+                clr = book_color(self._last_open.get("filename", ""))
+                icon_w = QWidget()
+                icon_w.setFixedSize(36, 44)
+                icon_w.setStyleSheet(f"background: {C['card_bg']}; border-left: 3px solid {clr}; border-radius: 4px;")
+                i_l = QVBoxLayout(icon_w)
+                i_l.setContentsMargins(0, 0, 0, 0)
+                i_l.setAlignment(Qt.AlignmentFlag.AlignCenter)
+                i_l.addWidget(icon_label("book", 20, clr))
+                cr_layout.addWidget(icon_w)
+
                 ci = QVBoxLayout()
+                ci.setSpacing(2)
                 name = QLabel(clean_filename(self._last_open.get("filename", "")))
-                name.setFont(QFont("Segoe UI", 12))
+                name.setFont(QFont("Segoe UI", 13, QFont.Weight.Medium))
                 name.setStyleSheet(f"color: {C['fg']}; background: transparent;")
                 ci.addWidget(name)
                 author_name = self._last_open.get("author") or ""
@@ -995,11 +1001,18 @@ def run_ui():
                     ci.addWidget(a)
                 saved_page = self._last_open.get("page")
                 disp = saved_page + 1 if saved_page is not None else "?"
-                sub = QLabel(f"LAST READ: P. {disp}")
-                sub.setFont(QFont("Segoe UI", 9))
-                sub.setStyleSheet(f"color: {C['secondary']}; background: transparent;")
+                sub = QLabel(f"Page {disp}  ·  Resume →")
+                sub.setFont(QFont("Segoe UI", 10))
+                sub.setStyleSheet(f"color: {C['accent']}; background: transparent;")
                 ci.addWidget(sub)
                 cr_layout.addLayout(ci, 1)
+
+                shadow = QGraphicsDropShadowEffect()
+                shadow.setBlurRadius(10)
+                shadow.setOffset(0, 2)
+                shadow.setColor(QColor(0, 0, 0, 45))
+                cr.setGraphicsEffect(shadow)
+
                 cr.setCursor(Qt.CursorShape.PointingHandCursor)
                 cr_data = self._last_open
                 cr.mousePressEvent = lambda e, d=cr_data: self._open_continue(d)
@@ -1007,19 +1020,45 @@ def run_ui():
 
             # Recent Searches section
             if self._recent_searches:
-                self.scroll_layout.addSpacing(8)
+                has_content = True
+                self.scroll_layout.addSpacing(16)
                 sec = QLabel("RECENT SEARCHES")
+                sec.setFont(QFont("Segoe UI", 11, QFont.Weight.Medium))
+                sec.setStyleSheet(f"color: {C['secondary']}; background: transparent; letter-spacing: 0.08em; padding-bottom: 8px;")
+                self.scroll_layout.addWidget(sec)
+
+                chips_w = QWidget()
+                chips_w.setStyleSheet("background: transparent;")
+                chips_l = QHBoxLayout(chips_w)
+                chips_l.setContentsMargins(0, 0, 0, 0)
+                chips_l.setSpacing(6)
+                for sq in reversed(self._recent_searches[-6:]):
+                    chip = make_chip(sq, C["concept_bg"], C["secondary"], 11)
+                    chip.setCursor(Qt.CursorShape.PointingHandCursor)
+                    q_text = sq
+                    chip.mousePressEvent = lambda e, q=q_text: self._run_recent(q)
+                    chips_l.addWidget(chip)
+                chips_l.addStretch()
+                self.scroll_layout.addWidget(chips_w)
+
+            # Search tips when no recent activity
+            if not has_content:
+                sec = QLabel("QUICK START")
                 sec.setFont(QFont("Segoe UI", 11, QFont.Weight.Medium))
                 sec.setStyleSheet(f"color: {C['secondary']}; background: transparent; letter-spacing: 0.08em; padding-bottom: 4px;")
                 self.scroll_layout.addWidget(sec)
-                for sq in reversed(self._recent_searches[-5:]):
-                    r = QLabel(f"  {sq}")
-                    r.setFont(QFont("Segoe UI", 12))
-                    r.setStyleSheet(f"color: {C['secondary']}; background: transparent; padding: 4px 0;")
-                    r.setCursor(Qt.CursorShape.PointingHandCursor)
-                    q_text = sq
-                    r.mousePressEvent = lambda e, q=q_text: self._run_recent(q)
-                    self.scroll_layout.addWidget(r)
+
+                tips = [
+                    "Search what you remember — Mnemo understands meaning, not just keywords",
+                    "Press Ctrl+M from anywhere to open this launcher",
+                    "Use ↑↓ to navigate results, Enter to open",
+                    "Click ⚙ to change your hotkey or PDF viewer",
+                ]
+                for tip in tips:
+                    t = QLabel(f"  {tip}")
+                    t.setFont(QFont("Segoe UI", 11))
+                    t.setStyleSheet(f"color: {C['muted']}; background: transparent; padding: 5px 0;")
+                    self.scroll_layout.addWidget(t)
 
         def _open_continue(self, data):
             open_pdf(data["path"], data.get("page"))

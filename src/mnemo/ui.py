@@ -886,8 +886,8 @@ def run_ui():
             super().__init__()
             self.setWindowTitle("Mnemo")
             self.setWindowFlags(Qt.WindowType.Window)
-            self.setMinimumSize(950, 700)
-            self.resize(1125, 790)
+            self.setMinimumSize(640, 450)
+            self.resize(820, 520)
             self.setStyleSheet(f"background: {C['bg']}; color: {C['fg']};")
             self._hotkey_ref = hotkey_ref
             self._result_cards = []

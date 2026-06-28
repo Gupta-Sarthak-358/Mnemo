@@ -490,7 +490,7 @@ def run_ui():
                     border-color: {C['card_hover']};
                 }}
                 #featuredCard[nav_selected="true"] {{
-                    border-color: {C['accent']};
+                    border: 2px solid {C['accent']}; background: {C['hover']};
                 }}
             """)
             shadow = QGraphicsDropShadowEffect()
@@ -678,8 +678,7 @@ def run_ui():
                     border-left-color: {clr};
                 }}
                 #secondaryCard[nav_selected="true"] {{
-                    border-color: {C['accent']};
-                    border-left-color: {C['accent']};
+                    border: 2px solid {C['accent']}; border-left: 4px solid {C['accent']}; background: {C['hover']};
                 }}
             """)
             shadow = QGraphicsDropShadowEffect()
@@ -1182,6 +1181,7 @@ def run_ui():
                 c.setProperty("nav_selected", "true" if i == index else "")
                 c.style().unpolish(c)
                 c.style().polish(c)
+                c.update()
 
         def _activate_selected(self):
             if 0 <= self._selected_index < len(self._result_cards):
@@ -1191,28 +1191,8 @@ def run_ui():
 
         def eventFilter(self, obj, event):
             if obj is self.search_input and event.type() == QEvent.Type.KeyPress:
-                if event.key() == Qt.Key.Key_Down:
-                    if self._result_cards:
-                        nxt = min(self._selected_index + 1, len(self._result_cards) - 1)
-                        if nxt != self._selected_index:
-                            self._selected_index = nxt
-                            self._highlight_card(nxt)
-                            self.scroll.ensureWidgetVisible(self._result_cards[nxt])
-                    return True
-                elif event.key() == Qt.Key.Key_Up:
-                    if self._result_cards:
-                        prv = max(self._selected_index - 1, 0)
-                        if prv != self._selected_index:
-                            self._selected_index = prv
-                            self._highlight_card(prv)
-                            self.scroll.ensureWidgetVisible(self._result_cards[prv])
-                    return True
-                elif event.key() in (Qt.Key.Key_Return, Qt.Key.Key_Enter):
-                    self._activate_selected()
-                    return True
-                elif event.key() == Qt.Key.Key_Escape:
-                    self.hide()
-                    return True
+                self.keyPressEvent(event)
+                return True
             return super().eventFilter(obj, event)
 
         def _open_settings(self):
@@ -1267,13 +1247,21 @@ def run_ui():
             if event.key() == Qt.Key.Key_Escape:
                 self.hide()
             elif event.key() == Qt.Key.Key_Down:
-                self.scroll.verticalScrollBar().setValue(
-                    self.scroll.verticalScrollBar().value() + 40
-                )
+                if self._result_cards:
+                    nxt = min(self._selected_index + 1, len(self._result_cards) - 1)
+                    if nxt != self._selected_index:
+                        self._selected_index = nxt
+                        self._highlight_card(nxt)
+                        self.scroll.ensureWidgetVisible(self._result_cards[nxt])
             elif event.key() == Qt.Key.Key_Up:
-                self.scroll.verticalScrollBar().setValue(
-                    self.scroll.verticalScrollBar().value() - 40
-                )
+                if self._result_cards:
+                    prv = max(self._selected_index - 1, 0)
+                    if prv != self._selected_index:
+                        self._selected_index = prv
+                        self._highlight_card(prv)
+                        self.scroll.ensureWidgetVisible(self._result_cards[prv])
+            elif event.key() in (Qt.Key.Key_Return, Qt.Key.Key_Enter):
+                self._activate_selected()
             else:
                 super().keyPressEvent(event)
 

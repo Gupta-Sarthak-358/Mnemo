@@ -74,12 +74,26 @@ def extract_concepts(text, max_concepts=4):
         and w not in STRUCTURAL_WORDS
     ]
 
+    # Extra generic words to exclude from concepts
+    GENERIC_WORDS = {"data","using","based","used","also","set","way","ways",
+                     "make","shown","value","values","type","types","part",
+                     "term","terms","case","cases","field","fields","form",
+                     "forms","line","lines","step","steps","process","method",
+                     "following","different","example","show","note","result",
+                     "results","system","systems","function","functions",
+                     "number","numbers","point","points","level","levels",
+                     "simple","complex","possible","generally","therefore",
+                     "often"}
+
+    filtered = [w for w in filtered if w not in GENERIC_WORDS]
+
     # Score bigrams by combined frequency of their component words
     word_freqs = Counter(filtered)
     bigram_scores = []
     for a, b in bigrams:
         if (a not in STOPWORDS and b not in STOPWORDS
                 and a not in STRUCTURAL_WORDS and b not in STRUCTURAL_WORDS
+                and a not in GENERIC_WORDS and b not in GENERIC_WORDS
                 and len(a) >= 3 and len(b) >= 3):
             score = word_freqs.get(a, 0) + word_freqs.get(b, 0)
             bigram_scores.append((f"{a} {b}", score))

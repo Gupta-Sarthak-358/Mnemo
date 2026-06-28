@@ -978,10 +978,10 @@ def run_ui():
         def _clear_results(self):
             self._result_cards = []
             self._selected_index = -1
-            for i in reversed(range(self.scroll_layout.count())):
-                w = self.scroll_layout.itemAt(i).widget()
-                if w:
-                    w.setParent(None)
+            while self.scroll_layout.count():
+                item = self.scroll_layout.takeAt(0)
+                if item.widget():
+                    item.widget().setParent(None)
 
         def _show_empty_state(self):
             self._clear_results()

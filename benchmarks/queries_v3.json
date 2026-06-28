@@ -1,0 +1,1597 @@
+[
+  {
+    "category": "exact_keyword",
+    "query": "MVCC",
+    "acceptable": [
+      "Database_System_Concepts_-_Abraham_Silberschatz.pdf",
+      "Designing_Data-Intensive_Applications_-_Martin_Kleppmann.pdf"
+    ]
+  },
+  {
+    "category": "exact_keyword",
+    "query": "deadlock",
+    "acceptable": [
+      "Operating_System_Concepts_-_Abraham_Silberschatz.pdf",
+      "Database_System_Concepts_-_Abraham_Silberschatz.pdf"
+    ]
+  },
+  {
+    "category": "exact_keyword",
+    "query": "TCP congestion",
+    "acceptable": [
+      "Computer_Networking_A_Top-Down_Approach_9E_-_Kurose_Ross.pdf"
+    ]
+  },
+  {
+    "category": "exact_keyword",
+    "query": "UDP",
+    "acceptable": [
+      "Computer_Networking_A_Top-Down_Approach_9E_-_Kurose_Ross.pdf"
+    ]
+  },
+  {
+    "category": "exact_keyword",
+    "query": "HTTP",
+    "acceptable": [
+      "Computer_Networking_A_Top-Down_Approach_9E_-_Kurose_Ross.pdf"
+    ]
+  },
+  {
+    "category": "exact_keyword",
+    "query": "DNS",
+    "acceptable": [
+      "Computer_Networking_A_Top-Down_Approach_9E_-_Kurose_Ross.pdf"
+    ]
+  },
+  {
+    "category": "exact_keyword",
+    "query": "inheritance",
+    "acceptable": [
+      "Head First Java.pdf",
+      "Object-Oriented_Programming_-_Amany_Fawzy_Elgamal.pdf"
+    ]
+  },
+  {
+    "category": "exact_keyword",
+    "query": "polymorphism",
+    "acceptable": [
+      "Head First Java.pdf",
+      "Object-Oriented_Programming_-_Amany_Fawzy_Elgamal.pdf"
+    ]
+  },
+  {
+    "category": "exact_keyword",
+    "query": "encapsulation",
+    "acceptable": [
+      "Head First Java.pdf",
+      "Object-Oriented_Programming_-_Amany_Fawzy_Elgamal.pdf"
+    ]
+  },
+  {
+    "category": "exact_keyword",
+    "query": "binary search tree",
+    "acceptable": [
+      "Data Structures and Algorithms Made Easy - Data Structure and Algorithmic Puzzles.pdf",
+      "Narasimha Karumanchi - Data structures and algorithms made easy (0, CareerMonk).pdf",
+      "ilide.info-data-structures-and-algorithms-made-easy-narasimha-karumanchi-pr_d55a72f1d21f17803bd221bfd7480e05.pdf",
+      "Coding_Interview_Patterns_Nail_Your_Next_Coding_-_Alex_Xu.pdf",
+      "CP_handbook.pdf",
+      "[Tutorial] A Way to Practice Competitive Programming.pdf"
+    ]
+  },
+  {
+    "category": "exact_keyword",
+    "query": "AVL tree",
+    "acceptable": [
+      "Data Structures and Algorithms Made Easy - Data Structure and Algorithmic Puzzles.pdf",
+      "Narasimha Karumanchi - Data structures and algorithms made easy (0, CareerMonk).pdf",
+      "ilide.info-data-structures-and-algorithms-made-easy-narasimha-karumanchi-pr_d55a72f1d21f17803bd221bfd7480e05.pdf",
+      "Coding_Interview_Patterns_Nail_Your_Next_Coding_-_Alex_Xu.pdf",
+      "CP_handbook.pdf",
+      "[Tutorial] A Way to Practice Competitive Programming.pdf"
+    ]
+  },
+  {
+    "category": "exact_keyword",
+    "query": "heap sort",
+    "acceptable": [
+      "Data Structures and Algorithms Made Easy - Data Structure and Algorithmic Puzzles.pdf",
+      "Narasimha Karumanchi - Data structures and algorithms made easy (0, CareerMonk).pdf",
+      "ilide.info-data-structures-and-algorithms-made-easy-narasimha-karumanchi-pr_d55a72f1d21f17803bd221bfd7480e05.pdf",
+      "Coding_Interview_Patterns_Nail_Your_Next_Coding_-_Alex_Xu.pdf",
+      "CP_handbook.pdf",
+      "[Tutorial] A Way to Practice Competitive Programming.pdf"
+    ]
+  },
+  {
+    "category": "exact_keyword",
+    "query": "quicksort",
+    "acceptable": [
+      "Data Structures and Algorithms Made Easy - Data Structure and Algorithmic Puzzles.pdf",
+      "Narasimha Karumanchi - Data structures and algorithms made easy (0, CareerMonk).pdf",
+      "ilide.info-data-structures-and-algorithms-made-easy-narasimha-karumanchi-pr_d55a72f1d21f17803bd221bfd7480e05.pdf",
+      "Coding_Interview_Patterns_Nail_Your_Next_Coding_-_Alex_Xu.pdf",
+      "CP_handbook.pdf",
+      "[Tutorial] A Way to Practice Competitive Programming.pdf"
+    ]
+  },
+  {
+    "category": "exact_keyword",
+    "query": "garbage collection",
+    "acceptable": [
+      "Head First Java.pdf",
+      "Operating_System_Concepts_-_Abraham_Silberschatz.pdf"
+    ]
+  },
+  {
+    "category": "exact_keyword",
+    "query": "virtual memory",
+    "acceptable": [
+      "Operating_System_Concepts_-_Abraham_Silberschatz.pdf"
+    ]
+  },
+  {
+    "category": "exact_keyword",
+    "query": "process scheduling",
+    "acceptable": [
+      "Operating_System_Concepts_-_Abraham_Silberschatz.pdf"
+    ]
+  },
+  {
+    "category": "exact_keyword",
+    "query": "Spring Boot",
+    "acceptable": [
+      "Craig-Walls-Spring-in-Action-Manning-Publications-2018.pdf"
+    ]
+  },
+  {
+    "category": "exact_keyword",
+    "query": "dependency injection",
+    "acceptable": [
+      "Craig-Walls-Spring-in-Action-Manning-Publications-2018.pdf"
+    ]
+  },
+  {
+    "category": "exact_keyword",
+    "query": "SQL join",
+    "acceptable": [
+      "Sams_Teach_Yourself_Microsoft_Sql_Server_T-Sql_In_10_Minutes_(2008).pdf",
+      "Database_System_Concepts_-_Abraham_Silberschatz.pdf",
+      "Database_System_Concepts_-_Abraham_Silberschatz.pdf"
+    ]
+  },
+  {
+    "category": "exact_keyword",
+    "query": "normalization",
+    "acceptable": [
+      "Sams_Teach_Yourself_Microsoft_Sql_Server_T-Sql_In_10_Minutes_(2008).pdf",
+      "Database_System_Concepts_-_Abraham_Silberschatz.pdf",
+      "Database_System_Concepts_-_Abraham_Silberschatz.pdf"
+    ]
+  },
+  {
+    "category": "acronym",
+    "query": "MVCC",
+    "acceptable": [
+      "Database_System_Concepts_-_Abraham_Silberschatz.pdf",
+      "Designing_Data-Intensive_Applications_-_Martin_Kleppmann.pdf"
+    ]
+  },
+  {
+    "category": "acronym",
+    "query": "ACID",
+    "acceptable": [
+      "Database_System_Concepts_-_Abraham_Silberschatz.pdf",
+      "Designing_Data-Intensive_Applications_-_Martin_Kleppmann.pdf"
+    ]
+  },
+  {
+    "category": "acronym",
+    "query": "CAP theorem",
+    "acceptable": [
+      "Designing_Data-Intensive_Applications_-_Martin_Kleppmann.pdf",
+      "Database_System_Concepts_-_Abraham_Silberschatz.pdf"
+    ]
+  },
+  {
+    "category": "acronym",
+    "query": "BASE",
+    "acceptable": [
+      "Designing_Data-Intensive_Applications_-_Martin_Kleppmann.pdf",
+      "Database_System_Concepts_-_Abraham_Silberschatz.pdf"
+    ]
+  },
+  {
+    "category": "acronym",
+    "query": "DNS",
+    "acceptable": [
+      "Computer_Networking_A_Top-Down_Approach_9E_-_Kurose_Ross.pdf"
+    ]
+  },
+  {
+    "category": "acronym",
+    "query": "HTTP",
+    "acceptable": [
+      "Computer_Networking_A_Top-Down_Approach_9E_-_Kurose_Ross.pdf"
+    ]
+  },
+  {
+    "category": "acronym",
+    "query": "HTTPS",
+    "acceptable": [
+      "Computer_Networking_A_Top-Down_Approach_9E_-_Kurose_Ross.pdf"
+    ]
+  },
+  {
+    "category": "acronym",
+    "query": "TCP",
+    "acceptable": [
+      "Computer_Networking_A_Top-Down_Approach_9E_-_Kurose_Ross.pdf"
+    ]
+  },
+  {
+    "category": "acronym",
+    "query": "UDP",
+    "acceptable": [
+      "Computer_Networking_A_Top-Down_Approach_9E_-_Kurose_Ross.pdf"
+    ]
+  },
+  {
+    "category": "acronym",
+    "query": "OSI",
+    "acceptable": [
+      "Computer_Networking_A_Top-Down_Approach_9E_-_Kurose_Ross.pdf"
+    ]
+  },
+  {
+    "category": "acronym",
+    "query": "BFS",
+    "acceptable": [
+      "Data Structures and Algorithms Made Easy - Data Structure and Algorithmic Puzzles.pdf",
+      "Narasimha Karumanchi - Data structures and algorithms made easy (0, CareerMonk).pdf",
+      "ilide.info-data-structures-and-algorithms-made-easy-narasimha-karumanchi-pr_d55a72f1d21f17803bd221bfd7480e05.pdf",
+      "Coding_Interview_Patterns_Nail_Your_Next_Coding_-_Alex_Xu.pdf",
+      "CP_handbook.pdf",
+      "[Tutorial] A Way to Practice Competitive Programming.pdf"
+    ]
+  },
+  {
+    "category": "acronym",
+    "query": "DFS",
+    "acceptable": [
+      "Data Structures and Algorithms Made Easy - Data Structure and Algorithmic Puzzles.pdf",
+      "Narasimha Karumanchi - Data structures and algorithms made easy (0, CareerMonk).pdf",
+      "ilide.info-data-structures-and-algorithms-made-easy-narasimha-karumanchi-pr_d55a72f1d21f17803bd221bfd7480e05.pdf",
+      "Coding_Interview_Patterns_Nail_Your_Next_Coding_-_Alex_Xu.pdf",
+      "CP_handbook.pdf",
+      "[Tutorial] A Way to Practice Competitive Programming.pdf"
+    ]
+  },
+  {
+    "category": "acronym",
+    "query": "OOP",
+    "acceptable": [
+      "Head First Java.pdf",
+      "Object-Oriented_Programming_-_Amany_Fawzy_Elgamal.pdf",
+      "[O`Reilly. Head First] - Head First Design Patterns - [Freeman].pdf"
+    ]
+  },
+  {
+    "category": "acronym",
+    "query": "MVC",
+    "acceptable": [
+      "[O`Reilly. Head First] - Head First Design Patterns - [Freeman].pdf",
+      "Craig-Walls-Spring-in-Action-Manning-Publications-2018.pdf",
+      "Head First Java.pdf"
+    ]
+  },
+  {
+    "category": "acronym",
+    "query": "ORM",
+    "acceptable": [
+      "Craig-Walls-Spring-in-Action-Manning-Publications-2018.pdf",
+      "Sams_Teach_Yourself_Microsoft_Sql_Server_T-Sql_In_10_Minutes_(2008).pdf",
+      "Database_System_Concepts_-_Abraham_Silberschatz.pdf"
+    ]
+  },
+  {
+    "category": "concept",
+    "query": "how databases avoid conflicts",
+    "acceptable": [
+      "Database_System_Concepts_-_Abraham_Silberschatz.pdf",
+      "Designing_Data-Intensive_Applications_-_Martin_Kleppmann.pdf"
+    ]
+  },
+  {
+    "category": "concept",
+    "query": "how transactions stay consistent",
+    "acceptable": [
+      "Database_System_Concepts_-_Abraham_Silberschatz.pdf",
+      "Designing_Data-Intensive_Applications_-_Martin_Kleppmann.pdf"
+    ]
+  },
+  {
+    "category": "concept",
+    "query": "how packets reach another computer",
+    "acceptable": [
+      "Computer_Networking_A_Top-Down_Approach_9E_-_Kurose_Ross.pdf"
+    ]
+  },
+  {
+    "category": "concept",
+    "query": "why TCP is reliable",
+    "acceptable": [
+      "Computer_Networking_A_Top-Down_Approach_9E_-_Kurose_Ross.pdf"
+    ]
+  },
+  {
+    "category": "concept",
+    "query": "how routing works",
+    "acceptable": [
+      "Computer_Networking_A_Top-Down_Approach_9E_-_Kurose_Ross.pdf"
+    ]
+  },
+  {
+    "category": "concept",
+    "query": "how DNS resolves names",
+    "acceptable": [
+      "Computer_Networking_A_Top-Down_Approach_9E_-_Kurose_Ross.pdf"
+    ]
+  },
+  {
+    "category": "concept",
+    "query": "how inheritance works",
+    "acceptable": [
+      "Head First Java.pdf",
+      "Object-Oriented_Programming_-_Amany_Fawzy_Elgamal.pdf"
+    ]
+  },
+  {
+    "category": "concept",
+    "query": "what polymorphism means",
+    "acceptable": [
+      "Head First Java.pdf",
+      "Object-Oriented_Programming_-_Amany_Fawzy_Elgamal.pdf"
+    ]
+  },
+  {
+    "category": "concept",
+    "query": "how binary search works",
+    "acceptable": [
+      "Data Structures and Algorithms Made Easy - Data Structure and Algorithmic Puzzles.pdf",
+      "Narasimha Karumanchi - Data structures and algorithms made easy (0, CareerMonk).pdf",
+      "ilide.info-data-structures-and-algorithms-made-easy-narasimha-karumanchi-pr_d55a72f1d21f17803bd221bfd7480e05.pdf",
+      "Coding_Interview_Patterns_Nail_Your_Next_Coding_-_Alex_Xu.pdf",
+      "CP_handbook.pdf",
+      "[Tutorial] A Way to Practice Competitive Programming.pdf"
+    ]
+  },
+  {
+    "category": "concept",
+    "query": "difference between process and thread",
+    "acceptable": [
+      "Operating_System_Concepts_-_Abraham_Silberschatz.pdf"
+    ]
+  },
+  {
+    "category": "concept",
+    "query": "what causes deadlock",
+    "acceptable": [
+      "Operating_System_Concepts_-_Abraham_Silberschatz.pdf",
+      "Database_System_Concepts_-_Abraham_Silberschatz.pdf"
+    ]
+  },
+  {
+    "category": "concept",
+    "query": "how memory allocation works",
+    "acceptable": [
+      "Operating_System_Concepts_-_Abraham_Silberschatz.pdf"
+    ]
+  },
+  {
+    "category": "concept",
+    "query": "how garbage collection works",
+    "acceptable": [
+      "Head First Java.pdf",
+      "Operating_System_Concepts_-_Abraham_Silberschatz.pdf"
+    ]
+  },
+  {
+    "category": "concept",
+    "query": "how indexes speed up queries",
+    "acceptable": [
+      "Database_System_Concepts_-_Abraham_Silberschatz.pdf",
+      "Designing_Data-Intensive_Applications_-_Martin_Kleppmann.pdf"
+    ]
+  },
+  {
+    "category": "concept",
+    "query": "how joins work",
+    "acceptable": [
+      "Sams_Teach_Yourself_Microsoft_Sql_Server_T-Sql_In_10_Minutes_(2008).pdf",
+      "Database_System_Concepts_-_Abraham_Silberschatz.pdf",
+      "Database_System_Concepts_-_Abraham_Silberschatz.pdf"
+    ]
+  },
+  {
+    "category": "concept",
+    "query": "what normalization solves",
+    "acceptable": [
+      "Database_System_Concepts_-_Abraham_Silberschatz.pdf",
+      "Sams_Teach_Yourself_Microsoft_Sql_Server_T-Sql_In_10_Minutes_(2008).pdf",
+      "Database_System_Concepts_-_Abraham_Silberschatz.pdf"
+    ]
+  },
+  {
+    "category": "concept",
+    "query": "how REST APIs work",
+    "acceptable": [
+      "Craig-Walls-Spring-in-Action-Manning-Publications-2018.pdf",
+      "Coding_Interview_Patterns_Nail_Your_Next_Coding_-_Alex_Xu.pdf",
+      "CP_handbook.pdf",
+      "[Tutorial] A Way to Practice Competitive Programming.pdf"
+    ]
+  },
+  {
+    "category": "concept",
+    "query": "what dependency injection does",
+    "acceptable": [
+      "Craig-Walls-Spring-in-Action-Manning-Publications-2018.pdf"
+    ]
+  },
+  {
+    "category": "concept",
+    "query": "how Spring manages beans",
+    "acceptable": [
+      "Craig-Walls-Spring-in-Action-Manning-Publications-2018.pdf"
+    ]
+  },
+  {
+    "category": "concept",
+    "query": "how operating systems schedule tasks",
+    "acceptable": [
+      "Operating_System_Concepts_-_Abraham_Silberschatz.pdf"
+    ]
+  },
+  {
+    "category": "concept",
+    "query": "what caching is",
+    "acceptable": [
+      "Designing_Data-Intensive_Applications_-_Martin_Kleppmann.pdf",
+      "System_Design_Interview_-_An_Insiders_Guide_Volume_2_-_Alex_XU.pdf",
+      "Computer_Networking_A_Top-Down_Approach_9E_-_Kurose_Ross.pdf"
+    ]
+  },
+  {
+    "category": "concept",
+    "query": "how hashing works",
+    "acceptable": [
+      "Data Structures and Algorithms Made Easy - Data Structure and Algorithmic Puzzles.pdf",
+      "Narasimha Karumanchi - Data structures and algorithms made easy (0, CareerMonk).pdf",
+      "ilide.info-data-structures-and-algorithms-made-easy-narasimha-karumanchi-pr_d55a72f1d21f17803bd221bfd7480e05.pdf",
+      "Database_System_Concepts_-_Abraham_Silberschatz.pdf",
+      "Coding_Interview_Patterns_Nail_Your_Next_Coding_-_Alex_Xu.pdf",
+      "CP_handbook.pdf",
+      "[Tutorial] A Way to Practice Competitive Programming.pdf"
+    ]
+  },
+  {
+    "category": "concept",
+    "query": "why binary trees are balanced",
+    "acceptable": [
+      "Data Structures and Algorithms Made Easy - Data Structure and Algorithmic Puzzles.pdf",
+      "Narasimha Karumanchi - Data structures and algorithms made easy (0, CareerMonk).pdf",
+      "ilide.info-data-structures-and-algorithms-made-easy-narasimha-karumanchi-pr_d55a72f1d21f17803bd221bfd7480e05.pdf",
+      "Coding_Interview_Patterns_Nail_Your_Next_Coding_-_Alex_Xu.pdf",
+      "CP_handbook.pdf",
+      "[Tutorial] A Way to Practice Competitive Programming.pdf"
+    ]
+  },
+  {
+    "category": "concept",
+    "query": "how congestion control works",
+    "acceptable": [
+      "Computer_Networking_A_Top-Down_Approach_9E_-_Kurose_Ross.pdf"
+    ]
+  },
+  {
+    "category": "concept",
+    "query": "how distributed databases replicate",
+    "acceptable": [
+      "Designing_Data-Intensive_Applications_-_Martin_Kleppmann.pdf",
+      "Database_System_Concepts_-_Abraham_Silberschatz.pdf"
+    ]
+  },
+  {
+    "category": "natural_question",
+    "query": "why is TCP slower than UDP",
+    "acceptable": [
+      "Computer_Networking_A_Top-Down_Approach_9E_-_Kurose_Ross.pdf"
+    ]
+  },
+  {
+    "category": "natural_question",
+    "query": "when should I use DFS",
+    "acceptable": [
+      "Data Structures and Algorithms Made Easy - Data Structure and Algorithmic Puzzles.pdf",
+      "Narasimha Karumanchi - Data structures and algorithms made easy (0, CareerMonk).pdf",
+      "ilide.info-data-structures-and-algorithms-made-easy-narasimha-karumanchi-pr_d55a72f1d21f17803bd221bfd7480e05.pdf",
+      "Coding_Interview_Patterns_Nail_Your_Next_Coding_-_Alex_Xu.pdf",
+      "CP_handbook.pdf",
+      "[Tutorial] A Way to Practice Competitive Programming.pdf"
+    ]
+  },
+  {
+    "category": "natural_question",
+    "query": "why do databases need indexes",
+    "acceptable": [
+      "Database_System_Concepts_-_Abraham_Silberschatz.pdf",
+      "Designing_Data-Intensive_Applications_-_Martin_Kleppmann.pdf"
+    ]
+  },
+  {
+    "category": "natural_question",
+    "query": "how do operating systems manage memory",
+    "acceptable": [
+      "Operating_System_Concepts_-_Abraham_Silberschatz.pdf"
+    ]
+  },
+  {
+    "category": "natural_question",
+    "query": "what happens when you type a URL",
+    "acceptable": [
+      "Computer_Networking_A_Top-Down_Approach_9E_-_Kurose_Ross.pdf"
+    ]
+  },
+  {
+    "category": "natural_question",
+    "query": "how does Java collect garbage",
+    "acceptable": [
+      "Head First Java.pdf",
+      "Operating_System_Concepts_-_Abraham_Silberschatz.pdf"
+    ]
+  },
+  {
+    "category": "natural_question",
+    "query": "why is normalization important",
+    "acceptable": [
+      "Database_System_Concepts_-_Abraham_Silberschatz.pdf",
+      "Sams_Teach_Yourself_Microsoft_Sql_Server_T-Sql_In_10_Minutes_(2008).pdf",
+      "Database_System_Concepts_-_Abraham_Silberschatz.pdf"
+    ]
+  },
+  {
+    "category": "natural_question",
+    "query": "when should quicksort be used",
+    "acceptable": [
+      "Data Structures and Algorithms Made Easy - Data Structure and Algorithmic Puzzles.pdf",
+      "Narasimha Karumanchi - Data structures and algorithms made easy (0, CareerMonk).pdf",
+      "ilide.info-data-structures-and-algorithms-made-easy-narasimha-karumanchi-pr_d55a72f1d21f17803bd221bfd7480e05.pdf",
+      "Coding_Interview_Patterns_Nail_Your_Next_Coding_-_Alex_Xu.pdf",
+      "CP_handbook.pdf",
+      "[Tutorial] A Way to Practice Competitive Programming.pdf"
+    ]
+  },
+  {
+    "category": "natural_question",
+    "query": "why are B trees used in databases",
+    "acceptable": [
+      "Database_System_Concepts_-_Abraham_Silberschatz.pdf",
+      "Designing_Data-Intensive_Applications_-_Martin_Kleppmann.pdf"
+    ]
+  },
+  {
+    "category": "natural_question",
+    "query": "how does Spring Boot start automatically",
+    "acceptable": [
+      "Craig-Walls-Spring-in-Action-Manning-Publications-2018.pdf"
+    ]
+  },
+  {
+    "category": "natural_question",
+    "query": "what is optimistic locking",
+    "acceptable": [
+      "Database_System_Concepts_-_Abraham_Silberschatz.pdf",
+      "Designing_Data-Intensive_Applications_-_Martin_Kleppmann.pdf"
+    ]
+  },
+  {
+    "category": "natural_question",
+    "query": "what causes packet loss",
+    "acceptable": [
+      "Computer_Networking_A_Top-Down_Approach_9E_-_Kurose_Ross.pdf"
+    ]
+  },
+  {
+    "category": "natural_question",
+    "query": "how does DNS caching work",
+    "acceptable": [
+      "Computer_Networking_A_Top-Down_Approach_9E_-_Kurose_Ross.pdf"
+    ]
+  },
+  {
+    "category": "natural_question",
+    "query": "why do deadlocks happen",
+    "acceptable": [
+      "Operating_System_Concepts_-_Abraham_Silberschatz.pdf",
+      "Database_System_Concepts_-_Abraham_Silberschatz.pdf"
+    ]
+  },
+  {
+    "category": "natural_question",
+    "query": "how does binary search reduce complexity",
+    "acceptable": [
+      "Data Structures and Algorithms Made Easy - Data Structure and Algorithmic Puzzles.pdf",
+      "Narasimha Karumanchi - Data structures and algorithms made easy (0, CareerMonk).pdf",
+      "ilide.info-data-structures-and-algorithms-made-easy-narasimha-karumanchi-pr_d55a72f1d21f17803bd221bfd7480e05.pdf",
+      "Coding_Interview_Patterns_Nail_Your_Next_Coding_-_Alex_Xu.pdf",
+      "CP_handbook.pdf",
+      "[Tutorial] A Way to Practice Competitive Programming.pdf"
+    ]
+  },
+  {
+    "category": "natural_question",
+    "query": "how does thread synchronization work",
+    "acceptable": [
+      "Operating_System_Concepts_-_Abraham_Silberschatz.pdf",
+      "Designing_Data-Intensive_Applications_-_Martin_Kleppmann.pdf"
+    ]
+  },
+  {
+    "category": "natural_question",
+    "query": "how do SQL joins differ",
+    "acceptable": [
+      "Sams_Teach_Yourself_Microsoft_Sql_Server_T-Sql_In_10_Minutes_(2008).pdf",
+      "Database_System_Concepts_-_Abraham_Silberschatz.pdf",
+      "Database_System_Concepts_-_Abraham_Silberschatz.pdf"
+    ]
+  },
+  {
+    "category": "natural_question",
+    "query": "why use hash tables",
+    "acceptable": [
+      "Data Structures and Algorithms Made Easy - Data Structure and Algorithmic Puzzles.pdf",
+      "Narasimha Karumanchi - Data structures and algorithms made easy (0, CareerMonk).pdf",
+      "ilide.info-data-structures-and-algorithms-made-easy-narasimha-karumanchi-pr_d55a72f1d21f17803bd221bfd7480e05.pdf",
+      "Database_System_Concepts_-_Abraham_Silberschatz.pdf",
+      "Coding_Interview_Patterns_Nail_Your_Next_Coding_-_Alex_Xu.pdf",
+      "CP_handbook.pdf",
+      "[Tutorial] A Way to Practice Competitive Programming.pdf"
+    ]
+  },
+  {
+    "category": "natural_question",
+    "query": "how are APIs designed",
+    "acceptable": [
+      "Craig-Walls-Spring-in-Action-Manning-Publications-2018.pdf",
+      "Coding_Interview_Patterns_Nail_Your_Next_Coding_-_Alex_Xu.pdf",
+      "CP_handbook.pdf",
+      "[Tutorial] A Way to Practice Competitive Programming.pdf",
+      "System_Design_Interview_-_An_Insiders_Guide_Volume_2_-_Alex_XU.pdf"
+    ]
+  },
+  {
+    "category": "natural_question",
+    "query": "how does a compiler work",
+    "acceptable": [
+      "Coding_Interview_Patterns_Nail_Your_Next_Coding_-_Alex_Xu.pdf",
+      "CP_handbook.pdf",
+      "[Tutorial] A Way to Practice Competitive Programming.pdf",
+      "Operating_System_Concepts_-_Abraham_Silberschatz.pdf"
+    ]
+  },
+  {
+    "category": "half_remembered",
+    "query": "the chapter explaining packets",
+    "acceptable": [
+      "Computer_Networking_A_Top-Down_Approach_9E_-_Kurose_Ross.pdf"
+    ]
+  },
+  {
+    "category": "half_remembered",
+    "query": "that networking diagram",
+    "acceptable": [
+      "Computer_Networking_A_Top-Down_Approach_9E_-_Kurose_Ross.pdf"
+    ]
+  },
+  {
+    "category": "half_remembered",
+    "query": "the page comparing TCP and UDP",
+    "acceptable": [
+      "Computer_Networking_A_Top-Down_Approach_9E_-_Kurose_Ross.pdf"
+    ]
+  },
+  {
+    "category": "half_remembered",
+    "query": "the Java chapter with cartoons",
+    "acceptable": [
+      "Head First Java.pdf"
+    ]
+  },
+  {
+    "category": "half_remembered",
+    "query": "the chapter about garbage collection",
+    "acceptable": [
+      "Head First Java.pdf",
+      "Operating_System_Concepts_-_Abraham_Silberschatz.pdf"
+    ]
+  },
+  {
+    "category": "half_remembered",
+    "query": "the distributed systems book with the animal cover",
+    "acceptable": [
+      "Designing_Data-Intensive_Applications_-_Martin_Kleppmann.pdf"
+    ]
+  },
+  {
+    "category": "half_remembered",
+    "query": "the book explaining ACID properties",
+    "acceptable": [
+      "Database_System_Concepts_-_Abraham_Silberschatz.pdf",
+      "Designing_Data-Intensive_Applications_-_Martin_Kleppmann.pdf"
+    ]
+  },
+  {
+    "category": "half_remembered",
+    "query": "that SQL chapter with joins",
+    "acceptable": [
+      "Sams_Teach_Yourself_Microsoft_Sql_Server_T-Sql_In_10_Minutes_(2008).pdf",
+      "Database_System_Concepts_-_Abraham_Silberschatz.pdf",
+      "Database_System_Concepts_-_Abraham_Silberschatz.pdf"
+    ]
+  },
+  {
+    "category": "half_remembered",
+    "query": "the page showing binary trees",
+    "acceptable": [
+      "Data Structures and Algorithms Made Easy - Data Structure and Algorithmic Puzzles.pdf",
+      "Narasimha Karumanchi - Data structures and algorithms made easy (0, CareerMonk).pdf",
+      "ilide.info-data-structures-and-algorithms-made-easy-narasimha-karumanchi-pr_d55a72f1d21f17803bd221bfd7480e05.pdf",
+      "Coding_Interview_Patterns_Nail_Your_Next_Coding_-_Alex_Xu.pdf",
+      "CP_handbook.pdf",
+      "[Tutorial] A Way to Practice Competitive Programming.pdf"
+    ]
+  },
+  {
+    "category": "half_remembered",
+    "query": "the explanation of inheritance with examples",
+    "acceptable": [
+      "Head First Java.pdf",
+      "Object-Oriented_Programming_-_Amany_Fawzy_Elgamal.pdf"
+    ]
+  },
+  {
+    "category": "half_remembered",
+    "query": "the networking book explaining layers",
+    "acceptable": [
+      "Computer_Networking_A_Top-Down_Approach_9E_-_Kurose_Ross.pdf"
+    ]
+  },
+  {
+    "category": "half_remembered",
+    "query": "the chapter with congestion graphs",
+    "acceptable": [
+      "Computer_Networking_A_Top-Down_Approach_9E_-_Kurose_Ross.pdf"
+    ]
+  },
+  {
+    "category": "half_remembered",
+    "query": "the operating systems chapter on scheduling",
+    "acceptable": [
+      "Operating_System_Concepts_-_Abraham_Silberschatz.pdf"
+    ]
+  },
+  {
+    "category": "half_remembered",
+    "query": "the database chapter about transactions",
+    "acceptable": [
+      "Database_System_Concepts_-_Abraham_Silberschatz.pdf",
+      "Designing_Data-Intensive_Applications_-_Martin_Kleppmann.pdf"
+    ]
+  },
+  {
+    "category": "half_remembered",
+    "query": "the Spring section about beans",
+    "acceptable": [
+      "Craig-Walls-Spring-in-Action-Manning-Publications-2018.pdf"
+    ]
+  },
+  {
+    "category": "half_remembered",
+    "query": "the quicksort explanation",
+    "acceptable": [
+      "Data Structures and Algorithms Made Easy - Data Structure and Algorithmic Puzzles.pdf",
+      "Narasimha Karumanchi - Data structures and algorithms made easy (0, CareerMonk).pdf",
+      "ilide.info-data-structures-and-algorithms-made-easy-narasimha-karumanchi-pr_d55a72f1d21f17803bd221bfd7480e05.pdf",
+      "Coding_Interview_Patterns_Nail_Your_Next_Coding_-_Alex_Xu.pdf",
+      "CP_handbook.pdf",
+      "[Tutorial] A Way to Practice Competitive Programming.pdf"
+    ]
+  },
+  {
+    "category": "half_remembered",
+    "query": "the binary search illustration",
+    "acceptable": [
+      "Data Structures and Algorithms Made Easy - Data Structure and Algorithmic Puzzles.pdf",
+      "Narasimha Karumanchi - Data structures and algorithms made easy (0, CareerMonk).pdf",
+      "ilide.info-data-structures-and-algorithms-made-easy-narasimha-karumanchi-pr_d55a72f1d21f17803bd221bfd7480e05.pdf",
+      "Coding_Interview_Patterns_Nail_Your_Next_Coding_-_Alex_Xu.pdf",
+      "CP_handbook.pdf",
+      "[Tutorial] A Way to Practice Competitive Programming.pdf"
+    ]
+  },
+  {
+    "category": "half_remembered",
+    "query": "the aptitude book about percentages",
+    "acceptable": [
+      "Quantitative_aptitude_-_RS_AGGARWAL.pdf",
+      "Aptitude_Booklet Sem 3_B tech 2025-26.pdf",
+      "Data_Interpretation_and_Logical_Reasoning_for_CAT_-_Arun_Sharma.pdf",
+      "Data_Interpretation_Simplified_-_Jaggan_Saneja.pdf",
+      "Ultimate_Aptitude_Tests_-_Jim_Barrett.pdf",
+      "Increase_your_IQ__4000_Practice_Questions_-_Eulalia_Jenkins.pdf",
+      "Cracking_the_SAT_Premium_Edition_with_8_Pr_-_The_Princeton_Review.pdf"
+    ]
+  },
+  {
+    "category": "half_remembered",
+    "query": "the grammar chapter on tenses",
+    "acceptable": [
+      "english-grammar-and-composition-by-wren-and-martin-027eca86544ab.pdf",
+      "Word_Power_Made_Easy_-_Norman_Lewis.pdf",
+      "Verbal_and_Non_Verbal_RS.pdf"
+    ]
+  },
+  {
+    "category": "half_remembered",
+    "query": "the interview patterns book on trees",
+    "acceptable": [
+      "Coding_Interview_Patterns_Nail_Your_Next_Coding_-_Alex_Xu.pdf",
+      "CP_handbook.pdf",
+      "[Tutorial] A Way to Practice Competitive Programming.pdf",
+      "Data Structures and Algorithms Made Easy - Data Structure and Algorithmic Puzzles.pdf",
+      "Narasimha Karumanchi - Data structures and algorithms made easy (0, CareerMonk).pdf",
+      "ilide.info-data-structures-and-algorithms-made-easy-narasimha-karumanchi-pr_d55a72f1d21f17803bd221bfd7480e05.pdf"
+    ]
+  },
+  {
+    "category": "visual_memory",
+    "query": "the purple database book",
+    "acceptable": [
+      "Database_System_Concepts_-_Abraham_Silberschatz.pdf"
+    ]
+  },
+  {
+    "category": "visual_memory",
+    "query": "the networking textbook",
+    "acceptable": [
+      "Computer_Networking_A_Top-Down_Approach_9E_-_Kurose_Ross.pdf"
+    ]
+  },
+  {
+    "category": "visual_memory",
+    "query": "the Java book with lots of pictures",
+    "acceptable": [
+      "Head First Java.pdf"
+    ]
+  },
+  {
+    "category": "visual_memory",
+    "query": "the grammar book everyone studies",
+    "acceptable": [
+      "english-grammar-and-composition-by-wren-and-martin-027eca86544ab.pdf",
+      "Word_Power_Made_Easy_-_Norman_Lewis.pdf",
+      "Verbal_and_Non_Verbal_RS.pdf"
+    ]
+  },
+  {
+    "category": "visual_memory",
+    "query": "the distributed systems book with the wild boar",
+    "acceptable": [
+      "Designing_Data-Intensive_Applications_-_Martin_Kleppmann.pdf"
+    ]
+  },
+  {
+    "category": "visual_memory",
+    "query": "the blue operating systems book",
+    "acceptable": [
+      "Operating_System_Concepts_-_Abraham_Silberschatz.pdf"
+    ]
+  },
+  {
+    "category": "visual_memory",
+    "query": "the thick aptitude book",
+    "acceptable": [
+      "Quantitative_aptitude_-_RS_AGGARWAL.pdf"
+    ]
+  },
+  {
+    "category": "visual_memory",
+    "query": "the Alex Xu book",
+    "acceptable": [
+      "System_Design_Interview_-_An_Insiders_Guide_Volume_2_-_Alex_XU.pdf"
+    ]
+  },
+  {
+    "category": "visual_memory",
+    "query": "the Head First series",
+    "acceptable": [
+      "Head First Java.pdf",
+      "[O`Reilly. Head First] - Head First Design Patterns - [Freeman].pdf"
+    ]
+  },
+  {
+    "category": "visual_memory",
+    "query": "the O'Reilly Java book",
+    "acceptable": [
+      "Head First Java.pdf"
+    ]
+  },
+  {
+    "category": "cross_domain",
+    "query": "memory",
+    "acceptable": [
+      "Operating_System_Concepts_-_Abraham_Silberschatz.pdf",
+      "Head First Java.pdf",
+      "Database_System_Concepts_-_Abraham_Silberschatz.pdf",
+      "Coding_Interview_Patterns_Nail_Your_Next_Coding_-_Alex_Xu.pdf",
+      "CP_handbook.pdf",
+      "[Tutorial] A Way to Practice Competitive Programming.pdf"
+    ]
+  },
+  {
+    "category": "cross_domain",
+    "query": "tree",
+    "acceptable": [
+      "Data Structures and Algorithms Made Easy - Data Structure and Algorithmic Puzzles.pdf",
+      "Narasimha Karumanchi - Data structures and algorithms made easy (0, CareerMonk).pdf",
+      "ilide.info-data-structures-and-algorithms-made-easy-narasimha-karumanchi-pr_d55a72f1d21f17803bd221bfd7480e05.pdf",
+      "Coding_Interview_Patterns_Nail_Your_Next_Coding_-_Alex_Xu.pdf",
+      "CP_handbook.pdf",
+      "[Tutorial] A Way to Practice Competitive Programming.pdf"
+    ]
+  },
+  {
+    "category": "cross_domain",
+    "query": "graph",
+    "acceptable": [
+      "Data Structures and Algorithms Made Easy - Data Structure and Algorithmic Puzzles.pdf",
+      "Narasimha Karumanchi - Data structures and algorithms made easy (0, CareerMonk).pdf",
+      "ilide.info-data-structures-and-algorithms-made-easy-narasimha-karumanchi-pr_d55a72f1d21f17803bd221bfd7480e05.pdf",
+      "Coding_Interview_Patterns_Nail_Your_Next_Coding_-_Alex_Xu.pdf",
+      "CP_handbook.pdf",
+      "[Tutorial] A Way to Practice Competitive Programming.pdf",
+      "Computer_Networking_A_Top-Down_Approach_9E_-_Kurose_Ross.pdf"
+    ]
+  },
+  {
+    "category": "cross_domain",
+    "query": "sorting",
+    "acceptable": [
+      "Data Structures and Algorithms Made Easy - Data Structure and Algorithmic Puzzles.pdf",
+      "Narasimha Karumanchi - Data structures and algorithms made easy (0, CareerMonk).pdf",
+      "ilide.info-data-structures-and-algorithms-made-easy-narasimha-karumanchi-pr_d55a72f1d21f17803bd221bfd7480e05.pdf",
+      "Coding_Interview_Patterns_Nail_Your_Next_Coding_-_Alex_Xu.pdf",
+      "CP_handbook.pdf",
+      "[Tutorial] A Way to Practice Competitive Programming.pdf"
+    ]
+  },
+  {
+    "category": "cross_domain",
+    "query": "network",
+    "acceptable": [
+      "Computer_Networking_A_Top-Down_Approach_9E_-_Kurose_Ross.pdf",
+      "Designing_Data-Intensive_Applications_-_Martin_Kleppmann.pdf"
+    ]
+  },
+  {
+    "category": "cross_domain",
+    "query": "database",
+    "acceptable": [
+      "Database_System_Concepts_-_Abraham_Silberschatz.pdf",
+      "Designing_Data-Intensive_Applications_-_Martin_Kleppmann.pdf",
+      "Sams_Teach_Yourself_Microsoft_Sql_Server_T-Sql_In_10_Minutes_(2008).pdf",
+      "Database_System_Concepts_-_Abraham_Silberschatz.pdf"
+    ]
+  },
+  {
+    "category": "cross_domain",
+    "query": "object",
+    "acceptable": [
+      "Head First Java.pdf",
+      "Object-Oriented_Programming_-_Amany_Fawzy_Elgamal.pdf",
+      "[O`Reilly. Head First] - Head First Design Patterns - [Freeman].pdf"
+    ]
+  },
+  {
+    "category": "cross_domain",
+    "query": "algorithm",
+    "acceptable": [
+      "Data Structures and Algorithms Made Easy - Data Structure and Algorithmic Puzzles.pdf",
+      "Narasimha Karumanchi - Data structures and algorithms made easy (0, CareerMonk).pdf",
+      "ilide.info-data-structures-and-algorithms-made-easy-narasimha-karumanchi-pr_d55a72f1d21f17803bd221bfd7480e05.pdf",
+      "Coding_Interview_Patterns_Nail_Your_Next_Coding_-_Alex_Xu.pdf",
+      "CP_handbook.pdf",
+      "[Tutorial] A Way to Practice Competitive Programming.pdf"
+    ]
+  },
+  {
+    "category": "cross_domain",
+    "query": "cache",
+    "acceptable": [
+      "Designing_Data-Intensive_Applications_-_Martin_Kleppmann.pdf",
+      "Computer_Networking_A_Top-Down_Approach_9E_-_Kurose_Ross.pdf",
+      "System_Design_Interview_-_An_Insiders_Guide_Volume_2_-_Alex_XU.pdf"
+    ]
+  },
+  {
+    "category": "cross_domain",
+    "query": "thread",
+    "acceptable": [
+      "Operating_System_Concepts_-_Abraham_Silberschatz.pdf",
+      "Designing_Data-Intensive_Applications_-_Martin_Kleppmann.pdf",
+      "Head First Java.pdf"
+    ]
+  },
+  {
+    "category": "ambiguous",
+    "query": "lookup",
+    "acceptable": [
+      "Data Structures and Algorithms Made Easy - Data Structure and Algorithmic Puzzles.pdf",
+      "Narasimha Karumanchi - Data structures and algorithms made easy (0, CareerMonk).pdf",
+      "ilide.info-data-structures-and-algorithms-made-easy-narasimha-karumanchi-pr_d55a72f1d21f17803bd221bfd7480e05.pdf",
+      "Database_System_Concepts_-_Abraham_Silberschatz.pdf",
+      "Coding_Interview_Patterns_Nail_Your_Next_Coding_-_Alex_Xu.pdf",
+      "CP_handbook.pdf",
+      "[Tutorial] A Way to Practice Competitive Programming.pdf"
+    ]
+  },
+  {
+    "category": "ambiguous",
+    "query": "fast search",
+    "acceptable": [
+      "Data Structures and Algorithms Made Easy - Data Structure and Algorithmic Puzzles.pdf",
+      "Narasimha Karumanchi - Data structures and algorithms made easy (0, CareerMonk).pdf",
+      "ilide.info-data-structures-and-algorithms-made-easy-narasimha-karumanchi-pr_d55a72f1d21f17803bd221bfd7480e05.pdf",
+      "Database_System_Concepts_-_Abraham_Silberschatz.pdf",
+      "Coding_Interview_Patterns_Nail_Your_Next_Coding_-_Alex_Xu.pdf",
+      "CP_handbook.pdf",
+      "[Tutorial] A Way to Practice Competitive Programming.pdf"
+    ]
+  },
+  {
+    "category": "ambiguous",
+    "query": "efficient storage",
+    "acceptable": [
+      "Database_System_Concepts_-_Abraham_Silberschatz.pdf",
+      "Designing_Data-Intensive_Applications_-_Martin_Kleppmann.pdf",
+      "Operating_System_Concepts_-_Abraham_Silberschatz.pdf"
+    ]
+  },
+  {
+    "category": "ambiguous",
+    "query": "synchronization",
+    "acceptable": [
+      "Operating_System_Concepts_-_Abraham_Silberschatz.pdf",
+      "Designing_Data-Intensive_Applications_-_Martin_Kleppmann.pdf",
+      "Database_System_Concepts_-_Abraham_Silberschatz.pdf"
+    ]
+  },
+  {
+    "category": "ambiguous",
+    "query": "performance",
+    "acceptable": [
+      "Coding_Interview_Patterns_Nail_Your_Next_Coding_-_Alex_Xu.pdf",
+      "CP_handbook.pdf",
+      "[Tutorial] A Way to Practice Competitive Programming.pdf",
+      "System_Design_Interview_-_An_Insiders_Guide_Volume_2_-_Alex_XU.pdf",
+      "Data Structures and Algorithms Made Easy - Data Structure and Algorithmic Puzzles.pdf",
+      "Narasimha Karumanchi - Data structures and algorithms made easy (0, CareerMonk).pdf",
+      "ilide.info-data-structures-and-algorithms-made-easy-narasimha-karumanchi-pr_d55a72f1d21f17803bd221bfd7480e05.pdf",
+      "Database_System_Concepts_-_Abraham_Silberschatz.pdf"
+    ]
+  },
+  {
+    "category": "ambiguous",
+    "query": "concurrency",
+    "acceptable": [
+      "Designing_Data-Intensive_Applications_-_Martin_Kleppmann.pdf",
+      "Database_System_Concepts_-_Abraham_Silberschatz.pdf",
+      "Operating_System_Concepts_-_Abraham_Silberschatz.pdf",
+      "Head First Java.pdf"
+    ]
+  },
+  {
+    "category": "ambiguous",
+    "query": "security",
+    "acceptable": [
+      "Computer_Networking_A_Top-Down_Approach_9E_-_Kurose_Ross.pdf",
+      "System_Design_Interview_-_An_Insiders_Guide_Volume_2_-_Alex_XU.pdf",
+      "Craig-Walls-Spring-in-Action-Manning-Publications-2018.pdf"
+    ]
+  },
+  {
+    "category": "ambiguous",
+    "query": "reliability",
+    "acceptable": [
+      "Designing_Data-Intensive_Applications_-_Martin_Kleppmann.pdf",
+      "Computer_Networking_A_Top-Down_Approach_9E_-_Kurose_Ross.pdf",
+      "Database_System_Concepts_-_Abraham_Silberschatz.pdf"
+    ]
+  },
+  {
+    "category": "ambiguous",
+    "query": "optimization",
+    "acceptable": [
+      "Coding_Interview_Patterns_Nail_Your_Next_Coding_-_Alex_Xu.pdf",
+      "CP_handbook.pdf",
+      "[Tutorial] A Way to Practice Competitive Programming.pdf",
+      "Data Structures and Algorithms Made Easy - Data Structure and Algorithmic Puzzles.pdf",
+      "Narasimha Karumanchi - Data structures and algorithms made easy (0, CareerMonk).pdf",
+      "ilide.info-data-structures-and-algorithms-made-easy-narasimha-karumanchi-pr_d55a72f1d21f17803bd221bfd7480e05.pdf",
+      "Database_System_Concepts_-_Abraham_Silberschatz.pdf"
+    ]
+  },
+  {
+    "category": "ambiguous",
+    "query": "design",
+    "acceptable": [
+      "[O`Reilly. Head First] - Head First Design Patterns - [Freeman].pdf",
+      "System_Design_Interview_-_An_Insiders_Guide_Volume_2_-_Alex_XU.pdf",
+      "Craig-Walls-Spring-in-Action-Manning-Publications-2018.pdf",
+      "Data Structures and Algorithms Made Easy - Data Structure and Algorithmic Puzzles.pdf",
+      "Narasimha Karumanchi - Data structures and algorithms made easy (0, CareerMonk).pdf",
+      "ilide.info-data-structures-and-algorithms-made-easy-narasimha-karumanchi-pr_d55a72f1d21f17803bd221bfd7480e05.pdf"
+    ]
+  },
+  {
+    "category": "comparative",
+    "query": "TCP vs UDP",
+    "acceptable": [
+      "Computer_Networking_A_Top-Down_Approach_9E_-_Kurose_Ross.pdf"
+    ]
+  },
+  {
+    "category": "comparative",
+    "query": "process vs thread",
+    "acceptable": [
+      "Operating_System_Concepts_-_Abraham_Silberschatz.pdf"
+    ]
+  },
+  {
+    "category": "comparative",
+    "query": "stack vs heap",
+    "acceptable": [
+      "Operating_System_Concepts_-_Abraham_Silberschatz.pdf",
+      "Database_System_Concepts_-_Abraham_Silberschatz.pdf"
+    ]
+  },
+  {
+    "category": "comparative",
+    "query": "DFS vs BFS",
+    "acceptable": [
+      "Data Structures and Algorithms Made Easy - Data Structure and Algorithmic Puzzles.pdf",
+      "Narasimha Karumanchi - Data structures and algorithms made easy (0, CareerMonk).pdf",
+      "ilide.info-data-structures-and-algorithms-made-easy-narasimha-karumanchi-pr_d55a72f1d21f17803bd221bfd7480e05.pdf",
+      "Coding_Interview_Patterns_Nail_Your_Next_Coding_-_Alex_Xu.pdf",
+      "CP_handbook.pdf",
+      "[Tutorial] A Way to Practice Competitive Programming.pdf"
+    ]
+  },
+  {
+    "category": "comparative",
+    "query": "SQL vs NoSQL",
+    "acceptable": [
+      "Database_System_Concepts_-_Abraham_Silberschatz.pdf",
+      "Designing_Data-Intensive_Applications_-_Martin_Kleppmann.pdf",
+      "System_Design_Interview_-_An_Insiders_Guide_Volume_2_-_Alex_XU.pdf"
+    ]
+  },
+  {
+    "category": "comparative",
+    "query": "inheritance vs composition",
+    "acceptable": [
+      "Head First Java.pdf",
+      "Object-Oriented_Programming_-_Amany_Fawzy_Elgamal.pdf",
+      "[O`Reilly. Head First] - Head First Design Patterns - [Freeman].pdf"
+    ]
+  },
+  {
+    "category": "comparative",
+    "query": "quicksort vs mergesort",
+    "acceptable": [
+      "Data Structures and Algorithms Made Easy - Data Structure and Algorithmic Puzzles.pdf",
+      "Narasimha Karumanchi - Data structures and algorithms made easy (0, CareerMonk).pdf",
+      "ilide.info-data-structures-and-algorithms-made-easy-narasimha-karumanchi-pr_d55a72f1d21f17803bd221bfd7480e05.pdf",
+      "Coding_Interview_Patterns_Nail_Your_Next_Coding_-_Alex_Xu.pdf",
+      "CP_handbook.pdf",
+      "[Tutorial] A Way to Practice Competitive Programming.pdf"
+    ]
+  },
+  {
+    "category": "comparative",
+    "query": "hash table vs tree",
+    "acceptable": [
+      "Data Structures and Algorithms Made Easy - Data Structure and Algorithmic Puzzles.pdf",
+      "Narasimha Karumanchi - Data structures and algorithms made easy (0, CareerMonk).pdf",
+      "ilide.info-data-structures-and-algorithms-made-easy-narasimha-karumanchi-pr_d55a72f1d21f17803bd221bfd7480e05.pdf",
+      "Database_System_Concepts_-_Abraham_Silberschatz.pdf",
+      "Coding_Interview_Patterns_Nail_Your_Next_Coding_-_Alex_Xu.pdf",
+      "CP_handbook.pdf",
+      "[Tutorial] A Way to Practice Competitive Programming.pdf"
+    ]
+  },
+  {
+    "category": "comparative",
+    "query": "REST vs SOAP",
+    "acceptable": [
+      "Craig-Walls-Spring-in-Action-Manning-Publications-2018.pdf",
+      "Coding_Interview_Patterns_Nail_Your_Next_Coding_-_Alex_Xu.pdf",
+      "CP_handbook.pdf",
+      "[Tutorial] A Way to Practice Competitive Programming.pdf",
+      "System_Design_Interview_-_An_Insiders_Guide_Volume_2_-_Alex_XU.pdf"
+    ]
+  },
+  {
+    "category": "comparative",
+    "query": "monolith vs microservices",
+    "acceptable": [
+      "System_Design_Interview_-_An_Insiders_Guide_Volume_2_-_Alex_XU.pdf",
+      "Craig-Walls-Spring-in-Action-Manning-Publications-2018.pdf",
+      "Designing_Data-Intensive_Applications_-_Martin_Kleppmann.pdf"
+    ]
+  },
+  {
+    "category": "adversarial",
+    "query": "mvvc",
+    "acceptable": [
+      "Database_System_Concepts_-_Abraham_Silberschatz.pdf",
+      "Designing_Data-Intensive_Applications_-_Martin_Kleppmann.pdf"
+    ]
+  },
+  {
+    "category": "adversarial",
+    "query": "garbge collecton",
+    "acceptable": [
+      "Head First Java.pdf",
+      "Operating_System_Concepts_-_Abraham_Silberschatz.pdf"
+    ]
+  },
+  {
+    "category": "adversarial",
+    "query": "sprng boot",
+    "acceptable": [
+      "Craig-Walls-Spring-in-Action-Manning-Publications-2018.pdf"
+    ]
+  },
+  {
+    "category": "adversarial",
+    "query": "tcp congesstion",
+    "acceptable": [
+      "Computer_Networking_A_Top-Down_Approach_9E_-_Kurose_Ross.pdf"
+    ]
+  },
+  {
+    "category": "adversarial",
+    "query": "inheritnce",
+    "acceptable": [
+      "Head First Java.pdf",
+      "Object-Oriented_Programming_-_Amany_Fawzy_Elgamal.pdf"
+    ]
+  },
+  {
+    "category": "adversarial",
+    "query": "sql joins and relations",
+    "acceptable": [
+      "Sams_Teach_Yourself_Microsoft_Sql_Server_T-Sql_In_10_Minutes_(2008).pdf",
+      "Database_System_Concepts_-_Abraham_Silberschatz.pdf",
+      "Database_System_Concepts_-_Abraham_Silberschatz.pdf"
+    ]
+  },
+  {
+    "category": "adversarial",
+    "query": "book about internet",
+    "acceptable": [
+      "Computer_Networking_A_Top-Down_Approach_9E_-_Kurose_Ross.pdf",
+      "Designing_Data-Intensive_Applications_-_Martin_Kleppmann.pdf",
+      "System_Design_Interview_-_An_Insiders_Guide_Volume_2_-_Alex_XU.pdf"
+    ]
+  },
+  {
+    "category": "adversarial",
+    "query": "something about packets",
+    "acceptable": [
+      "Computer_Networking_A_Top-Down_Approach_9E_-_Kurose_Ross.pdf"
+    ]
+  },
+  {
+    "category": "adversarial",
+    "query": "that database thing",
+    "acceptable": [
+      "Database_System_Concepts_-_Abraham_Silberschatz.pdf",
+      "Designing_Data-Intensive_Applications_-_Martin_Kleppmann.pdf",
+      "Sams_Teach_Yourself_Microsoft_Sql_Server_T-Sql_In_10_Minutes_(2008).pdf",
+      "Database_System_Concepts_-_Abraham_Silberschatz.pdf"
+    ]
+  },
+  {
+    "category": "adversarial",
+    "query": "memory stuff",
+    "acceptable": [
+      "Operating_System_Concepts_-_Abraham_Silberschatz.pdf",
+      "Head First Java.pdf",
+      "Database_System_Concepts_-_Abraham_Silberschatz.pdf",
+      "Coding_Interview_Patterns_Nail_Your_Next_Coding_-_Alex_Xu.pdf",
+      "CP_handbook.pdf",
+      "[Tutorial] A Way to Practice Competitive Programming.pdf"
+    ]
+  },
+  {
+    "category": "human_memory",
+    "query": "the thing that said increasing throughput eventually causes loss",
+    "acceptable": [
+      "Computer_Networking_A_Top-Down_Approach_9E_-_Kurose_Ross.pdf"
+    ]
+  },
+  {
+    "category": "human_memory",
+    "query": "the chapter explaining why locks become slow",
+    "acceptable": [
+      "Designing_Data-Intensive_Applications_-_Martin_Kleppmann.pdf",
+      "Database_System_Concepts_-_Abraham_Silberschatz.pdf"
+    ]
+  },
+  {
+    "category": "human_memory",
+    "query": "the example with bank accounts",
+    "acceptable": [
+      "Database_System_Concepts_-_Abraham_Silberschatz.pdf",
+      "Designing_Data-Intensive_Applications_-_Martin_Kleppmann.pdf",
+      "Operating_System_Concepts_-_Abraham_Silberschatz.pdf"
+    ]
+  },
+  {
+    "category": "human_memory",
+    "query": "the page with the binary tree picture",
+    "acceptable": [
+      "Data Structures and Algorithms Made Easy - Data Structure and Algorithmic Puzzles.pdf",
+      "Narasimha Karumanchi - Data structures and algorithms made easy (0, CareerMonk).pdf",
+      "ilide.info-data-structures-and-algorithms-made-easy-narasimha-karumanchi-pr_d55a72f1d21f17803bd221bfd7480e05.pdf",
+      "Coding_Interview_Patterns_Nail_Your_Next_Coding_-_Alex_Xu.pdf",
+      "CP_handbook.pdf",
+      "[Tutorial] A Way to Practice Competitive Programming.pdf"
+    ]
+  },
+  {
+    "category": "human_memory",
+    "query": "the explanation using cars on a highway",
+    "acceptable": [
+      "Computer_Networking_A_Top-Down_Approach_9E_-_Kurose_Ross.pdf"
+    ]
+  },
+  {
+    "category": "human_memory",
+    "query": "the cartoon explaining inheritance",
+    "acceptable": [
+      "Head First Java.pdf"
+    ]
+  },
+  {
+    "category": "human_memory",
+    "query": "the table comparing protocols",
+    "acceptable": [
+      "Computer_Networking_A_Top-Down_Approach_9E_-_Kurose_Ross.pdf"
+    ]
+  },
+  {
+    "category": "human_memory",
+    "query": "the diagram with seven layers",
+    "acceptable": [
+      "Computer_Networking_A_Top-Down_Approach_9E_-_Kurose_Ross.pdf"
+    ]
+  },
+  {
+    "category": "human_memory",
+    "query": "the example about coffee shops and threads",
+    "acceptable": [
+      "Head First Java.pdf",
+      "Operating_System_Concepts_-_Abraham_Silberschatz.pdf"
+    ]
+  },
+  {
+    "category": "human_memory",
+    "query": "the explanation using library books",
+    "acceptable": [
+      "Database_System_Concepts_-_Abraham_Silberschatz.pdf"
+    ]
+  },
+  {
+    "category": "human_memory",
+    "query": "the paragraph mentioning Facebook",
+    "acceptable": [
+      "Designing_Data-Intensive_Applications_-_Martin_Kleppmann.pdf",
+      "System_Design_Interview_-_An_Insiders_Guide_Volume_2_-_Alex_XU.pdf"
+    ]
+  },
+  {
+    "category": "human_memory",
+    "query": "the graph showing congestion",
+    "acceptable": [
+      "Computer_Networking_A_Top-Down_Approach_9E_-_Kurose_Ross.pdf"
+    ]
+  },
+  {
+    "category": "human_memory",
+    "query": "the chapter where Alex Xu designs Twitter",
+    "acceptable": [
+      "System_Design_Interview_-_An_Insiders_Guide_Volume_2_-_Alex_XU.pdf"
+    ]
+  },
+  {
+    "category": "human_memory",
+    "query": "the page explaining CAP",
+    "acceptable": [
+      "Designing_Data-Intensive_Applications_-_Martin_Kleppmann.pdf",
+      "Database_System_Concepts_-_Abraham_Silberschatz.pdf"
+    ]
+  },
+  {
+    "category": "human_memory",
+    "query": "the explanation of hashing using dictionaries",
+    "acceptable": [
+      "Data Structures and Algorithms Made Easy - Data Structure and Algorithmic Puzzles.pdf",
+      "Narasimha Karumanchi - Data structures and algorithms made easy (0, CareerMonk).pdf",
+      "ilide.info-data-structures-and-algorithms-made-easy-narasimha-karumanchi-pr_d55a72f1d21f17803bd221bfd7480e05.pdf",
+      "Coding_Interview_Patterns_Nail_Your_Next_Coding_-_Alex_Xu.pdf",
+      "CP_handbook.pdf",
+      "[Tutorial] A Way to Practice Competitive Programming.pdf"
+    ]
+  },
+  {
+    "category": "human_memory",
+    "query": "the operating systems chapter about starvation",
+    "acceptable": [
+      "Operating_System_Concepts_-_Abraham_Silberschatz.pdf"
+    ]
+  },
+  {
+    "category": "human_memory",
+    "query": "the section about semaphores",
+    "acceptable": [
+      "Operating_System_Concepts_-_Abraham_Silberschatz.pdf"
+    ]
+  },
+  {
+    "category": "human_memory",
+    "query": "the SQL example with employees",
+    "acceptable": [
+      "Sams_Teach_Yourself_Microsoft_Sql_Server_T-Sql_In_10_Minutes_(2008).pdf",
+      "Database_System_Concepts_-_Abraham_Silberschatz.pdf",
+      "Database_System_Concepts_-_Abraham_Silberschatz.pdf"
+    ]
+  },
+  {
+    "category": "human_memory",
+    "query": "the recursion explanation",
+    "acceptable": [
+      "Data Structures and Algorithms Made Easy - Data Structure and Algorithmic Puzzles.pdf",
+      "Narasimha Karumanchi - Data structures and algorithms made easy (0, CareerMonk).pdf",
+      "ilide.info-data-structures-and-algorithms-made-easy-narasimha-karumanchi-pr_d55a72f1d21f17803bd221bfd7480e05.pdf",
+      "Coding_Interview_Patterns_Nail_Your_Next_Coding_-_Alex_Xu.pdf",
+      "CP_handbook.pdf",
+      "[Tutorial] A Way to Practice Competitive Programming.pdf"
+    ]
+  },
+  {
+    "category": "human_memory",
+    "query": "the page showing AVL rotations",
+    "acceptable": [
+      "Data Structures and Algorithms Made Easy - Data Structure and Algorithmic Puzzles.pdf",
+      "Narasimha Karumanchi - Data structures and algorithms made easy (0, CareerMonk).pdf",
+      "ilide.info-data-structures-and-algorithms-made-easy-narasimha-karumanchi-pr_d55a72f1d21f17803bd221bfd7480e05.pdf",
+      "Coding_Interview_Patterns_Nail_Your_Next_Coding_-_Alex_Xu.pdf",
+      "CP_handbook.pdf",
+      "[Tutorial] A Way to Practice Competitive Programming.pdf"
+    ]
+  },
+  {
+    "category": "negative",
+    "query": "quantum mechanics",
+    "acceptable": []
+  },
+  {
+    "category": "negative",
+    "query": "organic chemistry",
+    "acceptable": []
+  },
+  {
+    "category": "negative",
+    "query": "roman empire",
+    "acceptable": []
+  },
+  {
+    "category": "negative",
+    "query": "photosynthesis",
+    "acceptable": []
+  },
+  {
+    "category": "negative",
+    "query": "football tactics",
+    "acceptable": []
+  },
+  {
+    "category": "negative",
+    "query": "stock market",
+    "acceptable": []
+  },
+  {
+    "category": "negative",
+    "query": "guitar chords",
+    "acceptable": []
+  },
+  {
+    "category": "negative",
+    "query": "cooking pasta",
+    "acceptable": []
+  },
+  {
+    "category": "negative",
+    "query": "machine learning transformers",
+    "acceptable": []
+  },
+  {
+    "category": "negative",
+    "query": "calculus integration",
+    "acceptable": []
+  },
+  {
+    "category": "negative",
+    "query": "renaissance art",
+    "acceptable": []
+  },
+  {
+    "category": "negative",
+    "query": "climate change",
+    "acceptable": []
+  },
+  {
+    "category": "negative",
+    "query": "world war 2",
+    "acceptable": []
+  },
+  {
+    "category": "negative",
+    "query": "basketball rules",
+    "acceptable": []
+  },
+  {
+    "category": "negative",
+    "query": "pop music history",
+    "acceptable": []
+  },
+  {
+    "category": "negative",
+    "query": "ocean currents",
+    "acceptable": []
+  },
+  {
+    "category": "negative",
+    "query": "human anatomy",
+    "acceptable": []
+  },
+  {
+    "category": "negative",
+    "query": "medieval architecture",
+    "acceptable": []
+  },
+  {
+    "category": "negative",
+    "query": "Shakespeare plays",
+    "acceptable": []
+  },
+  {
+    "category": "negative",
+    "query": "global warming",
+    "acceptable": []
+  }
+]

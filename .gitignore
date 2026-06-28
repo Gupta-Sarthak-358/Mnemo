@@ -1,0 +1,12 @@
+.venv/
+__pycache__/
+*.pyc
+*.db
+*.egg-info/
+*.db-journal
+*.db-wal
+*.db-shm
+.mnemo/
+books_for_study/
+.DS_Store
+Thumbs.db

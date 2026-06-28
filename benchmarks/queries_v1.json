@@ -1,0 +1,159 @@
+[
+  {
+    "category": "keyword",
+    "query": "MVCC",
+    "acceptable": [
+      "Database_System_Concepts_-_Abraham_Silberschatz.pdf",
+      "Designing_Data-Intensive_Applications_-_Martin_Kleppmann.pdf"
+    ]
+  },
+  {
+    "category": "keyword",
+    "query": "TCP congestion",
+    "acceptable": [
+      "Computer_Networking_A_Top-Down_Approach_9E_-_Kurose_Ross.pdf"
+    ]
+  },
+  {
+    "category": "keyword",
+    "query": "binary search tree",
+    "acceptable": [
+      "Data Structures and Algorithms Made Easy - Data Structure and Algorithmic Puzzles.pdf",
+      "ilide.info-data-structures-and-algorithms-made-easy-narasimha-karumanchi-pr_d55a72f1d21f17803bd221bfd7480e05.pdf",
+      "Narasimha Karumanchi - Data structures and algorithms made easy (0, CareerMonk).pdf"
+    ]
+  },
+  {
+    "category": "keyword",
+    "query": "deadlock",
+    "acceptable": [
+      "Operating_System_Concepts_-_Abraham_Silberschatz.pdf"
+    ]
+  },
+  {
+    "category": "keyword",
+    "query": "Spring Boot",
+    "acceptable": [
+      "Craig-Walls-Spring-in-Action-Manning-Publications-2018.pdf"
+    ]
+  },
+  {
+    "category": "conceptual",
+    "query": "how does a database handle concurrent transactions",
+    "acceptable": [
+      "Database_System_Concepts_-_Abraham_Silberschatz.pdf",
+      "Designing_Data-Intensive_Applications_-_Martin_Kleppmann.pdf"
+    ]
+  },
+  {
+    "category": "conceptual",
+    "query": "what happens when you type a URL in a browser",
+    "acceptable": [
+      "Computer_Networking_A_Top-Down_Approach_9E_-_Kurose_Ross.pdf"
+    ]
+  },
+  {
+    "category": "conceptual",
+    "query": "difference between process and thread",
+    "acceptable": [
+      "Operating_System_Concepts_-_Abraham_Silberschatz.pdf"
+    ]
+  },
+  {
+    "category": "conceptual",
+    "query": "how to design a rate limiter",
+    "acceptable": [
+      "System_Design_Interview_-_An_Insiders_Guide_Volume_2_-_Alex_XU.pdf"
+    ]
+  },
+  {
+    "category": "conceptual",
+    "query": "how does inheritance work in object-oriented programming",
+    "acceptable": [
+      "Object-Oriented_Programming_-_Amany_Fawzy_Elgamal.pdf",
+      "Head First Java.pdf"
+    ]
+  },
+  {
+    "category": "vague",
+    "query": "the book about distributed systems with the wild boar on the cover",
+    "acceptable": [
+      "Designing_Data-Intensive_Applications_-_Martin_Kleppmann.pdf"
+    ]
+  },
+  {
+    "category": "vague",
+    "query": "networking book that explains layers from bottom to top",
+    "acceptable": [
+      "Computer_Networking_A_Top-Down_Approach_9E_-_Kurose_Ross.pdf"
+    ]
+  },
+  {
+    "category": "vague",
+    "query": "sorting algorithms cheat sheet",
+    "acceptable": [
+      "Coding_Interview_Patterns_Nail_Your_Next_Coding_-_Alex_Xu.pdf",
+      "Data Structures and Algorithms Made Easy - Data Structure and Algorithmic Puzzles.pdf",
+      "CP_handbook.pdf"
+    ]
+  },
+  {
+    "category": "vague",
+    "query": "preparing for aptitude tests for placements",
+    "acceptable": [
+      "Quantitative_aptitude_-_RS_AGGARWAL.pdf",
+      "Aptitude_Booklet Sem 3_B tech 2025-26.pdf",
+      "Data_Interpretation_and_Logical_Reasoning_for_CAT_-_Arun_Sharma.pdf"
+    ]
+  },
+  {
+    "category": "vague",
+    "query": "java book with lots of pictures and examples",
+    "acceptable": [
+      "Head First Java.pdf"
+    ]
+  },
+  {
+    "category": "ambiguous",
+    "query": "sorting algorithm",
+    "acceptable": [
+      "Coding_Interview_Patterns_Nail_Your_Next_Coding_-_Alex_Xu.pdf",
+      "Data Structures and Algorithms Made Easy - Data Structure and Algorithmic Puzzles.pdf",
+      "CP_handbook.pdf",
+      "Narasimha Karumanchi - Data structures and algorithms made easy (0, CareerMonk).pdf"
+    ]
+  },
+  {
+    "category": "ambiguous",
+    "query": "SQL join",
+    "acceptable": [
+      "Database_System_Concepts_-_Abraham_Silberschatz.pdf",
+      "Sams_Teach_Yourself_Microsoft_Sql_Server_T-Sql_In_10_Minutes_(2008).pdf"
+    ]
+  },
+  {
+    "category": "ambiguous",
+    "query": "memory management",
+    "acceptable": [
+      "Operating_System_Concepts_-_Abraham_Silberschatz.pdf",
+      "Designing_Data-Intensive_Applications_-_Martin_Kleppmann.pdf"
+    ]
+  },
+  {
+    "category": "ambiguous",
+    "query": "data structure for fast lookup",
+    "acceptable": [
+      "Data Structures and Algorithms Made Easy - Data Structure and Algorithmic Puzzles.pdf",
+      "Narasimha Karumanchi - Data structures and algorithms made easy (0, CareerMonk).pdf",
+      "Coding_Interview_Patterns_Nail_Your_Next_Coding_-_Alex_Xu.pdf"
+    ]
+  },
+  {
+    "category": "ambiguous",
+    "query": "english grammar book",
+    "acceptable": [
+      "english-grammar-and-composition-by-wren-and-martin-027eca86544ab.pdf",
+      "Word_Power_Made_Easy_-_Norman_Lewis.pdf"
+    ]
+  }
+]

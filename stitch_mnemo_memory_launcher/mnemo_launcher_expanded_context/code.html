@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en" style=""><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Mnemo Launcher</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-container": "#1e2020",
+                        "inverse-on-surface": "#2f3131",
+                        "error": "#ffb4ab",
+                        "error-container": "#93000a",
+                        "on-tertiary": "#472a00",
+                        "outline": "#8d909e",
+                        "surface-container-highest": "#333535",
+                        "secondary-container": "#35466b",
+                        "tertiary-container": "#ca8103",
+                        "on-primary-fixed-variant": "#004397",
+                        "on-secondary-fixed": "#061a3d",
+                        "on-surface-variant": "#c3c6d4",
+                        "on-surface": "#e2e2e2",
+                        "on-error-container": "#ffdad6",
+                        "secondary-fixed": "#d8e2ff",
+                        "outline-variant": "#424752",
+                        "tertiary-fixed-dim": "#ffb960",
+                        "primary-fixed": "#d8e2ff",
+                        "surface-tint": "#aec6ff",
+                        "on-tertiary-fixed": "#2a1700",
+                        "on-tertiary-container": "#3e2400",
+                        "surface-container-low": "#1a1c1c",
+                        "primary-container": "#5d8ef1",
+                        "tertiary": "#ffb960",
+                        "surface-container-lowest": "#0c0f0f",
+                        "primary-fixed-dim": "#aec6ff",
+                        "surface-bright": "#38393a",
+                        "primary": "#aec6ff",
+                        "surface": "#121414",
+                        "on-error": "#690005",
+                        "on-primary-fixed": "#001a43",
+                        "surface-variant": "#333535",
+                        "on-background": "#e2e2e2",
+                        "surface-container-high": "#282a2b",
+                        "tertiary-fixed": "#ffddb8",
+                        "secondary-fixed-dim": "#b5c6f2",
+                        "on-primary": "#002e6b",
+                        "secondary": "#b5c6f2",
+                        "background": "#121414",
+                        "on-secondary-container": "#a4b5df",
+                        "on-primary-container": "#00275e",
+                        "inverse-surface": "#e2e2e2",
+                        "inverse-primary": "#1e5bba",
+                        "on-secondary": "#1e3053",
+                        "on-secondary-fixed-variant": "#35466b",
+                        "on-tertiary-fixed-variant": "#653e00",
+                        "surface-dim": "#121414"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "stack-gap": "8px",
+                        "card-padding": "12px",
+                        "container-margin": "24px",
+                        "gutter": "16px",
+                        "element-gap": "4px"
+                    },
+                    "fontFamily": {
+                        "body-xs": ["Inter"],
+                        "body-sm": ["Inter"],
+                        "chip-label": ["Inter"],
+                        "section-cap": ["Inter"],
+                        "title-md": ["Inter"]
+                    },
+                    "fontSize": {
+                        "body-xs": ["12px", {"lineHeight": "18px", "fontWeight": "400"}],
+                        "body-sm": ["13px", {"lineHeight": "20px", "fontWeight": "400"}],
+                        "chip-label": ["12px", {"lineHeight": "16px", "fontWeight": "500"}],
+                        "section-cap": ["11px", {"lineHeight": "16px", "letterSpacing": "0.08em", "fontWeight": "500"}],
+                        "title-md": ["16px", {"lineHeight": "24px", "fontWeight": "500"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            background-color: transparent;
+            font-family: 'Inter', sans-serif;
+            color: #E8E8E8;
+            -webkit-font-smoothing: antialiased;
+        }
+        .launcher-window {
+            width: 820px;
+            height: 720px;
+            background-color: #0F0F0F;
+            border: 1px solid #2A2A2A;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #2A2A2A;
+            border-radius: 10px;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 20;
+        }
+        .active-ring:focus-within {
+            border-color: #5B8DEF;
+        }
+    </style>
+</head>
+<body class="flex items-center justify-center min-h-screen">
+<!-- Mnemo Launcher Window -->
+<div class="launcher-window rounded-xl flex flex-col overflow-hidden animate-in fade-in zoom-in duration-300">
+<!-- Top Search Bar -->
+<header class="h-[56px] flex items-center px-4 border-b border-outline-variant bg-surface shrink-0 active-ring transition-colors">
+<span class="material-symbols-outlined text-on-surface-variant mr-3" data-icon="search">search</span>
+<input autofocus="" class="flex-grow bg-transparent border-none text-on-surface placeholder:text-on-surface-variant focus:ring-0 font-body-sm text-body-sm" placeholder="Search your library..." type="text"/>
+<div class="flex items-center gap-2">
+<kbd class="hidden md:flex items-center gap-1 px-2 py-0.5 rounded border border-outline-variant text-[10px] text-on-surface-variant font-mono bg-surface-container-low">
+                    ⌘ K
+                </kbd>
+<button class="p-1.5 rounded-lg hover:bg-surface-container-highest transition-colors text-on-surface-variant">
+<span class="material-symbols-outlined block" data-icon="settings">settings</span>
+</button>
+</div>
+</header>
+<!-- Main Content Area -->
+<main class="flex-grow overflow-y-auto custom-scrollbar p-container-margin space-y-8">
+<!-- Section 1: Best Match -->
+<section class="space-y-4">
+<h2 class="font-section-cap text-section-cap text-on-surface-variant uppercase">Best Match</h2>
+<!-- Featured Card -->
+<article class="bg-[#1A1A1A] border border-[#2A2A2A] rounded-lg p- card-padding group transition-all hover:border-[#3A3A3A]" style="border-color: rgb(42, 42, 42);">
+<div class="flex items-start justify-between mb-4">
+<div class="flex gap-4">
+<div class="w-10 h-12 bg-surface-container-low rounded border-l-4 border-primary-container flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-primary" data-icon="menu_book">menu_book</span>
+</div>
+<div>
+<h3 class="font-title-md text-title-md text-on-surface">Introduction to Algorithms</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Cormen et al.</p>
+</div>
+</div>
+<span class="font-body-xs text-body-xs text-[#888888]">Strong Match</span>
+</div>
+<div class="space-y-4">
+<!-- Concepts -->
+<div>
+<span class="font-section-cap text-[10px] text-on-surface-variant uppercase block mb-2">Why this matched</span>
+<div class="flex flex-wrap gap-2">
+<span class="px-2 py-0.5 bg-[#252525] text-[#AAAAAA] rounded font-chip-label text-chip-label">Binary Search Trees</span>
+<span class="px-2 py-0.5 bg-[#252525] text-[#AAAAAA] rounded font-chip-label text-chip-label">Tree Traversals</span>
+<span class="px-2 py-0.5 bg-[#252525] text-[#AAAAAA] rounded font-chip-label text-chip-label">BST Insertion</span>
+</div>
+</div>
+<!-- Pages -->
+<div class="flex items-center gap-2">
+<span class="px-2 py-0.5 bg-[#1E2A3A] text-primary rounded font-chip-label text-chip-label flex items-center gap-1">
+<span class="text-[10px] opacity-70">p.</span> 307
+                            </span>
+<span class="text-on-surface-variant font-body-xs text-body-xs mx-1">Also on:</span>
+<div class="flex gap-1.5">
+<span class="px-1.5 py-0.5 bg-[#252525] text-[#888888] rounded font-chip-label text-[11px]">328</span>
+<span class="px-1.5 py-0.5 bg-[#252525] text-[#888888] rounded font-chip-label text-[11px]">351</span>
+<span class="px-1.5 py-0.5 bg-[#252525] text-[#888888] rounded font-chip-label text-[11px]">772</span>
+</div>
+</div>
+<!-- Actions -->
+<div class="flex gap-stack-gap pt-2">
+<button class="bg-[#5B8DEF] text-white px-4 py-1.5 rounded font-body-sm text-body-sm font-medium hover:bg-opacity-90 active:scale-95 transition-all">
+                                Open
+                            </button>
+<button class="text-on-surface-variant border border-transparent hover:border-outline-variant px-4 py-1.5 rounded font-body-sm text-body-sm transition-all active:scale-95">Less context</button>
+</div><div class="mt-4 pt-4 border-t border-outline-variant space-y-2 animate-in fade-in duration-300"><p class="font-body-sm text-body-sm text-on-surface-variant leading-relaxed"><strong>Binary Search Trees</strong> are a fundamental data structure used for efficient searching and sorting. Each node in the <strong>Tree</strong> contains a key and pointers to its left and right children, maintaining the property that the left subtree contains smaller keys. Various <strong>Traversals</strong> like in-order, pre-order, and post-order allow for systematic processing of all nodes. Understanding these concepts is essential for mastering algorithmic complexity and data management.</p></div>
+</div>
+</article>
+</section>
+<!-- Section 2: Other Sources -->
+<section class="space-y-4">
+<h2 class="font-section-cap text-section-cap text-on-surface-variant uppercase">Other Sources</h2>
+<div class="space-y-2">
+<!-- Secondary Card 1 -->
+<article class="bg-[#1A1A1A] border border-[#2A2A2A] rounded-lg px-card-padding py-3 group flex items-center justify-between transition-all hover:border-[#3A3A3A] cursor-pointer border-l-4 border-l-[#4FD1C5]" style="border-color: rgb(58, 58, 58);">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-on-surface-variant text-[20px] text-[#4FD1C5]" data-icon="menu_book">menu_book</span>
+<div class="flex flex-col">
+<h4 class="font-body-sm text-body-sm text-on-surface flex items-center gap-2">
+                                    Algorithm Design Manual
+                                    <span class="font-body-xs text-[11px] text-[#888888]">Good Match</span>
+</h4>
+<div class="flex items-center gap-2 mt-1">
+<span class="px-1.5 py-0.5 bg-[#252525] text-[#AAAAAA] rounded font-chip-label text-[11px]">Dynamic Programming</span>
+<span class="px-1.5 py-0.5 bg-[#252525] text-[#AAAAAA] rounded font-chip-label text-[11px]">Greedy Algorithms</span>
+<span class="px-2 py-0.5 bg-[#1E2A3A] text-primary rounded font-chip-label text-[11px] ml-1">112</span>
+</div>
+</div>
+</div>
+<button class="opacity-0 group-hover:opacity-100 bg-[#5B8DEF] text-white px-3 py-1 rounded font-body-xs text-body-xs font-medium transition-opacity">
+                            Open
+                        </button>
+</article>
+<!-- Secondary Card 2 -->
+<article class="bg-[#1A1A1A] border border-[#2A2A2A] rounded-lg px-card-padding py-3 group flex items-center justify-between transition-all hover:border-[#3A3A3A] cursor-pointer border-l-4 border-l-[#818CF8]" style="border-color: rgb(42, 42, 42);">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-on-surface-variant text-[20px] text-[#818CF8]" data-icon="menu_book">menu_book</span>
+<div class="flex flex-col">
+<h4 class="font-body-sm text-body-sm text-on-surface flex items-center gap-2">
+                                    Grokking Algorithms
+                                    <span class="font-body-xs text-[11px] text-[#888888]">Good Match</span>
+</h4>
+<div class="flex items-center gap-2 mt-1">
+<span class="px-1.5 py-0.5 bg-[#252525] text-[#AAAAAA] rounded font-chip-label text-[11px]">Breadth-first Search</span>
+<span class="px-1.5 py-0.5 bg-[#252525] text-[#AAAAAA] rounded font-chip-label text-[11px]">Dijkstra</span>
+<span class="px-2 py-0.5 bg-[#1E2A3A] text-primary rounded font-chip-label text-[11px] ml-1">94</span>
+</div>
+</div>
+</div>
+<button class="opacity-0 group-hover:opacity-100 bg-[#5B8DEF] text-white px-3 py-1 rounded font-body-xs text-body-xs font-medium transition-opacity">
+                            Open
+                        </button>
+</article>
+</div>
+</section>
+<!-- Empty State / Recent Section -->
+<section class="space-y-4 opacity-50">
+<h2 class="font-section-cap text-section-cap text-on-surface-variant uppercase">Continue Reading</h2>
+<div class="grid grid-cols-3 gap-stack-gap"><div class="p-3 bg-surface-container-low border border-outline-variant rounded-lg flex items-center gap-3 cursor-default"><div class="w-8 h-8 rounded bg-[#1E2A3A] flex items-center justify-center shrink-0"><span class="material-symbols-outlined text-primary text-[18px]" data-icon="menu_book">menu_book</span></div><div class="flex flex-col min-w-0"><span class="font-body-xs text-body-xs text-on-surface truncate">Research Paper v2</span><span class="text-[9px] text-on-surface-variant uppercase">Last read: p. 42</span></div></div><div class="p-3 bg-surface-container-low border border-outline-variant rounded-lg flex items-center gap-3 cursor-default"><div class="w-8 h-8 rounded bg-[#1E2A3A] flex items-center justify-center shrink-0"><span class="material-symbols-outlined text-primary text-[18px]" data-icon="menu_book">menu_book</span></div><div class="flex flex-col min-w-0"><span class="font-body-xs text-body-xs text-on-surface truncate">Q4 Summary</span><span class="text-[9px] text-on-surface-variant uppercase">Last read: p. 12</span></div></div><div class="p-3 bg-surface-container-low border border-outline-variant rounded-lg flex items-center gap-3 cursor-default"><div class="w-8 h-8 rounded bg-[#1E2A3A] flex items-center justify-center shrink-0"><span class="material-symbols-outlined text-primary text-[18px]" data-icon="menu_book">menu_book</span></div><div class="flex flex-col min-w-0"><span class="font-body-xs text-body-xs text-on-surface truncate">Meeting Notes</span><span class="text-[9px] text-on-surface-variant uppercase">Last read: p. 1</span></div></div></div>
+</section>
+</main>
+<!-- Footer / Shortcuts -->
+<footer class="h-10 px-container-margin border-t border-outline-variant flex items-center justify-between bg-surface-container-lowest shrink-0">
+<div class="flex gap-4">
+<div class="flex items-center gap-1.5 text-on-surface-variant">
+<kbd class="px-1 py-0.5 rounded border border-outline-variant text-[9px] font-mono bg-surface-container-low">↑↓</kbd>
+<span class="text-[10px] font-medium uppercase">Navigate</span>
+</div>
+<div class="flex items-center gap-1.5 text-on-surface-variant">
+<kbd class="px-1 py-0.5 rounded border border-outline-variant text-[9px] font-mono bg-surface-container-low">↵</kbd>
+<span class="text-[10px] font-medium uppercase">Open</span>
+</div>
+<div class="flex items-center gap-1.5 text-on-surface-variant">
+<kbd class="px-1 py-0.5 rounded border border-outline-variant text-[9px] font-mono bg-surface-container-low">ESC</kbd>
+<span class="text-[10px] font-medium uppercase">Dismiss</span>
+</div>
+</div>
+<div class="text-on-surface-variant text-[10px] font-medium uppercase flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-primary animate-pulse"></span>
+                Engine Ready
+            </div>
+</footer>
+</div>
+<!-- Micro-interactions Script -->
+<script>
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                // Mimic window closing
+                document.querySelector('.launcher-window').style.opacity = '0';
+                document.querySelector('.launcher-window').style.transform = 'scale(0.95)';
+            }
+        });
+
+        // Add focus effect to the header when searching
+        const searchInput = document.querySelector('input');
+        const header = document.querySelector('header');
+        
+        searchInput.addEventListener('focus', () => {
+            header.style.borderColor = '#5B8DEF';
+        });
+        
+        searchInput.addEventListener('blur', () => {
+            header.style.borderColor = '#424752';
+        });
+
+        // Keyboard navigation simulation (Visual only)
+        let activeIndex = 0;
+        const cards = document.querySelectorAll('article');
+        
+        cards.forEach((card, index) => {
+            card.addEventListener('mouseenter', () => {
+                cards.forEach(c => c.style.borderColor = '#2A2A2A');
+                card.style.borderColor = '#3A3A3A';
+            });
+        });
+    </script>
+</body></html>

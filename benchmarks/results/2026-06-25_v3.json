@@ -1,0 +1,687 @@
+{
+  "date": "2026-06-25",
+  "version": "queries_v3.json",
+  "total": 190,
+  "pass": 139,
+  "fail": 51,
+  "cache_hits": 4,
+  "cold_queries": 186,
+  "errors": 0,
+  "elapsed_seconds": 8.0,
+  "by_category": {
+    "exact_keyword": {
+      "total": 20,
+      "pass": 17,
+      "fail": 3
+    },
+    "acronym": {
+      "total": 15,
+      "pass": 9,
+      "fail": 6
+    },
+    "concept": {
+      "total": 25,
+      "pass": 22,
+      "fail": 3
+    },
+    "natural_question": {
+      "total": 20,
+      "pass": 16,
+      "fail": 4
+    },
+    "half_remembered": {
+      "total": 20,
+      "pass": 20,
+      "fail": 0
+    },
+    "visual_memory": {
+      "total": 10,
+      "pass": 7,
+      "fail": 3
+    },
+    "cross_domain": {
+      "total": 10,
+      "pass": 9,
+      "fail": 1
+    },
+    "ambiguous": {
+      "total": 10,
+      "pass": 8,
+      "fail": 2
+    },
+    "comparative": {
+      "total": 10,
+      "pass": 9,
+      "fail": 1
+    },
+    "adversarial": {
+      "total": 10,
+      "pass": 8,
+      "fail": 2
+    },
+    "human_memory": {
+      "total": 20,
+      "pass": 14,
+      "fail": 6
+    },
+    "negative": {
+      "total": 20,
+      "pass": 0,
+      "fail": 20
+    }
+  },
+  "failures": [
+    {
+      "category": "exact_keyword",
+      "query": "MVCC",
+      "ranked": [
+        "Object-Oriented_Programming_-_Amany_Fawzy_Elgamal.pdf",
+        "Object-Oriented_Programming_-_Amany_Fawzy_Elgamal.pdf",
+        "Coding_Interview_Patterns_Nail_Your_Next_Coding_-_Alex_Xu.pdf",
+        "Database_System_Concepts_-_Abraham_Silberschatz.pdf",
+        "Database_System_Concepts_-_Abraham_Silberschatz.pdf"
+      ],
+      "latency_ms": 52.9
+    },
+    {
+      "category": "exact_keyword",
+      "query": "encapsulation",
+      "ranked": [
+        "[O`Reilly. Head First] - Head First Design Patterns - [Freeman].pdf",
+        "[O`Reilly. Head First] - Head First Design Patterns - [Freeman].pdf",
+        "Computer_Networking_A_Top-Down_Approach_9E_-_Kurose_Ross.pdf",
+        "Object-Oriented_Programming_-_Amany_Fawzy_Elgamal.pdf",
+        "Object-Oriented_Programming_-_Amany_Fawzy_Elgamal.pdf"
+      ],
+      "latency_ms": 33.5
+    },
+    {
+      "category": "exact_keyword",
+      "query": "dependency injection",
+      "ranked": [
+        "Database_System_Concepts_-_Abraham_Silberschatz.pdf",
+        "Database_System_Concepts_-_Abraham_Silberschatz.pdf",
+        "Database_System_Concepts_-_Abraham_Silberschatz.pdf",
+        "Database_System_Concepts_-_Abraham_Silberschatz.pdf",
+        "Database_System_Concepts_-_Abraham_Silberschatz.pdf"
+      ],
+      "latency_ms": 43.5
+    },
+    {
+      "category": "acronym",
+      "query": "MVCC",
+      "ranked": [
+        "Object-Oriented_Programming_-_Amany_Fawzy_Elgamal.pdf",
+        "Object-Oriented_Programming_-_Amany_Fawzy_Elgamal.pdf",
+        "Coding_Interview_Patterns_Nail_Your_Next_Coding_-_Alex_Xu.pdf",
+        "Database_System_Concepts_-_Abraham_Silberschatz.pdf",
+        "Database_System_Concepts_-_Abraham_Silberschatz.pdf"
+      ],
+      "latency_ms": 0.0
+    },
+    {
+      "category": "acronym",
+      "query": "HTTPS",
+      "ranked": [
+        "Word_Power_Made_Easy_-_Norman_Lewis.pdf",
+        "Word_Power_Made_Easy_-_Norman_Lewis.pdf",
+        "Database_System_Concepts_-_Abraham_Silberschatz.pdf",
+        "Computer_Networking_A_Top-Down_Approach_9E_-_Kurose_Ross.pdf",
+        "Operating_System_Concepts_-_Abraham_Silberschatz.pdf"
+      ],
+      "latency_ms": 32.5
+    },
+    {
+      "category": "acronym",
+      "query": "OSI",
+      "ranked": [
+        "Designing_Data-Intensive_Applications_-_Martin_Kleppmann.pdf",
+        "Operating_System_Concepts_-_Abraham_Silberschatz.pdf",
+        "Operating_System_Concepts_-_Abraham_Silberschatz.pdf",
+        "Operating_System_Concepts_-_Abraham_Silberschatz.pdf",
+        "Operating_System_Concepts_-_Abraham_Silberschatz.pdf"
+      ],
+      "latency_ms": 33.5
+    },
+    {
+      "category": "acronym",
+      "query": "BFS",
+      "ranked": [
+        "Word_Power_Made_Easy_-_Norman_Lewis.pdf",
+        "Word_Power_Made_Easy_-_Norman_Lewis.pdf",
+        "Word_Power_Made_Easy_-_Norman_Lewis.pdf",
+        "Coding_Interview_Patterns_Nail_Your_Next_Coding_-_Alex_Xu.pdf",
+        "Database_System_Concepts_-_Abraham_Silberschatz.pdf"
+      ],
+      "latency_ms": 27.0
+    },
+    {
+      "category": "acronym",
+      "query": "DFS",
+      "ranked": [
+        "Operating_System_Concepts_-_Abraham_Silberschatz.pdf",
+        "Operating_System_Concepts_-_Abraham_Silberschatz.pdf",
+        "Operating_System_Concepts_-_Abraham_Silberschatz.pdf",
+        "Operating_System_Concepts_-_Abraham_Silberschatz.pdf",
+        "Operating_System_Concepts_-_Abraham_Silberschatz.pdf"
+      ],
+      "latency_ms": 33.0
+    },
+    {
+      "category": "acronym",
+      "query": "ORM",
+      "ranked": [
+        "Word_Power_Made_Easy_-_Norman_Lewis.pdf",
+        "Word_Power_Made_Easy_-_Norman_Lewis.pdf",
+        "Word_Power_Made_Easy_-_Norman_Lewis.pdf",
+        "Word_Power_Made_Easy_-_Norman_Lewis.pdf",
+        "Word_Power_Made_Easy_-_Norman_Lewis.pdf"
+      ],
+      "latency_ms": 33.5
+    },
+    {
+      "category": "concept",
+      "query": "what normalization solves",
+      "ranked": [
+        "Designing_Data-Intensive_Applications_-_Martin_Kleppmann.pdf",
+        "Designing_Data-Intensive_Applications_-_Martin_Kleppmann.pdf",
+        "Cracking_the_SAT_Premium_Edition_with_8_Pr_-_The_Princeton_Review.pdf",
+        "Database_System_Concepts_-_Abraham_Silberschatz.pdf",
+        "Database_System_Concepts_-_Abraham_Silberschatz.pdf"
+      ],
+      "latency_ms": 35.0
+    },
+    {
+      "category": "concept",
+      "query": "how REST APIs work",
+      "ranked": [
+        "Designing_Data-Intensive_Applications_-_Martin_Kleppmann.pdf",
+        "Database_System_Concepts_-_Abraham_Silberschatz.pdf",
+        "Designing_Data-Intensive_Applications_-_Martin_Kleppmann.pdf",
+        "Designing_Data-Intensive_Applications_-_Martin_Kleppmann.pdf",
+        "Designing_Data-Intensive_Applications_-_Martin_Kleppmann.pdf"
+      ],
+      "latency_ms": 33.0
+    },
+    {
+      "category": "concept",
+      "query": "what dependency injection does",
+      "ranked": [
+        "Database_System_Concepts_-_Abraham_Silberschatz.pdf",
+        "Database_System_Concepts_-_Abraham_Silberschatz.pdf",
+        "Operating_System_Concepts_-_Abraham_Silberschatz.pdf",
+        "Database_System_Concepts_-_Abraham_Silberschatz.pdf",
+        "Database_System_Concepts_-_Abraham_Silberschatz.pdf"
+      ],
+      "latency_ms": 35.5
+    },
+    {
+      "category": "natural_question",
+      "query": "when should I use DFS",
+      "ranked": [
+        "Operating_System_Concepts_-_Abraham_Silberschatz.pdf",
+        "Operating_System_Concepts_-_Abraham_Silberschatz.pdf",
+        "Operating_System_Concepts_-_Abraham_Silberschatz.pdf",
+        "Operating_System_Concepts_-_Abraham_Silberschatz.pdf",
+        "Operating_System_Concepts_-_Abraham_Silberschatz.pdf"
+      ],
+      "latency_ms": 32.4
+    },
+    {
+      "category": "natural_question",
+      "query": "what happens when you type a URL",
+      "ranked": [
+        "Database_System_Concepts_-_Abraham_Silberschatz.pdf",
+        "Database_System_Concepts_-_Abraham_Silberschatz.pdf",
+        "Designing_Data-Intensive_Applications_-_Martin_Kleppmann.pdf",
+        "Designing_Data-Intensive_Applications_-_Martin_Kleppmann.pdf",
+        "Database_System_Concepts_-_Abraham_Silberschatz.pdf"
+      ],
+      "latency_ms": 38.0
+    },
+    {
+      "category": "natural_question",
+      "query": "why is normalization important",
+      "ranked": [
+        "Designing_Data-Intensive_Applications_-_Martin_Kleppmann.pdf",
+        "Designing_Data-Intensive_Applications_-_Martin_Kleppmann.pdf",
+        "Designing_Data-Intensive_Applications_-_Martin_Kleppmann.pdf",
+        "Designing_Data-Intensive_Applications_-_Martin_Kleppmann.pdf",
+        "Designing_Data-Intensive_Applications_-_Martin_Kleppmann.pdf"
+      ],
+      "latency_ms": 33.0
+    },
+    {
+      "category": "natural_question",
+      "query": "how are APIs designed",
+      "ranked": [
+        "Operating_System_Concepts_-_Abraham_Silberschatz.pdf",
+        "Database_System_Concepts_-_Abraham_Silberschatz.pdf",
+        "Operating_System_Concepts_-_Abraham_Silberschatz.pdf",
+        "Designing_Data-Intensive_Applications_-_Martin_Kleppmann.pdf",
+        "Designing_Data-Intensive_Applications_-_Martin_Kleppmann.pdf"
+      ],
+      "latency_ms": 34.0
+    },
+    {
+      "category": "visual_memory",
+      "query": "the thick aptitude book",
+      "ranked": [
+        "Ultimate_Aptitude_Tests_-_Jim_Barrett.pdf",
+        "Ultimate_Aptitude_Tests_-_Jim_Barrett.pdf",
+        "Ultimate_Aptitude_Tests_-_Jim_Barrett.pdf",
+        "Ultimate_Aptitude_Tests_-_Jim_Barrett.pdf",
+        "Ultimate_Aptitude_Tests_-_Jim_Barrett.pdf"
+      ],
+      "latency_ms": 33.0
+    },
+    {
+      "category": "visual_memory",
+      "query": "the Alex Xu book",
+      "ranked": [
+        "Coding_Interview_Patterns_Nail_Your_Next_Coding_-_Alex_Xu.pdf",
+        "Word_Power_Made_Easy_-_Norman_Lewis.pdf",
+        "english-grammar-and-composition-by-wren-and-martin-027eca86544ab.pdf",
+        "Cracking_the_SAT_Premium_Edition_with_8_Pr_-_The_Princeton_Review.pdf",
+        "Word_Power_Made_Easy_-_Norman_Lewis.pdf"
+      ],
+      "latency_ms": 32.5
+    },
+    {
+      "category": "visual_memory",
+      "query": "the Head First series",
+      "ranked": [
+        "Verbal_and_Non_Verbal_RS.pdf",
+        "Verbal_and_Non_Verbal_RS.pdf",
+        "Verbal_and_Non_Verbal_RS.pdf",
+        "Database_System_Concepts_-_Abraham_Silberschatz.pdf",
+        "Verbal_and_Non_Verbal_RS.pdf"
+      ],
+      "latency_ms": 34.0
+    },
+    {
+      "category": "cross_domain",
+      "query": "cache",
+      "ranked": [
+        "Operating_System_Concepts_-_Abraham_Silberschatz.pdf",
+        "Operating_System_Concepts_-_Abraham_Silberschatz.pdf",
+        "Operating_System_Concepts_-_Abraham_Silberschatz.pdf",
+        "Database_System_Concepts_-_Abraham_Silberschatz.pdf",
+        "Computer_Networking_A_Top-Down_Approach_9E_-_Kurose_Ross.pdf"
+      ],
+      "latency_ms": 30.0
+    },
+    {
+      "category": "ambiguous",
+      "query": "security",
+      "ranked": [
+        "Operating_System_Concepts_-_Abraham_Silberschatz.pdf",
+        "Operating_System_Concepts_-_Abraham_Silberschatz.pdf",
+        "Operating_System_Concepts_-_Abraham_Silberschatz.pdf",
+        "Operating_System_Concepts_-_Abraham_Silberschatz.pdf",
+        "Operating_System_Concepts_-_Abraham_Silberschatz.pdf"
+      ],
+      "latency_ms": 30.0
+    },
+    {
+      "category": "ambiguous",
+      "query": "design",
+      "ranked": [
+        "Designing_Data-Intensive_Applications_-_Martin_Kleppmann.pdf",
+        "Database_System_Concepts_-_Abraham_Silberschatz.pdf",
+        "Database_System_Concepts_-_Abraham_Silberschatz.pdf",
+        "Database_System_Concepts_-_Abraham_Silberschatz.pdf",
+        "CP_handbook.pdf"
+      ],
+      "latency_ms": 33.2
+    },
+    {
+      "category": "comparative",
+      "query": "REST vs SOAP",
+      "ranked": [
+        "Designing_Data-Intensive_Applications_-_Martin_Kleppmann.pdf",
+        "Designing_Data-Intensive_Applications_-_Martin_Kleppmann.pdf",
+        "Designing_Data-Intensive_Applications_-_Martin_Kleppmann.pdf",
+        "Designing_Data-Intensive_Applications_-_Martin_Kleppmann.pdf",
+        "Designing_Data-Intensive_Applications_-_Martin_Kleppmann.pdf"
+      ],
+      "latency_ms": 31.0
+    },
+    {
+      "category": "adversarial",
+      "query": "garbge collecton",
+      "ranked": [
+        "english-grammar-and-composition-by-wren-and-martin-027eca86544ab.pdf",
+        "Designing_Data-Intensive_Applications_-_Martin_Kleppmann.pdf",
+        "Word_Power_Made_Easy_-_Norman_Lewis.pdf",
+        "GRE_Master_Wordlist_-_Vibrant_Publishers.pdf",
+        "GRE_Master_Wordlist_-_Vibrant_Publishers.pdf"
+      ],
+      "latency_ms": 34.0
+    },
+    {
+      "category": "adversarial",
+      "query": "sprng boot",
+      "ranked": [
+        "Operating_System_Concepts_-_Abraham_Silberschatz.pdf",
+        "Operating_System_Concepts_-_Abraham_Silberschatz.pdf",
+        "Operating_System_Concepts_-_Abraham_Silberschatz.pdf",
+        "Operating_System_Concepts_-_Abraham_Silberschatz.pdf",
+        "Operating_System_Concepts_-_Abraham_Silberschatz.pdf"
+      ],
+      "latency_ms": 28.0
+    },
+    {
+      "category": "human_memory",
+      "query": "the page with the binary tree picture",
+      "ranked": [
+        "Database_System_Concepts_-_Abraham_Silberschatz.pdf",
+        "Database_System_Concepts_-_Abraham_Silberschatz.pdf",
+        "Database_System_Concepts_-_Abraham_Silberschatz.pdf",
+        "Coding_Interview_Patterns_Nail_Your_Next_Coding_-_Alex_Xu.pdf",
+        "Database_System_Concepts_-_Abraham_Silberschatz.pdf"
+      ],
+      "latency_ms": 32.5
+    },
+    {
+      "category": "human_memory",
+      "query": "the explanation using cars on a highway",
+      "ranked": [
+        "english-grammar-and-composition-by-wren-and-martin-027eca86544ab.pdf",
+        "Cracking_the_SAT_Premium_Edition_with_8_Pr_-_The_Princeton_Review.pdf",
+        "english-grammar-and-composition-by-wren-and-martin-027eca86544ab.pdf",
+        "english-grammar-and-composition-by-wren-and-martin-027eca86544ab.pdf",
+        "Object-Oriented_Programming_-_Amany_Fawzy_Elgamal.pdf"
+      ],
+      "latency_ms": 36.0
+    },
+    {
+      "category": "human_memory",
+      "query": "the cartoon explaining inheritance",
+      "ranked": [
+        "Object-Oriented_Programming_-_Amany_Fawzy_Elgamal.pdf",
+        "Object-Oriented_Programming_-_Amany_Fawzy_Elgamal.pdf",
+        "Object-Oriented_Programming_-_Amany_Fawzy_Elgamal.pdf",
+        "Object-Oriented_Programming_-_Amany_Fawzy_Elgamal.pdf",
+        "Object-Oriented_Programming_-_Amany_Fawzy_Elgamal.pdf"
+      ],
+      "latency_ms": 31.0
+    },
+    {
+      "category": "human_memory",
+      "query": "the table comparing protocols",
+      "ranked": [
+        "Database_System_Concepts_-_Abraham_Silberschatz.pdf",
+        "Database_System_Concepts_-_Abraham_Silberschatz.pdf",
+        "Designing_Data-Intensive_Applications_-_Martin_Kleppmann.pdf",
+        "Computer_Networking_A_Top-Down_Approach_9E_-_Kurose_Ross.pdf",
+        "Database_System_Concepts_-_Abraham_Silberschatz.pdf"
+      ],
+      "latency_ms": 34.5
+    },
+    {
+      "category": "human_memory",
+      "query": "the explanation using library books",
+      "ranked": [
+        "Object-Oriented_Programming_-_Amany_Fawzy_Elgamal.pdf",
+        "Designing_Data-Intensive_Applications_-_Martin_Kleppmann.pdf",
+        "Designing_Data-Intensive_Applications_-_Martin_Kleppmann.pdf",
+        "Cracking_the_SAT_Premium_Edition_with_8_Pr_-_The_Princeton_Review.pdf",
+        "Cracking_the_SAT_Premium_Edition_with_8_Pr_-_The_Princeton_Review.pdf"
+      ],
+      "latency_ms": 34.0
+    },
+    {
+      "category": "human_memory",
+      "query": "the chapter where Alex Xu designs Twitter",
+      "ranked": [
+        "Designing_Data-Intensive_Applications_-_Martin_Kleppmann.pdf",
+        "Cracking_the_SAT_Premium_Edition_with_8_Pr_-_The_Princeton_Review.pdf",
+        "Designing_Data-Intensive_Applications_-_Martin_Kleppmann.pdf",
+        "Cracking_the_SAT_Premium_Edition_with_8_Pr_-_The_Princeton_Review.pdf",
+        "Designing_Data-Intensive_Applications_-_Martin_Kleppmann.pdf"
+      ],
+      "latency_ms": 35.0
+    },
+    {
+      "category": "negative",
+      "query": "quantum mechanics",
+      "ranked": [
+        "Cracking_the_SAT_Premium_Edition_with_8_Pr_-_The_Princeton_Review.pdf",
+        "Cracking_the_SAT_Premium_Edition_with_8_Pr_-_The_Princeton_Review.pdf",
+        "Cracking_the_SAT_Premium_Edition_with_8_Pr_-_The_Princeton_Review.pdf",
+        "Cracking_the_SAT_Premium_Edition_with_8_Pr_-_The_Princeton_Review.pdf",
+        "Cracking_the_SAT_Premium_Edition_with_8_Pr_-_The_Princeton_Review.pdf"
+      ],
+      "latency_ms": 31.0
+    },
+    {
+      "category": "negative",
+      "query": "organic chemistry",
+      "ranked": [
+        "Cracking_the_SAT_Premium_Edition_with_8_Pr_-_The_Princeton_Review.pdf",
+        "Cracking_the_SAT_Premium_Edition_with_8_Pr_-_The_Princeton_Review.pdf",
+        "Cracking_the_SAT_Premium_Edition_with_8_Pr_-_The_Princeton_Review.pdf",
+        "Cracking_the_SAT_Premium_Edition_with_8_Pr_-_The_Princeton_Review.pdf",
+        "Cracking_the_SAT_Premium_Edition_with_8_Pr_-_The_Princeton_Review.pdf"
+      ],
+      "latency_ms": 32.5
+    },
+    {
+      "category": "negative",
+      "query": "roman empire",
+      "ranked": [
+        "Word_Power_Made_Easy_-_Norman_Lewis.pdf",
+        "english-grammar-and-composition-by-wren-and-martin-027eca86544ab.pdf",
+        "Word_Power_Made_Easy_-_Norman_Lewis.pdf",
+        "Cracking_the_SAT_Premium_Edition_with_8_Pr_-_The_Princeton_Review.pdf",
+        "Word_Power_Made_Easy_-_Norman_Lewis.pdf"
+      ],
+      "latency_ms": 32.0
+    },
+    {
+      "category": "negative",
+      "query": "photosynthesis",
+      "ranked": [
+        "Verbal_and_Non_Verbal_RS.pdf",
+        "Cracking_the_SAT_Premium_Edition_with_8_Pr_-_The_Princeton_Review.pdf",
+        "Cracking_the_SAT_Premium_Edition_with_8_Pr_-_The_Princeton_Review.pdf",
+        "Cracking_the_SAT_Premium_Edition_with_8_Pr_-_The_Princeton_Review.pdf",
+        "english-grammar-and-composition-by-wren-and-martin-027eca86544ab.pdf"
+      ],
+      "latency_ms": 35.0
+    },
+    {
+      "category": "negative",
+      "query": "football tactics",
+      "ranked": [
+        "english-grammar-and-composition-by-wren-and-martin-027eca86544ab.pdf",
+        "english-grammar-and-composition-by-wren-and-martin-027eca86544ab.pdf",
+        "english-grammar-and-composition-by-wren-and-martin-027eca86544ab.pdf",
+        "Database_System_Concepts_-_Abraham_Silberschatz.pdf",
+        "Verbal_and_Non_Verbal_RS.pdf"
+      ],
+      "latency_ms": 37.0
+    },
+    {
+      "category": "negative",
+      "query": "stock market",
+      "ranked": [
+        "Cracking_the_SAT_Premium_Edition_with_8_Pr_-_The_Princeton_Review.pdf",
+        "Data_Interpretation_Simplified_-_Jaggan_Saneja.pdf",
+        "Data_Interpretation_Simplified_-_Jaggan_Saneja.pdf",
+        "Data_Interpretation_Simplified_-_Jaggan_Saneja.pdf",
+        "Data_Interpretation_Simplified_-_Jaggan_Saneja.pdf"
+      ],
+      "latency_ms": 32.0
+    },
+    {
+      "category": "negative",
+      "query": "guitar chords",
+      "ranked": [
+        "Cracking_the_SAT_Premium_Edition_with_8_Pr_-_The_Princeton_Review.pdf",
+        "Cracking_the_SAT_Premium_Edition_with_8_Pr_-_The_Princeton_Review.pdf",
+        "Cracking_the_SAT_Premium_Edition_with_8_Pr_-_The_Princeton_Review.pdf",
+        "Word_Power_Made_Easy_-_Norman_Lewis.pdf",
+        "Cracking_the_SAT_Premium_Edition_with_8_Pr_-_The_Princeton_Review.pdf"
+      ],
+      "latency_ms": 33.5
+    },
+    {
+      "category": "negative",
+      "query": "cooking pasta",
+      "ranked": [
+        "[O`Reilly. Head First] - Head First Design Patterns - [Freeman].pdf",
+        "[O`Reilly. Head First] - Head First Design Patterns - [Freeman].pdf",
+        "[O`Reilly. Head First] - Head First Design Patterns - [Freeman].pdf",
+        "[O`Reilly. Head First] - Head First Design Patterns - [Freeman].pdf",
+        "[O`Reilly. Head First] - Head First Design Patterns - [Freeman].pdf"
+      ],
+      "latency_ms": 34.0
+    },
+    {
+      "category": "negative",
+      "query": "machine learning transformers",
+      "ranked": [
+        "Designing_Data-Intensive_Applications_-_Martin_Kleppmann.pdf",
+        "Database_System_Concepts_-_Abraham_Silberschatz.pdf",
+        "Database_System_Concepts_-_Abraham_Silberschatz.pdf",
+        "Database_System_Concepts_-_Abraham_Silberschatz.pdf",
+        "Database_System_Concepts_-_Abraham_Silberschatz.pdf"
+      ],
+      "latency_ms": 37.0
+    },
+    {
+      "category": "negative",
+      "query": "calculus integration",
+      "ranked": [
+        "Designing_Data-Intensive_Applications_-_Martin_Kleppmann.pdf",
+        "Cracking_the_SAT_Premium_Edition_with_8_Pr_-_The_Princeton_Review.pdf",
+        "Cracking_the_SAT_Premium_Edition_with_8_Pr_-_The_Princeton_Review.pdf",
+        "Cracking_the_SAT_Premium_Edition_with_8_Pr_-_The_Princeton_Review.pdf",
+        "Cracking_the_SAT_Premium_Edition_with_8_Pr_-_The_Princeton_Review.pdf"
+      ],
+      "latency_ms": 37.0
+    },
+    {
+      "category": "negative",
+      "query": "renaissance art",
+      "ranked": [
+        "english-grammar-and-composition-by-wren-and-martin-027eca86544ab.pdf",
+        "Word_Power_Made_Easy_-_Norman_Lewis.pdf",
+        "Cracking_the_SAT_Premium_Edition_with_8_Pr_-_The_Princeton_Review.pdf",
+        "Word_Power_Made_Easy_-_Norman_Lewis.pdf",
+        "Word_Power_Made_Easy_-_Norman_Lewis.pdf"
+      ],
+      "latency_ms": 41.0
+    },
+    {
+      "category": "negative",
+      "query": "climate change",
+      "ranked": [
+        "Cracking_the_SAT_Premium_Edition_with_8_Pr_-_The_Princeton_Review.pdf",
+        "english-grammar-and-composition-by-wren-and-martin-027eca86544ab.pdf",
+        "Cracking_the_SAT_Premium_Edition_with_8_Pr_-_The_Princeton_Review.pdf",
+        "Cracking_the_SAT_Premium_Edition_with_8_Pr_-_The_Princeton_Review.pdf",
+        "Cracking_the_SAT_Premium_Edition_with_8_Pr_-_The_Princeton_Review.pdf"
+      ],
+      "latency_ms": 36.5
+    },
+    {
+      "category": "negative",
+      "query": "world war 2",
+      "ranked": [
+        "Cracking_the_SAT_Premium_Edition_with_8_Pr_-_The_Princeton_Review.pdf",
+        "Cracking_the_SAT_Premium_Edition_with_8_Pr_-_The_Princeton_Review.pdf",
+        "Cracking_the_SAT_Premium_Edition_with_8_Pr_-_The_Princeton_Review.pdf",
+        "Cracking_the_SAT_Premium_Edition_with_8_Pr_-_The_Princeton_Review.pdf",
+        "Cracking_the_SAT_Premium_Edition_with_8_Pr_-_The_Princeton_Review.pdf"
+      ],
+      "latency_ms": 47.0
+    },
+    {
+      "category": "negative",
+      "query": "basketball rules",
+      "ranked": [
+        "english-grammar-and-composition-by-wren-and-martin-027eca86544ab.pdf",
+        "Object-Oriented_Programming_-_Amany_Fawzy_Elgamal.pdf",
+        "Verbal_and_Non_Verbal_RS.pdf",
+        "Verbal_and_Non_Verbal_RS.pdf",
+        "Ultimate_Aptitude_Tests_-_Jim_Barrett.pdf"
+      ],
+      "latency_ms": 38.5
+    },
+    {
+      "category": "negative",
+      "query": "pop music history",
+      "ranked": [
+        "Database_System_Concepts_-_Abraham_Silberschatz.pdf",
+        "Database_System_Concepts_-_Abraham_Silberschatz.pdf",
+        "Database_System_Concepts_-_Abraham_Silberschatz.pdf",
+        "Database_System_Concepts_-_Abraham_Silberschatz.pdf",
+        "Database_System_Concepts_-_Abraham_Silberschatz.pdf"
+      ],
+      "latency_ms": 35.0
+    },
+    {
+      "category": "negative",
+      "query": "ocean currents",
+      "ranked": [
+        "Word_Power_Made_Easy_-_Norman_Lewis.pdf",
+        "Word_Power_Made_Easy_-_Norman_Lewis.pdf",
+        "Operating_System_Concepts_-_Abraham_Silberschatz.pdf",
+        "Operating_System_Concepts_-_Abraham_Silberschatz.pdf",
+        "Database_System_Concepts_-_Abraham_Silberschatz.pdf"
+      ],
+      "latency_ms": 31.5
+    },
+    {
+      "category": "negative",
+      "query": "human anatomy",
+      "ranked": [
+        "Word_Power_Made_Easy_-_Norman_Lewis.pdf",
+        "Word_Power_Made_Easy_-_Norman_Lewis.pdf",
+        "Word_Power_Made_Easy_-_Norman_Lewis.pdf",
+        "Word_Power_Made_Easy_-_Norman_Lewis.pdf",
+        "Word_Power_Made_Easy_-_Norman_Lewis.pdf"
+      ],
+      "latency_ms": 35.0
+    },
+    {
+      "category": "negative",
+      "query": "medieval architecture",
+      "ranked": [
+        "Word_Power_Made_Easy_-_Norman_Lewis.pdf",
+        "english-grammar-and-composition-by-wren-and-martin-027eca86544ab.pdf",
+        "Verbal_and_Non_Verbal_RS.pdf",
+        "Verbal_and_Non_Verbal_RS.pdf",
+        "Verbal_and_Non_Verbal_RS.pdf"
+      ],
+      "latency_ms": 31.0
+    },
+    {
+      "category": "negative",
+      "query": "Shakespeare plays",
+      "ranked": [
+        "english-grammar-and-composition-by-wren-and-martin-027eca86544ab.pdf",
+        "Cracking_the_SAT_Premium_Edition_with_8_Pr_-_The_Princeton_Review.pdf",
+        "Cracking_the_SAT_Premium_Edition_with_8_Pr_-_The_Princeton_Review.pdf",
+        "english-grammar-and-composition-by-wren-and-martin-027eca86544ab.pdf",
+        "english-grammar-and-composition-by-wren-and-martin-027eca86544ab.pdf"
+      ],
+      "latency_ms": 34.0
+    },
+    {
+      "category": "negative",
+      "query": "global warming",
+      "ranked": [
+        "english-grammar-and-composition-by-wren-and-martin-027eca86544ab.pdf",
+        "Cracking_the_SAT_Premium_Edition_with_8_Pr_-_The_Princeton_Review.pdf",
+        "english-grammar-and-composition-by-wren-and-martin-027eca86544ab.pdf",
+        "Cracking_the_SAT_Premium_Edition_with_8_Pr_-_The_Princeton_Review.pdf",
+        "Cracking_the_SAT_Premium_Edition_with_8_Pr_-_The_Princeton_Review.pdf"
+      ],
+      "latency_ms": 32.0
+    }
+  ]
+}

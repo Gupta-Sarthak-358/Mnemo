@@ -1,0 +1,26 @@
+[project]
+name = "mnemo"
+version = "0.1.0"
+description = "Your files remember what you meant."
+requires-python = ">=3.10"
+dependencies = [
+    "fastapi>=0.104.0",
+    "uvicorn>=0.24.0",
+    "watchdog>=3.0.0",
+    "sentence-transformers>=2.2.0",
+    "PyMuPDF>=1.23.0",
+    "pdf2image>=1.16.0",
+    "pytesseract>=0.3.10",
+    "sqlite-vec>=0.1.0",
+    "pydantic>=2.0.0",
+    "pywin32>=306; platform_system == 'Windows'",
+    "pynput>=1.7.0",
+    "PyQt6>=6.5.0",
+]
+
+[project.scripts]
+mnemo = "mnemo.daemon:main"
+mnemo-debug = "mnemo.debug:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]

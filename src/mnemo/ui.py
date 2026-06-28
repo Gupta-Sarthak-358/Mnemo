@@ -460,8 +460,7 @@ def load_window_geometry():
 def make_chip(text, bg, fg, font_size=11):
     lbl = QLabel(text)
     lbl.setFont(QFont("Segoe UI", font_size, QFont.Weight.Medium))
-    lbl.setStyleSheet(f"background: {bg}; color: {fg}; padding: 2px 8px; border-radius: 6px;")
-    lbl.setFixedHeight(22)
+    lbl.setStyleSheet(f"background: {bg}; color: {fg}; padding: 4px 12px; border-radius: 6px;")
     return lbl
 
 
@@ -573,10 +572,17 @@ def run_ui():
             # Concept chips
             concepts = self._data.get("concepts", [])
             if concepts:
+                seen = set()
+                unique = []
+                for c in concepts:
+                    key = c.lower().strip()
+                    if key not in seen:
+                        seen.add(key)
+                        unique.append(c)
                 chip_row = QHBoxLayout()
                 chip_row.setSpacing(6)
                 chip_row.setContentsMargins(0, 0, 0, 0)
-                for c in concepts[:5]:
+                for c in unique[:5]:
                     chip_row.addWidget(make_chip(c.title(), C["concept_bg"], C["page"], 11))
                 chip_row.addStretch()
                 outer.addLayout(chip_row)
@@ -711,7 +717,7 @@ def run_ui():
             self.setGraphicsEffect(shadow)
             self.setCursor(Qt.CursorShape.PointingHandCursor)
             outer = QVBoxLayout(self)
-            outer.setContentsMargins(12, 10, 12, 10)
+            outer.setContentsMargins(12, 8, 12, 8)
             outer.setSpacing(4)
 
             top = QHBoxLayout()
@@ -737,7 +743,14 @@ def run_ui():
             meta = QHBoxLayout()
             meta.setSpacing(6)
             concepts = self._data.get("concepts", [])
-            for c in concepts[:2]:
+            seen_c = set()
+            unique_c = []
+            for c in concepts:
+                key = c.lower().strip()
+                if key not in seen_c:
+                    seen_c.add(key)
+                    unique_c.append(c)
+            for c in unique_c[:2]:
                 meta.addWidget(make_chip(c.title(), C["concept_bg"], C["page"], 11))
             raw_pn = self._data.get("page_num")
             disp = raw_pn + 1 if raw_pn is not None else "?"
@@ -938,7 +951,7 @@ def run_ui():
             self.scroll_content = QWidget()
             self.scroll_content.setStyleSheet(f"background: {C['bg']};")
             self.scroll_layout = QVBoxLayout(self.scroll_content)
-            self.scroll_layout.setContentsMargins(24, 8, 24, 8)
+            self.scroll_layout.setContentsMargins(16, 8, 16, 8)
             self.scroll_layout.setSpacing(0)
             self.scroll_layout.setAlignment(Qt.AlignmentFlag.AlignTop)
             self.scroll.setWidget(self.scroll_content)
@@ -1205,11 +1218,22 @@ def run_ui():
         def _show_results(self, result):
             self._clear_results()
             if not result or not result.get("results"):
-                nl = QLabel("No results found")
-                nl.setFont(QFont("Segoe UI", 13))
-                nl.setStyleSheet(f"color: {C['muted']}; background: transparent; padding: 40px 0;")
-                nl.setAlignment(Qt.AlignmentFlag.AlignCenter)
-                self.scroll_layout.addWidget(nl)
+                msg = QWidget()
+                msg.setStyleSheet("background: transparent;")
+                ml = QVBoxLayout(msg)
+                ml.setAlignment(Qt.AlignmentFlag.AlignCenter)
+                ml.setSpacing(4)
+                t = QLabel("No matches found")
+                t.setFont(QFont("Segoe UI", 15))
+                t.setStyleSheet(f"color: {C['secondary']}; background: transparent;")
+                t.setAlignment(Qt.AlignmentFlag.AlignCenter)
+                ml.addWidget(t)
+                s = QLabel("Try a different phrase or search for the concept itself")
+                s.setFont(QFont("Segoe UI", 12))
+                s.setStyleSheet(f"color: {C['muted']}; background: transparent;")
+                s.setAlignment(Qt.AlignmentFlag.AlignCenter)
+                ml.addWidget(s)
+                self.scroll_layout.addWidget(msg)
                 self.scroll_layout.addStretch()
                 return
 
@@ -1237,7 +1261,7 @@ def run_ui():
 
                 # Other Sources section
                 if len(groups) > 1:
-                    self.scroll_layout.addSpacing(16)
+                    self.scroll_layout.addSpacing(24)
                     sec2 = QLabel("OTHER SOURCES")
                     sec2.setFont(QFont("Segoe UI", 11, QFont.Weight.Medium))
                     sec2.setStyleSheet(f"color: {C['secondary']}; background: transparent; letter-spacing: 0.08em; padding-bottom: 4px;")

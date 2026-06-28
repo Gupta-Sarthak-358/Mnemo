@@ -930,6 +930,7 @@ def run_ui():
             self.scroll_layout = QVBoxLayout(self.scroll_content)
             self.scroll_layout.setContentsMargins(24, 16, 24, 16)
             self.scroll_layout.setSpacing(0)
+            self.scroll_layout.setAlignment(Qt.AlignmentFlag.AlignTop)
             self.scroll.setWidget(self.scroll_content)
             main.addWidget(self.scroll, 1)
 
@@ -989,7 +990,7 @@ def run_ui():
             if self._last_open:
                 sec = QLabel("CONTINUE READING")
                 sec.setFont(QFont("Segoe UI", 11, QFont.Weight.Medium))
-                sec.setStyleSheet(f"color: {C['secondary']}; background: transparent; letter-spacing: 0.08em; padding-bottom: 8px;")
+                sec.setStyleSheet(f"color: {C['secondary']}; background: transparent; letter-spacing: 0.08em; padding-bottom: 4px;")
                 self.scroll_layout.addWidget(sec)
 
                 cr = QWidget()
@@ -1023,15 +1024,15 @@ def run_ui():
 
             # Recent Searches section
             if self._recent_searches:
-                self.scroll_layout.addSpacing(16)
+                self.scroll_layout.addSpacing(8)
                 sec = QLabel("RECENT SEARCHES")
                 sec.setFont(QFont("Segoe UI", 11, QFont.Weight.Medium))
-                sec.setStyleSheet(f"color: {C['secondary']}; background: transparent; letter-spacing: 0.08em; padding-bottom: 8px;")
+                sec.setStyleSheet(f"color: {C['secondary']}; background: transparent; letter-spacing: 0.08em; padding-bottom: 4px;")
                 self.scroll_layout.addWidget(sec)
                 for sq in reversed(self._recent_searches[-5:]):
                     r = QLabel(f"  {sq}")
                     r.setFont(QFont("Segoe UI", 12))
-                    r.setStyleSheet(f"color: {C['secondary']}; background: transparent; padding: 6px 0;")
+                    r.setStyleSheet(f"color: {C['secondary']}; background: transparent; padding: 4px 0;")
                     r.setCursor(Qt.CursorShape.PointingHandCursor)
                     q_text = sq
                     r.mousePressEvent = lambda e, q=q_text: self._run_recent(q)
@@ -1114,7 +1115,7 @@ def run_ui():
             if groups:
                 sec = QLabel("BEST MATCH")
                 sec.setFont(QFont("Segoe UI", 11, QFont.Weight.Medium))
-                sec.setStyleSheet(f"color: {C['secondary']}; background: transparent; letter-spacing: 0.08em; padding-bottom: 8px;")
+                sec.setStyleSheet(f"color: {C['secondary']}; background: transparent; letter-spacing: 0.08em; padding-bottom: 4px;")
                 self.scroll_layout.addWidget(sec)
                 first_group = groups[0]
                 if len(first_group["pages"]) == 1:
@@ -1126,10 +1127,10 @@ def run_ui():
 
                 # Other Sources section
                 if len(groups) > 1:
-                    self.scroll_layout.addSpacing(24)
+                    self.scroll_layout.addSpacing(16)
                     sec2 = QLabel("OTHER SOURCES")
                     sec2.setFont(QFont("Segoe UI", 11, QFont.Weight.Medium))
-                    sec2.setStyleSheet(f"color: {C['secondary']}; background: transparent; letter-spacing: 0.08em; padding-bottom: 8px;")
+                    sec2.setStyleSheet(f"color: {C['secondary']}; background: transparent; letter-spacing: 0.08em; padding-bottom: 4px;")
                     self.scroll_layout.addWidget(sec2)
                     for g in groups[1:]:
                         data = g["pages"][0]

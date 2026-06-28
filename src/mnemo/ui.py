@@ -654,8 +654,15 @@ def run_ui():
             sc.addWidget(self._snippet_label)
             outer.addWidget(self._snippet_container)
 
-            # Click anywhere to open (on Enter or double-click)
             self.setCursor(Qt.CursorShape.PointingHandCursor)
+
+        def set_selected(self, selected):
+            if not hasattr(self, '_orig_style'):
+                self._orig_style = self.styleSheet()
+            if selected:
+                self.setStyleSheet(self._orig_style + f"\n#featuredCard{{border: 2px solid {C['accent']}; background: {C['hover']};}}")
+            else:
+                self.setStyleSheet(self._orig_style)
 
         def mousePressEvent(self, event):
             self._open_page(self._data)
@@ -759,6 +766,14 @@ def run_ui():
             meta.addWidget(pg)
             meta.addStretch()
             outer.addLayout(meta)
+
+        def set_selected(self, selected):
+            if not hasattr(self, '_orig_style'):
+                self._orig_style = self.styleSheet()
+            if selected:
+                self.setStyleSheet(self._orig_style + f"\n#secondaryCard{{border: 2px solid {C['accent']}; border-left: 4px solid {C['accent']}; background: {C['hover']};}}")
+            else:
+                self.setStyleSheet(self._orig_style)
 
         def mousePressEvent(self, event):
             self._open_page(self._data)
@@ -887,7 +902,7 @@ def run_ui():
             self.setWindowTitle("Mnemo")
             self.setWindowFlags(Qt.WindowType.Window)
             self.setMinimumSize(640, 450)
-            self.resize(820, 520)
+            self.resize(820, 550)
             self.setStyleSheet(f"background: {C['bg']}; color: {C['fg']};")
             self._hotkey_ref = hotkey_ref
             self._result_cards = []
@@ -984,15 +999,20 @@ def run_ui():
             ftr.addWidget(shortkey("Open", "↵"))
             ftr.addWidget(shortkey("Dismiss", "ESC"))
             ftr.addStretch()
-            status = QLabel("● Engine Ready")
-            status.setFont(QFont("Segoe UI", 9))
-            status.setStyleSheet(f"color: {C['muted']}; background: transparent;")
-            ftr.addWidget(status)
+            self._status_lbl = QLabel("●")
+            self._status_lbl.setFont(QFont("Segoe UI", 9))
+            self._status_lbl.setStyleSheet(f"color: {C['muted']}; background: transparent;")
+            ftr.addWidget(self._status_lbl)
+            self._status_txt = QLabel("Engine Ready")
+            self._status_txt.setFont(QFont("Segoe UI", 9))
+            self._status_txt.setStyleSheet(f"color: {C['muted']}; background: transparent;")
+            ftr.addWidget(self._status_txt)
             main.addWidget(footer)
 
             self._search_timer = QTimer()
             self._search_timer.setSingleShot(True)
             self._search_timer.timeout.connect(self._do_search)
+            QTimer.singleShot(1000, self._check_daemon_health)
             self._current_query = ""
             self._last_query = ""
             self._recent_searches = load_recent_searches()
@@ -1279,9 +1299,7 @@ def run_ui():
 
         def _highlight_card(self, index):
             for i, c in enumerate(self._result_cards):
-                c.setProperty("nav_selected", "true" if i == index else "")
-                c.style().unpolish(c)
-                c.style().polish(c)
+                c.set_selected(i == index)
                 c.update()
 
         def _activate_selected(self):
@@ -1289,6 +1307,14 @@ def run_ui():
                 card = self._result_cards[self._selected_index]
                 if hasattr(card, '_open_page'):
                     card._open_page(card._data)
+
+        def _check_daemon_health(self):
+            try:
+                r = urllib.request.urlopen(f"{API_BASE}/status", timeout=2)
+                if r.getcode() == 200:
+                    self._status_lbl.setStyleSheet(f"color: #4ADE80; background: transparent;")
+            except Exception:
+                pass
 
         def eventFilter(self, obj, event):
             if obj is self.search_input and event.type() == QEvent.Type.KeyPress:

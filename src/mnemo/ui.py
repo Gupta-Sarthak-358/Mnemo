@@ -243,12 +243,12 @@ LIGHT_COLORS = {
 }
 
 DARK_COLORS = {
-    "bg": "#0F0F0F", "fg": "#E8E8E8", "card_bg": "#1A1A1A",
+    "bg": "#0F0F0F", "fg": "#E8E8E8", "card_bg": "#1E1E1E",
     "border": "#2A2A2A", "input_bg": "transparent", "input_border": "#2A2A2A",
     "hover": "#252525", "selected": "#333535", "secondary": "#C3C6D4",
     "muted": "#888888", "page": "#AAAAAA", "score": "#AAAAAA",
     "highlight_bg": "transparent", "highlight_fg": "#E8E8E8",
-    "accent": "#5B8DEF", "concept_bg": "#252525", "page_bg": "#1E2A3A",
+    "accent": "#5B8DEF", "concept_bg": "#252525", "page_bg": "#1E2D3D",
     "card_sep": "#2A2A2A", "card_hover": "#3A3A3A", "surface_lowest": "#0c0f0f",
 }
 
@@ -351,9 +351,11 @@ def save_recent_searches(searches):
         seen = set()
         deduped = []
         for s in searches:
-            if s not in seen:
-                seen.add(s)
-                deduped.append(s)
+            q = s["query"] if isinstance(s, dict) else s
+            if q not in seen:
+                seen.add(q)
+                entry = {"query": q, "page": s.get("page") if isinstance(s, dict) else None}
+                deduped.append(entry)
         trimmed = deduped[-20:]
         path = os.path.join(os.path.expanduser("~/.mnemo"), "recent_searches.json")
         with open(path, "w") as f:
@@ -366,9 +368,17 @@ def load_recent_searches():
     try:
         path = os.path.join(os.path.expanduser("~/.mnemo"), "recent_searches.json")
         with open(path) as f:
-            return json.load(f)
+            data = json.load(f)
+        if data and isinstance(data[0], str):
+            return [{"query": s, "page": None} for s in data]
+        return data
     except Exception:
         return []
+
+def add_recent_search(query, page=None):
+    searches = load_recent_searches()
+    searches.append({"query": query, "page": page})
+    save_recent_searches(searches)
 
 
 def highlight_terms(text, query, highlight_bg, highlight_fg):
@@ -642,6 +652,7 @@ def run_ui():
             pn = data.get("page_num")
             api_log_open(q, data["path"], data["file_id"], pn)
             save_last_open(data["path"], data["filename"], pn, data.get("author", ""))
+            add_recent_search(q, pn)
             open_pdf(data["path"], pn)
             w = self.window()
             if w:
@@ -715,6 +726,7 @@ def run_ui():
             pn = data.get("page_num")
             api_log_open(q, data["path"], data["file_id"], pn)
             save_last_open(data["path"], data["filename"], pn, data.get("author", ""))
+            add_recent_search(q, pn)
             open_pdf(data["path"], pn)
             w = self.window()
             if w:
@@ -1024,22 +1036,21 @@ def run_ui():
                 self.scroll_layout.addSpacing(16)
                 sec = QLabel("RECENT SEARCHES")
                 sec.setFont(QFont("Segoe UI", 11, QFont.Weight.Medium))
-                sec.setStyleSheet(f"color: {C['secondary']}; background: transparent; letter-spacing: 0.08em; padding-bottom: 8px;")
+                sec.setStyleSheet(f"color: {C['secondary']}; background: transparent; letter-spacing: 0.08em; padding-bottom: 4px;")
                 self.scroll_layout.addWidget(sec)
 
-                chips_w = QWidget()
-                chips_w.setStyleSheet("background: transparent;")
-                chips_l = QHBoxLayout(chips_w)
-                chips_l.setContentsMargins(0, 0, 0, 0)
-                chips_l.setSpacing(6)
-                for sq in reversed(self._recent_searches[-6:]):
-                    chip = make_chip(sq, C["concept_bg"], C["secondary"], 11)
-                    chip.setCursor(Qt.CursorShape.PointingHandCursor)
-                    q_text = sq
-                    chip.mousePressEvent = lambda e, q=q_text: self._run_recent(q)
-                    chips_l.addWidget(chip)
-                chips_l.addStretch()
-                self.scroll_layout.addWidget(chips_w)
+                for entry in reversed(self._recent_searches[-8:]):
+                    q = entry["query"] if isinstance(entry, dict) else entry
+                    pg = entry.get("page") if isinstance(entry, dict) else None
+                    display = q
+                    if pg is not None:
+                        display += f"  ·  p. {pg + 1}"
+                    r = QLabel(f"  {display}")
+                    r.setFont(QFont("Segoe UI", 12))
+                    r.setStyleSheet(f"color: {C['secondary']}; background: transparent; padding: 4px 0;")
+                    r.setCursor(Qt.CursorShape.PointingHandCursor)
+                    r.mousePressEvent = lambda e, ent=entry: self._run_recent(ent)
+                    self.scroll_layout.addWidget(r)
 
             # Search tips when no recent activity
             if not has_content:
@@ -1064,7 +1075,8 @@ def run_ui():
             open_pdf(data["path"], data.get("page"))
             self.hide()
 
-        def _run_recent(self, q):
+        def _run_recent(self, entry):
+            q = entry["query"] if isinstance(entry, dict) else entry
             self.search_input.setText(q)
             self.search_input.setFocus()
 

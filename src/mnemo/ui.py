@@ -469,6 +469,26 @@ def run_ui():
             self._snippet_widget = None
             self._build()
 
+        @staticmethod
+        def _make_badge(score):
+            if score >= 0.70:
+                label_text = "Strong"
+                bg = "#1A3A2A"
+                dot = "🟢"
+            elif score >= 0.50:
+                label_text = "Good"
+                bg = "#3A3A1A"
+                dot = "🟡"
+            else:
+                label_text = "Mention"
+                bg = "#2A2A2A"
+                dot = "⚪"
+            badge = QLabel(f"{dot} {label_text}")
+            badge.setFont(QFont("Segoe UI", 11))
+            badge.setStyleSheet(f"background: {bg}; color: {C['fg']}; padding: 2px 10px; border-radius: 10px;")
+            badge.setFixedHeight(22)
+            return badge
+
         def _build(self):
             self.setObjectName("featuredCard")
             self.setAttribute(Qt.WidgetAttribute.WA_Hover)
@@ -489,91 +509,93 @@ def run_ui():
             shadow.setColor(QColor(0, 0, 0, 50))
             self.setGraphicsEffect(shadow)
             outer = QVBoxLayout(self)
-            outer.setContentsMargins(10, 10, 10, 10)
+            outer.setContentsMargins(12, 12, 12, 12)
             outer.setSpacing(12)
 
-            # Header row: icon + title/author + confidence
+            color = book_color(self._data["filename"])
+
+            # Header: icon | title + author | confidence badge
             header = QHBoxLayout()
             header.setSpacing(12)
 
             icon_w = QWidget()
-            icon_w.setFixedSize(40, 48)
-            color = book_color(self._data["filename"])
-            icon_w.setStyleSheet(f"background: {C['card_bg']}; border-left: 4px solid {color}; border-radius: 4px;")
-            icon_lbl = icon_label("book", 24, color)
-            icon_layout = QVBoxLayout(icon_w)
-            icon_layout.setContentsMargins(0, 0, 0, 0)
-            icon_layout.setAlignment(Qt.AlignmentFlag.AlignCenter)
-            icon_layout.addWidget(icon_lbl)
+            icon_w.setFixedSize(36, 44)
+            icon_w.setStyleSheet(f"background: {C['card_bg']}; border-left: 3px solid {color}; border-radius: 4px;")
+            icon_lbl = icon_label("book", 20, color)
+            icon_l = QVBoxLayout(icon_w)
+            icon_l.setContentsMargins(0, 0, 0, 0)
+            icon_l.setAlignment(Qt.AlignmentFlag.AlignCenter)
+            icon_l.addWidget(icon_lbl)
             header.addWidget(icon_w)
 
             title_col = QVBoxLayout()
-            title_col.setSpacing(1)
+            title_col.setSpacing(2)
             name = QLabel(clean_filename(self._data["filename"]))
-            name.setFont(QFont("Segoe UI", 16, QFont.Weight.Medium))
+            name.setFont(QFont("Segoe UI", 15, QFont.Weight.Medium))
             name.setStyleSheet(f"color: {C['fg']}; background: transparent;")
             name.setWordWrap(False)
             title_col.addWidget(name)
-
             author_name = self._data.get("author") or self._data.get("heading")
             if author_name:
-                author_lbl = QLabel(author_name[:60])
-                author_lbl.setFont(QFont("Segoe UI", 13))
-                author_lbl.setStyleSheet(f"color: {C['secondary']}; background: transparent;")
-                title_col.addWidget(author_lbl)
+                a = QLabel(author_name[:50])
+                a.setFont(QFont("Segoe UI", 12))
+                a.setStyleSheet(f"color: {C['secondary']}; background: transparent;")
+                title_col.addWidget(a)
             header.addLayout(title_col, 1)
 
-            conf = QLabel(confidence_label(self._data.get("score", 0)))
-            conf.setFont(QFont("Segoe UI", 12))
-            conf.setStyleSheet(f"color: {C['muted']}; background: transparent;")
-            header.addWidget(conf)
-
+            header.addWidget(self._make_badge(self._data.get("score", 0)))
             outer.addLayout(header)
 
-            # Concepts
+            # Why this matched — one-sentence explanation from snippet
+            snippet = self._data.get("snippet", "")
+            if snippet:
+                explanation = extract_best_sentences(snippet, self._query, 1)
+                if explanation:
+                    why_lbl = QLabel(explanation)
+                    why_lbl.setFont(QFont("Segoe UI", 12))
+                    why_lbl.setStyleSheet(f"color: {C['secondary']}; background: transparent;")
+                    why_lbl.setWordWrap(True)
+                    outer.addWidget(why_lbl)
+
+            # Concept chips
             concepts = self._data.get("concepts", [])
             if concepts:
-                why = QLabel("Why this matched")
-                why.setFont(QFont("Segoe UI", 10))
-                why.setStyleSheet(f"color: {C['secondary']}; background: transparent;")
-                outer.addWidget(why)
                 chip_row = QHBoxLayout()
-                chip_row.setSpacing(8)
+                chip_row.setSpacing(6)
                 chip_row.setContentsMargins(0, 0, 0, 0)
                 for c in concepts[:5]:
-                    chip_row.addWidget(make_chip(c.title(), C["concept_bg"], C["page"], 12))
+                    chip_row.addWidget(make_chip(c.title(), C["concept_bg"], C["page"], 11))
                 chip_row.addStretch()
                 outer.addLayout(chip_row)
 
-            # Pages
+            # Pages + More context link
+            bottom = QHBoxLayout()
+            bottom.setSpacing(8)
+
             best_page = self._data.get("page_num")
             raw = best_page if best_page is not None else None
-            page_row = QHBoxLayout()
-            page_row.setSpacing(8)
-            page_row.setContentsMargins(0, 0, 0, 0)
-
             main_chip = QWidget()
             main_chip.setStyleSheet(f"background: {C['page_bg']}; border-radius: 6px;")
-            mc_layout = QHBoxLayout(main_chip)
-            mc_layout.setContentsMargins(8, 2, 8, 2)
-            mc_layout.setSpacing(3)
-            p_label = QLabel("p.")
-            p_label.setFont(QFont("Segoe UI", 10))
-            p_label.setStyleSheet(f"color: {C['accent']}; background: transparent;")
-            mc_layout.addWidget(p_label)
+            mc = QHBoxLayout(main_chip)
+            mc.setContentsMargins(8, 2, 8, 2)
+            mc.setSpacing(3)
+            p_lbl = QLabel("p.")
+            p_lbl.setFont(QFont("Segoe UI", 10))
+            p_lbl.setStyleSheet(f"color: {C['accent']}; background: transparent;")
+            mc.addWidget(p_lbl)
             p_num = QLabel(str(raw + 1 if raw is not None else "?"))
             p_num.setFont(QFont("Segoe UI", 12, QFont.Weight.DemiBold))
             p_num.setStyleSheet(f"color: {C['accent']}; background: transparent;")
-            mc_layout.addWidget(p_num)
+            mc.addWidget(p_num)
             main_chip.mousePressEvent = lambda e: self._open_page(self._data)
             main_chip.setCursor(Qt.CursorShape.PointingHandCursor)
-            page_row.addWidget(main_chip)
+            bottom.addWidget(main_chip)
 
             if len(self._pages) > 1:
                 also = QLabel("Also on:")
-                also.setFont(QFont("Segoe UI", 12))
+                also.setFont(QFont("Segoe UI", 11))
                 also.setStyleSheet(f"color: {C['secondary']}; background: transparent;")
-                page_row.addWidget(also)
+                bottom.addWidget(also)
                 for p in self._pages[1:4]:
                     raw_pn = p.get("page_num")
                     disp = raw_pn + 1 if raw_pn is not None else "?"
@@ -583,54 +605,41 @@ def run_ui():
                     chip.setFixedHeight(22)
                     chip.setCursor(Qt.CursorShape.PointingHandCursor)
                     chip.mousePressEvent = lambda e, pd=p: self._open_page(pd)
-                    page_row.addWidget(chip)
-            page_row.addStretch()
-            outer.addLayout(page_row)
+                    bottom.addWidget(chip)
 
-            # Actions
-            action_row = QHBoxLayout()
-            action_row.setSpacing(8)
-            open_btn = QPushButton("Open")
-            open_btn.setFont(QFont("Segoe UI", 13, QFont.Weight.Medium))
-            open_btn.setFixedHeight(32)
-            open_btn.setCursor(Qt.CursorShape.PointingHandCursor)
-            open_btn.setStyleSheet(f"""
-                QPushButton {{
-                    background: {C['accent']}; color: #fff; border: none; border-radius: 6px; padding: 0 16px;
-                }}
-                QPushButton:hover {{ background: #4a7de0; }}
-            """)
-            open_btn.clicked.connect(lambda: self._open_page(self._data))
-            action_row.addWidget(open_btn)
+            bottom.addStretch()
 
             self._more_btn = QPushButton("More context")
-            self._more_btn.setFont(QFont("Segoe UI", 13))
-            self._more_btn.setFixedHeight(32)
+            self._more_btn.setFont(QFont("Segoe UI", 11))
             self._more_btn.setCursor(Qt.CursorShape.PointingHandCursor)
             self._more_btn.setStyleSheet(f"""
-                QPushButton {{
-                    background: transparent; color: {C['muted']}; border: 1px solid transparent; border-radius: 6px; padding: 0 12px;
-                }}
-                QPushButton:hover {{ border-color: {C['card_hover']}; color: {C['secondary']}; }}
+                QPushButton {{ background: transparent; color: {C['muted']}; border: none; padding: 0 4px; }}
+                QPushButton:hover {{ color: {C['accent']}; }}
             """)
             self._more_btn.clicked.connect(self._toggle_snippet)
-            action_row.addWidget(self._more_btn)
-            action_row.addStretch()
-            outer.addLayout(action_row)
+            bottom.addWidget(self._more_btn)
 
-            # Snippet (hidden by default)
+            outer.addLayout(bottom)
+
+            # Snippet (hidden)
             self._snippet_container = QWidget()
             self._snippet_container.setVisible(False)
             self._snippet_container.setStyleSheet(f"border-top: 1px solid {C['border']};")
             sc = QVBoxLayout(self._snippet_container)
-            sc.setContentsMargins(0, 16, 0, 0)
+            sc.setContentsMargins(0, 12, 0, 0)
             self._snippet_label = QLabel("")
-            self._snippet_label.setFont(QFont("Segoe UI", 13))
+            self._snippet_label.setFont(QFont("Segoe UI", 12))
             self._snippet_label.setStyleSheet(f"color: {C['secondary']}; background: transparent; border: none;")
             self._snippet_label.setWordWrap(True)
             self._snippet_label.setTextFormat(Qt.TextFormat.RichText)
             sc.addWidget(self._snippet_label)
             outer.addWidget(self._snippet_container)
+
+            # Click anywhere to open (on Enter or double-click)
+            self.setCursor(Qt.CursorShape.PointingHandCursor)
+
+        def mousePressEvent(self, event):
+            self._open_page(self._data)
 
         def _toggle_snippet(self):
             self._expanded = not self._expanded
@@ -685,33 +694,19 @@ def run_ui():
             shadow.setColor(QColor(0, 0, 0, 40))
             self.setGraphicsEffect(shadow)
             self.setCursor(Qt.CursorShape.PointingHandCursor)
-            outer = QHBoxLayout(self)
-            outer.setContentsMargins(12, 12, 12, 12)
-            outer.setSpacing(12)
+            outer = QVBoxLayout(self)
+            outer.setContentsMargins(12, 10, 12, 10)
+            outer.setSpacing(4)
 
-            outer.addWidget(icon_label("book", 20, clr))
-
-            info = QVBoxLayout()
-            info.setSpacing(3)
-            title_row = QHBoxLayout()
-            title_row.setSpacing(8)
+            top = QHBoxLayout()
+            top.setSpacing(10)
+            top.addWidget(icon_label("book", 18, clr))
             name = QLabel(clean_filename(self._data["filename"]))
             name.setFont(QFont("Segoe UI", 12))
             name.setStyleSheet(f"color: {C['fg']}; background: transparent;")
-            title_row.addWidget(name)
-            conf = QLabel(confidence_label(self._data.get("score", 0)))
-            conf.setFont(QFont("Segoe UI", 11))
-            conf.setStyleSheet(f"color: {C['muted']}; background: transparent;")
-            title_row.addWidget(conf)
-            title_row.addStretch()
-            info.addLayout(title_row)
-
-            author_name = self._data.get("author") or ""
-            if author_name:
-                a = QLabel(author_name[:50])
-                a.setFont(QFont("Segoe UI", 11))
-                a.setStyleSheet(f"color: {C['secondary']}; background: transparent;")
-                info.addWidget(a)
+            top.addWidget(name, 1)
+            top.addWidget(FeaturedCard._make_badge(self._data.get("score", 0)))
+            outer.addLayout(top)
 
             meta = QHBoxLayout()
             meta.setSpacing(6)
@@ -720,34 +715,11 @@ def run_ui():
                 meta.addWidget(make_chip(c.title(), C["concept_bg"], C["page"], 11))
             raw_pn = self._data.get("page_num")
             disp = raw_pn + 1 if raw_pn is not None else "?"
-            page_chip = make_chip(str(disp), C["page_bg"], C["accent"], 11)
-            page_chip.setStyleSheet(f"background: {C['page_bg']}; color: {C['accent']}; padding: 2px 8px; border-radius: 6px;")
-            meta.addWidget(page_chip)
+            pg = make_chip(f"p. {disp}", C["page_bg"], C["accent"], 11)
+            pg.setStyleSheet(f"background: {C['page_bg']}; color: {C['accent']}; padding: 2px 8px; border-radius: 6px;")
+            meta.addWidget(pg)
             meta.addStretch()
-            info.addLayout(meta)
-            outer.addLayout(info, 1)
-
-            self._open_btn = QPushButton("Open")
-            self._open_btn.setFont(QFont("Segoe UI", 12))
-            self._open_btn.setFixedHeight(28)
-            self._open_btn.setCursor(Qt.CursorShape.PointingHandCursor)
-            self._open_btn.setStyleSheet(f"""
-                QPushButton {{
-                    background: {C['accent']}; color: #fff; border: none; border-radius: 6px; padding: 0 12px;
-                }}
-                QPushButton:hover {{ background: #4a7de0; }}
-            """)
-            self._open_btn.setVisible(False)
-            self._open_btn.clicked.connect(lambda: self._open_page(self._data))
-            outer.addWidget(self._open_btn)
-
-        def enterEvent(self, event):
-            self._open_btn.setVisible(True)
-            super().enterEvent(event)
-
-        def leaveEvent(self, event):
-            self._open_btn.setVisible(False)
-            super().leaveEvent(event)
+            outer.addLayout(meta)
 
         def mousePressEvent(self, event):
             self._open_page(self._data)
@@ -901,7 +873,7 @@ def run_ui():
             sb_layout.addWidget(search_icon)
 
             self.search_input = QLineEdit()
-            self.search_input.setPlaceholderText("Search your library...")
+            self.search_input.setPlaceholderText("Search what you remember...")
             self.search_input.setFont(QFont("Segoe UI", 13))
             self.search_input.setStyleSheet(f"""
                 QLineEdit {{
@@ -945,24 +917,24 @@ def run_ui():
             self.scroll.setWidget(self.scroll_content)
             main.addWidget(self.scroll, 1)
 
-            # Footer — 40px
+            # Footer — 32px, subdued
             footer = QWidget()
-            footer.setFixedHeight(40)
-            footer.setStyleSheet(f"background: {C['surface_lowest']}; border-top: 1px solid {C['border']};")
+            footer.setFixedHeight(32)
+            footer.setStyleSheet(f"background: {C['surface_lowest']};")
             ftr = QHBoxLayout(footer)
-            ftr.setContentsMargins(24, 0, 24, 0)
+            ftr.setContentsMargins(20, 0, 20, 0)
 
             def shortkey(text, key):
                 w = QWidget()
                 w.setStyleSheet("background: transparent;")
                 r = QHBoxLayout(w)
                 r.setContentsMargins(0, 0, 0, 0)
-                r.setSpacing(6)
+                r.setSpacing(4)
                 k = QLabel(key)
-                k.setFont(QFont("Segoe UI", 9))
-                k.setStyleSheet(f"background: {C['hover']}; color: {C['muted']}; padding: 0 6px; border: 1px solid {C['border']}; border-radius: 3px;")
+                k.setFont(QFont("Segoe UI", 8))
+                k.setStyleSheet(f"color: {C['muted']}; background: transparent;")
                 l = QLabel(text.upper())
-                l.setFont(QFont("Segoe UI", 10, QFont.Weight.Medium))
+                l.setFont(QFont("Segoe UI", 9))
                 l.setStyleSheet(f"color: {C['muted']}; background: transparent;")
                 r.addWidget(k)
                 r.addWidget(l)
@@ -973,8 +945,8 @@ def run_ui():
             ftr.addWidget(shortkey("Dismiss", "ESC"))
             ftr.addStretch()
             status = QLabel("● Engine Ready")
-            status.setFont(QFont("Segoe UI", 10, QFont.Weight.Medium))
-            status.setStyleSheet(f"color: {C['accent']}; background: transparent;")
+            status.setFont(QFont("Segoe UI", 9))
+            status.setStyleSheet(f"color: {C['muted']}; background: transparent;")
             ftr.addWidget(status)
             main.addWidget(footer)
 

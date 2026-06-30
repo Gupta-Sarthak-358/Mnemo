@@ -10,3 +10,35 @@ __pycache__/
 books_for_study/
 .DS_Store
 Thumbs.db
+
+# Build artifacts
+dist/
+build/
+*.spec
+
+# Bundled dependencies (build-time only)
+models/
+tesseract/
+*.zip
+
+# Runtime logs
+*.log
+mnemo_stdout.log
+mnemo_stderr.log
+mnemo_crash.log
+mnemo_debug.log
+mnemo_daemon_debug.log
+
+# Test data & temp
+tests/
+benchmarks/results/
+benchmarks/queries_v3.json
+
+# Config
+installer.iss
+mnemo.ico
+PRODUCT.md
+scripts/
+
+# Stray PDFs tracked accidentally
+*.pdf

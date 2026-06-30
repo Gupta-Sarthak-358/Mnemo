@@ -2,6 +2,7 @@ import hashlib
 import logging
 import re
 import shutil
+import sys
 from collections import Counter
 from pathlib import Path
 
@@ -13,9 +14,38 @@ OCR_AVAILABLE = False
 OCR_QUALITY_THRESHOLD = 0.5
 
 
+def _bundled_tesseract():
+    if getattr(sys, "frozen", False):
+        base = Path(sys._MEIPASS)
+        candidates = [
+            base / "_internal" / "tesseract" / "tesseract.exe",
+            base / "tesseract" / "tesseract.exe",
+        ]
+    else:
+        candidates = [
+            Path(__file__).resolve().parent.parent.parent / "tesseract" / "tesseract.exe",
+        ]
+    for exe in candidates:
+        if exe.is_file():
+            return str(exe)
+    return None
+
+
 def check_ocr():
     global OCR_AVAILABLE
-    if shutil.which("tesseract") is not None:
+    tesseract = shutil.which("tesseract")
+    if tesseract is None:
+        tesseract = _bundled_tesseract()
+    if tesseract is None:
+        common = Path(r"C:\Program Files\Tesseract-OCR\tesseract.exe")
+        if common.exists():
+            tesseract = str(common)
+    if tesseract is not None:
+        try:
+            import pytesseract
+            pytesseract.pytesseract.tesseract_cmd = tesseract
+        except ImportError:
+            pass
         OCR_AVAILABLE = True
         return True
     logger.warning(
@@ -146,21 +176,57 @@ def parse_pdf(path):
         return [], 0
 
 
+MAX_OCR_PIXELS = 50_000_000
+MAX_OCR_TILE_HEIGHT = 8000
+OCR_TILE_OVERLAP = 200
+OCR_DPI = 200
+
+
+def _ocr_image_safe(img):
+    """OCR an image, tiling if too tall to avoid Tesseract's dimension limit."""
+    import pytesseract
+    from PIL import Image
+    width, height = img.size
+    if height <= MAX_OCR_TILE_HEIGHT:
+        return pytesseract.image_to_string(img)
+    texts = []
+    y = 0
+    while y < height:
+        tile = img.crop((0, y, width, min(y + MAX_OCR_TILE_HEIGHT, height)))
+        text = pytesseract.image_to_string(tile)
+        texts.append(text)
+        y += MAX_OCR_TILE_HEIGHT - OCR_TILE_OVERLAP
+    return "\n".join(texts)
+
+
 def ocr_page(path, page_num):
     if not OCR_AVAILABLE:
         return ""
     try:
-        from pdf2image import convert_from_path
-        import pytesseract
-        images = convert_from_path(
-            path, first_page=page_num + 1, last_page=page_num + 1
-        )
-        if images:
-            text = pytesseract.image_to_string(images[0])
-            if is_ocr_garbage(text):
-                logger.warning("OCR garbage detected for %s page %d", path, page_num)
-                return ""
-            return text
+        import fitz
+        from PIL import Image
+        import io
+
+        doc = fitz.open(path)
+        page = doc[page_num]
+        rect = page.rect
+
+        dpi = OCR_DPI
+        width = int(rect.width * dpi / 72)
+        height = int(rect.height * dpi / 72)
+        pixels = width * height
+        if pixels > MAX_OCR_PIXELS:
+            dpi = max(72, int(dpi * (MAX_OCR_PIXELS / pixels) ** 0.5))
+
+        pix = page.get_pixmap(dpi=dpi)
+        img_data = pix.tobytes("png")
+        image = Image.open(io.BytesIO(img_data))
+        text = _ocr_image_safe(image)
+        doc.close()
+        if is_ocr_garbage(text):
+            logger.warning("OCR garbage detected for %s page %d", path, page_num)
+            return ""
+        return text
     except Exception as e:
         logger.error("OCR failed for %s page %d: %s", path, page_num, e)
     return ""

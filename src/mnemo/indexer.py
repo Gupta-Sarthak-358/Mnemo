@@ -5,6 +5,7 @@ from pathlib import Path
 from . import db as db_module
 from . import parser
 from .chunker import chunk_text
+from .cleaning import clean_pages
 from .embedder import load_model, embed_batch
 from .enrich import extract_heading, extract_concepts
 from .config import load_config
@@ -46,6 +47,17 @@ def index_file(conn, path, model_name):
         logger.warning("No content extracted from %s", path_str)
         return None
 
+    cfg = load_config()
+    noise_cfg = cfg.get("noise_cleaning", {})
+    if noise_cfg.get("enabled", True):
+        noise = clean_pages(
+            pages,
+            min_occurrences=noise_cfg.get("min_occurrences", 10),
+            max_words=noise_cfg.get("max_words", 8),
+        )
+        if noise:
+            logger.info("Removed %d repeated noise fragments from %s", len(noise), path_str)
+
     author = ""
     if file_type == "pdf":
         meta = parser.get_pdf_metadata(path_str)
@@ -73,22 +85,24 @@ def index_file(conn, path, model_name):
 
     all_chunks = []
     ocr_count = 0
-    for page in pages:
+    for i, page in enumerate(pages):
         if page["ocr_needed"]:
             ocr_count += 1
             db_module.upsert_page(
                 conn, file_id, page["page_num"], "", page["quality"], "needs_ocr", "pending",
             )
-            continue
+        else:
+            db_module.upsert_page(
+                conn, file_id, page["page_num"], page["page_hash"], page["quality"], "extracted", "text",
+            )
 
-        db_module.upsert_page(
-            conn, file_id, page["page_num"], page["page_hash"], page["quality"], "extracted", "text",
-        )
+            page_chunks = chunk_text(page["text"], base_chunk_index=len(all_chunks))
+            for c in page_chunks:
+                c["page_num"] = page["page_num"]
+            all_chunks.extend(page_chunks)
 
-        page_chunks = chunk_text(page["text"], base_chunk_index=len(all_chunks))
-        for c in page_chunks:
-            c["page_num"] = page["page_num"]
-        all_chunks.extend(page_chunks)
+        if i > 0 and i % 50 == 0:
+            conn.commit()
 
     conn.commit()
 
@@ -149,7 +163,10 @@ def process_ocr_queue(conn):
             conn.commit()
             continue
 
-        page_chunks = chunk_text(text)
+        # Compute base chunk index to avoid collisions with existing chunks
+        cur = conn.execute("SELECT COALESCE(MAX(chunk_index), -1) FROM chunks WHERE file_id = ?", (page["file_id"],))
+        base_idx = cur.fetchone()[0] + 1
+        page_chunks = chunk_text(text, base_chunk_index=base_idx)
 
         for chunk_data in page_chunks:
             chunk_data["page_num"] = page["page_num"]
@@ -177,8 +194,8 @@ def process_ocr_queue(conn):
 
         db_module.mark_page_ocr_done(conn, page["file_id"], page["page_num"])
         conn.execute(
-            "UPDATE files SET ocr_used=1 WHERE id=?",
-            (page["file_id"],),
+            "UPDATE files SET ocr_used=1, chunk_count = (SELECT COUNT(*) FROM chunks WHERE file_id = ?) WHERE id=?",
+            (page["file_id"], page["file_id"]),
         )
         conn.commit()
         logger.info(

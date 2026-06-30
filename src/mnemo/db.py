@@ -1,12 +1,14 @@
 import json
+import os
 import re
 import sqlite3
 import sqlite_vec
 import struct
+import sys
 import time
 from pathlib import Path
 
-from .config import DB_PATH
+from . import config
 
 CURRENT_SCHEMA_VERSION = 11
 
@@ -21,18 +23,30 @@ FTS_STOPWORDS = {
 }
 
 
+def _vec0_path():
+    """Resolve vec0.dll path for both dev and frozen builds."""
+    if getattr(sys, "frozen", False):
+        base = Path(sys._MEIPASS)
+        for p in [base / "_internal" / "sqlite_vec" / "vec0.dll", base / "sqlite_vec" / "vec0.dll"]:
+            if p.is_file():
+                return str(p)
+        return str(base / "_internal" / "sqlite_vec" / "vec0.dll")
+    return str(Path(sqlite_vec.__file__).parent / "vec0")
+
+
 def get_connection():
-    conn = sqlite3.connect(str(DB_PATH))
-    conn.execute("PRAGMA journal_mode=WAL")
+    conn = sqlite3.connect(str(config.DB_PATH), timeout=10)
+    conn.execute("PRAGMA busy_timeout=15000")
     conn.execute("PRAGMA foreign_keys=ON")
     conn.row_factory = sqlite3.Row
     conn.enable_load_extension(True)
-    sqlite_vec.load(conn)
+    conn.load_extension(_vec0_path())
     conn.enable_load_extension(False)
     return conn
 
 
 def run_migrations(conn):
+    conn.execute("PRAGMA journal_mode=WAL")
     conn.execute("""
         CREATE TABLE IF NOT EXISTS schema_version (
             version INTEGER PRIMARY KEY,
@@ -321,6 +335,16 @@ def insert_file(conn, path, mtime, file_type, hash_val, model_name, author=""):
     return cur.lastrowid
 
 
+def insert_file_or_ignore(conn, path, mtime, file_type, hash_val, model_name, author=""):
+    filename = Path(path).name
+    cur = conn.execute(
+        """INSERT OR IGNORE INTO files (path, filename, mtime, date_indexed, file_type, hash, index_status, embedding_model, author)
+           VALUES (?, ?, ?, ?, ?, ?, 'pending', ?, ?)""",
+        (path, filename, mtime, time.time(), file_type, hash_val, model_name, author),
+    )
+    return cur.lastrowid
+
+
 def update_file_status(conn, file_id, status, chunk_count=None):
     if chunk_count is not None:
         conn.execute(
@@ -442,6 +466,13 @@ def delete_fts(conn, chunk_id):
     conn.execute("DELETE FROM chunks_fts WHERE rowid = ?", (chunk_id,))
 
 
+def delete_chunk(conn, chunk_id):
+    conn.execute("DELETE FROM chunk_embeddings WHERE chunk_id = ?", (chunk_id,))
+    conn.execute("DELETE FROM chunks_fts WHERE rowid = ?", (chunk_id,))
+    conn.execute("DELETE FROM chunk_metadata WHERE chunk_id = ?", (chunk_id,))
+    conn.execute("DELETE FROM chunks WHERE id = ?", (chunk_id,))
+
+
 def _to_fts_query(user_query):
     terms = [
         t for t in re.split(r"\W+", user_query.strip().lower())
@@ -496,10 +527,13 @@ def log_access(conn, query, file_path, file_id):
 
 
 def log_search_event(conn, query, result_count, clicked_rank, latency_ms=None):
-    conn.execute(
-        "INSERT INTO search_events (query, result_count, clicked_rank, timestamp) VALUES (?, ?, ?, ?)",
-        (query, result_count, clicked_rank, time.time()),
-    )
+    try:
+        conn.execute(
+            "INSERT INTO search_events (query, result_count, clicked_rank, timestamp) VALUES (?, ?, ?, ?)",
+            (query, result_count, clicked_rank, time.time()),
+        )
+    except sqlite3.OperationalError:
+        pass
 
 
 def get_access_count(conn, file_id):
@@ -520,6 +554,13 @@ def add_watched_folder(conn, path):
     conn.execute(
         "INSERT OR IGNORE INTO watched_folders (path, added_at) VALUES (?, ?)",
         (path, time.time()),
+    )
+
+
+def remove_watched_folder(conn, path):
+    conn.execute(
+        "DELETE FROM watched_folders WHERE path = ?",
+        (path,),
     )
 
 
@@ -551,12 +592,15 @@ def get_cache(conn, query_hash):
 
 
 def set_cache(conn, query_hash, results_json):
-    conn.execute(
-        """INSERT INTO query_cache (query_hash, results, cached_at)
-           VALUES (?, ?, ?)
-           ON CONFLICT(query_hash) DO UPDATE SET results = ?, cached_at = ?""",
-        (query_hash, results_json, time.time(), results_json, time.time()),
-    )
+    try:
+        conn.execute(
+            """INSERT INTO query_cache (query_hash, results, cached_at)
+               VALUES (?, ?, ?)
+               ON CONFLICT(query_hash) DO UPDATE SET results = ?, cached_at = ?""",
+            (query_hash, results_json, time.time(), results_json, time.time()),
+        )
+    except sqlite3.OperationalError:
+        pass
 
 
 def page_hash_exists(conn, page_hash, file_id):

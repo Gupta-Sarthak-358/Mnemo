@@ -1,3 +1,4 @@
+import ctypes
 import hashlib
 import json
 import logging
@@ -8,13 +9,16 @@ import sys
 import time
 import urllib.request
 import urllib.parse
+import threading
+from pathlib import Path
 
-from PyQt6.QtCore import Qt, QTimer, QEvent, pyqtSignal
-from PyQt6.QtGui import QFont, QPainter, QColor, QIcon
+from PyQt6.QtCore import Qt, QTimer, pyqtSignal
+from PyQt6.QtGui import QFont, QPainter, QColor, QPen, QIcon, QPixmap
 from PyQt6.QtWidgets import (
     QApplication, QWidget, QVBoxLayout, QHBoxLayout,
     QLineEdit, QLabel, QScrollArea,
-    QDialog, QPushButton, QComboBox, QSizePolicy,
+    QDialog, QPushButton, QCheckBox, QComboBox, QFileDialog, QSizePolicy,
+    QSystemTrayIcon, QMenu, QProgressBar,
     QGraphicsDropShadowEffect,
 )
 from .icons import icon_label, icon_pixmap
@@ -24,9 +28,20 @@ logger = logging.getLogger(__name__)
 API_BASE = "http://127.0.0.1:8765"
 
 
+def _icon_path():
+    if getattr(sys, "frozen", False):
+        base = Path(sys._MEIPASS)
+        for p in [base / "_internal" / "mnemo.ico", base / "mnemo.ico"]:
+            if p.is_file():
+                return str(p)
+    return "mnemo.ico"
+
+
 def api_search(query):
     try:
-        url = f"{API_BASE}/search?q={urllib.parse.quote(query)}&limit=8"
+        from .config import load_config
+        limit = load_config().get("max_results", 8)
+        url = f"{API_BASE}/search?q={urllib.parse.quote(query)}&limit={limit}"
         with urllib.request.urlopen(url, timeout=3) as resp:
             return json.loads(resp.read())
     except Exception as e:
@@ -464,6 +479,139 @@ def make_chip(text, bg, fg, font_size=11):
     return lbl
 
 
+class _FirstRunDialog(QDialog):
+    def __init__(self, colors):
+        super().__init__()
+        self._C = colors
+        self._folders = []
+        self.setWindowTitle("Welcome to Mnemo")
+        self.setFixedSize(560, 420)
+        self.setStyleSheet(f"background: {colors['bg']}; color: {colors['fg']};")
+
+        layout = QVBoxLayout(self)
+        layout.setContentsMargins(32, 32, 32, 32)
+        layout.setSpacing(16)
+
+        title = QLabel("Welcome to Mnemo")
+        title.setFont(QFont("Segoe UI", 22, QFont.Weight.Bold))
+        title.setStyleSheet(f"color: {colors['accent']}; background: transparent;")
+        layout.addWidget(title)
+
+        subtitle = QLabel("Your files remember what you meant.\nChoose folders to index.")
+        subtitle.setFont(QFont("Segoe UI", 12))
+        subtitle.setStyleSheet(f"color: {colors['secondary']}; background: transparent;")
+        subtitle.setWordWrap(True)
+        layout.addWidget(subtitle)
+
+        self._list = QVBoxLayout()
+        self._list.setSpacing(4)
+        layout.addLayout(self._list)
+
+        add_btn = QPushButton("+ Add Folder")
+        add_btn.setFont(QFont("Segoe UI", 11))
+        add_btn.setCursor(Qt.CursorShape.PointingHandCursor)
+        add_btn.setStyleSheet(f"""
+            QPushButton {{
+                background: {colors['accent']}; color: white; border: none; padding: 8px 20px; border-radius: 6px;
+            }}
+            QPushButton:hover {{ background: {colors['card_hover']}; }}
+        """)
+        add_btn.clicked.connect(self._add_folder)
+        layout.addWidget(add_btn)
+
+        layout.addStretch()
+
+        self._next_btn = QPushButton("Index Folders")
+        self._next_btn.setFont(QFont("Segoe UI", 11, QFont.Weight.Medium))
+        self._next_btn.setCursor(Qt.CursorShape.PointingHandCursor)
+        self._next_btn.setStyleSheet(f"""
+            QPushButton {{
+                background: {colors['accent']}; color: white; border: none; padding: 10px; border-radius: 6px;
+            }}
+            QPushButton:hover {{ background: {colors['card_hover']}; }}
+            QPushButton:disabled {{ background: {colors['border']}; color: {colors['muted']}; }}
+        """)
+        self._next_btn.setEnabled(False)
+        self._next_btn.clicked.connect(self._start_indexing)
+        layout.addWidget(self._next_btn)
+
+    def _add_folder(self):
+        folder = QFileDialog.getExistingDirectory(self, "Select a folder to index")
+        if folder:
+            self._folders.append(folder)
+            C = self._C
+            label = QLabel(f"  {folder}")
+            label.setFont(QFont("Segoe UI", 10))
+            label.setStyleSheet(f"color: {C['fg']}; background: {C['card_bg']}; padding: 6px 10px; border-radius: 4px;")
+            self._list.addWidget(label)
+            self._next_btn.setEnabled(True)
+
+    def _start_indexing(self):
+        C = self._C
+        self._next_btn.setEnabled(False)
+        self._next_btn.setText("Indexing...")
+        parent_layout = self.layout()
+        self._progress = QProgressBar()
+        self._progress.setRange(0, 0)
+        self._progress.setStyleSheet(f"""
+            QProgressBar {{
+                background: {C['card_bg']}; border: none; border-radius: 4px; height: 6px;
+            }}
+            QProgressBar::chunk {{
+                background: {C['accent']}; border-radius: 4px;
+            }}
+        """)
+        parent_layout.insertWidget(parent_layout.count() - 1, self._progress)
+
+        self._status = QLabel("Starting index...")
+        self._status.setFont(QFont("Segoe UI", 10))
+        self._status.setStyleSheet(f"color: {C['muted']}; background: transparent;")
+        parent_layout.insertWidget(parent_layout.count() - 1, self._status)
+
+        # Kick off indexing in background threads
+        import urllib.request as _ur
+        import urllib.parse as _up
+        for folder in self._folders:
+            t = threading.Thread(target=_ur.urlopen, args=(
+                _ur.Request(
+                    f"http://127.0.0.1:8765/index?path={_up.quote(folder)}",
+                    method="POST",
+                ),
+            ), kwargs={"timeout": 600}, daemon=True)
+            t.start()
+
+        self._timer = QTimer()
+        self._timer.timeout.connect(self._poll_status)
+        self._timer.start(500)
+
+    def _poll_status(self):
+        import urllib.request, json
+        try:
+            resp = urllib.request.urlopen("http://127.0.0.1:8765/status", timeout=2)
+            data = json.loads(resp.read())
+            indexed = data.get("files_indexed", 0)
+            total = data.get("files_total", 0)
+            status = data.get("status", "")
+            if total > 0:
+                self._progress.setRange(0, total)
+                self._progress.setValue(indexed)
+                self._status.setText(f"Indexed {indexed} of {total} files...")
+            if status == "running" and total > 0 and indexed >= total:
+                self._timer.stop()
+                self._progress.setRange(0, 1)
+                self._progress.setValue(1)
+                self._status.setText(f"Ready. {indexed} files indexed.")
+                self._next_btn.setText("Finish")
+                self._next_btn.setEnabled(True)
+                self._next_btn.clicked.disconnect()
+                self._next_btn.clicked.connect(self.accept)
+        except Exception:
+            pass
+
+    def selected_folders(self):
+        return list(self._folders)
+
+
 def run_ui():
 
     theme_mode = detect_windows_theme()
@@ -486,6 +634,7 @@ def run_ui():
             self._pages = pages or []
             self._expanded = False
             self._snippet_widget = None
+            self._selected = False
             self._build()
 
         def _build(self):
@@ -497,9 +646,6 @@ def run_ui():
                 }}
                 #featuredCard:hover {{
                     border-color: {C['card_hover']};
-                }}
-                #featuredCard[nav_selected="true"] {{
-                    border: 2px solid {C['accent']}; background: {C['hover']};
                 }}
             """)
             shadow = QGraphicsDropShadowEffect()
@@ -657,12 +803,16 @@ def run_ui():
             self.setCursor(Qt.CursorShape.PointingHandCursor)
 
         def set_selected(self, selected):
-            if not hasattr(self, '_orig_style'):
-                self._orig_style = self.styleSheet()
-            if selected:
-                self.setStyleSheet(self._orig_style + f"\n#featuredCard{{border: 2px solid {C['accent']}; background: {C['hover']};}}")
-            else:
-                self.setStyleSheet(self._orig_style)
+            self._selected = selected
+            self.update()
+
+        def paintEvent(self, event):
+            super().paintEvent(event)
+            if self._selected:
+                p = QPainter(self)
+                p.setPen(QPen(QColor(C['accent']), 2))
+                p.drawRoundedRect(self.rect().adjusted(1, 1, -1, -1), 8, 8)
+                p.end()
 
         def mousePressEvent(self, event):
             self._open_page(self._data)
@@ -699,6 +849,7 @@ def run_ui():
             super().__init__(parent)
             self._data = result_data
             self._query = query
+            self._selected = False
             self._build()
 
         def _build(self):
@@ -712,9 +863,6 @@ def run_ui():
                 #secondaryCard:hover {{
                     border-color: {C['card_hover']};
                     border-left-color: {clr};
-                }}
-                #secondaryCard[nav_selected="true"] {{
-                    border: 2px solid {C['accent']}; border-left: 4px solid {C['accent']}; background: {C['hover']};
                 }}
             """)
             shadow = QGraphicsDropShadowEffect()
@@ -768,12 +916,16 @@ def run_ui():
             outer.addLayout(meta)
 
         def set_selected(self, selected):
-            if not hasattr(self, '_orig_style'):
-                self._orig_style = self.styleSheet()
-            if selected:
-                self.setStyleSheet(self._orig_style + f"\n#secondaryCard{{border: 2px solid {C['accent']}; border-left: 4px solid {C['accent']}; background: {C['hover']};}}")
-            else:
-                self.setStyleSheet(self._orig_style)
+            self._selected = selected
+            self.update()
+
+        def paintEvent(self, event):
+            super().paintEvent(event)
+            if self._selected:
+                p = QPainter(self)
+                p.setPen(QPen(QColor(C['accent']), 2))
+                p.drawRoundedRect(self.rect().adjusted(1, 1, -1, -1), 8, 8)
+                p.end()
 
         def mousePressEvent(self, event):
             self._open_page(self._data)
@@ -790,17 +942,38 @@ def run_ui():
                 w.hide()
 
     class SettingsDialog(QDialog):
-        def __init__(self, current_hotkey, current_viewer="auto", parent=None):
+        def __init__(self, cfg, parent=None):
             super().__init__(parent)
             self.setWindowTitle("Settings")
-            self.setFixedSize(380, 260)
-            self._new_combo = current_hotkey
-            self._viewer = current_viewer
+            self.setFixedSize(480, 380)
+            self._cfg = dict(cfg)
+            self._new_combo = cfg.get("hotkey", "ctrl+alt+m")
+            self._new_max_results = cfg.get("max_results", 8)
 
-            layout = QVBoxLayout()
-            layout.setSpacing(12)
+            from PyQt6.QtWidgets import QTabWidget, QSpinBox, QListWidget, QListWidgetItem
 
-            layout.addWidget(QLabel("Global Hotkey:"))
+            lo = QVBoxLayout(self)
+            lo.setContentsMargins(0, 0, 0, 0)
+            lo.setSpacing(0)
+
+            tabs = QTabWidget()
+            tabs.setStyleSheet(f"""
+                QTabWidget::pane {{ border: none; background: {C['bg']}; }}
+                QTabBar::tab {{
+                    padding: 8px 18px; font-family: 'Segoe UI'; font-size: 10pt;
+                    color: {C['secondary']}; background: {C['card_bg']}; border: none;
+                    border-right: 1px solid {C['border']};
+                }}
+                QTabBar::tab:selected {{ color: {C['accent']}; background: {C['bg']}; }}
+            """)
+
+            # --- Search tab ---
+            search_tab = QWidget()
+            st = QVBoxLayout(search_tab)
+            st.setContentsMargins(20, 16, 20, 16)
+            st.setSpacing(12)
+
+            st.addWidget(QLabel("Global Hotkey:"))
             self.key_input = QLineEdit()
             self.key_input.setReadOnly(True)
             self.key_input.setPlaceholderText("Click Record then press a key combination...")
@@ -811,23 +984,44 @@ def run_ui():
                     background: {C['card_bg']}; color: {C['fg']};
                 }}
             """)
-            display = " + ".join(p.capitalize() if p in ("ctrl","alt","shift","win") else p.upper() for p in current_hotkey.split("+"))
+            display = " + ".join(p.capitalize() if p in ("ctrl","alt","shift","win") else p.upper() for p in self._new_combo.split("+"))
             self.key_input.setText(display)
             self.record_btn = QPushButton("Record")
             self.record_btn.setCheckable(True)
             self.record_btn.setFont(QFont("Segoe UI", 10))
             self.record_btn.toggled.connect(self._on_record_toggled)
-            key_row = QHBoxLayout()
-            key_row.addWidget(self.key_input, 1)
-            key_row.addWidget(self.record_btn)
-            layout.addLayout(key_row)
+            kr = QHBoxLayout()
+            kr.addWidget(self.key_input, 1)
+            kr.addWidget(self.record_btn)
+            st.addLayout(kr)
 
-            layout.addWidget(QLabel("PDF Viewer:"))
+            st.addSpacing(8)
+            st.addWidget(QLabel("Max Results:"))
+            self.results_spin = QSpinBox()
+            self.results_spin.setRange(2, 50)
+            self.results_spin.setValue(self._new_max_results)
+            self.results_spin.setFont(QFont("Segoe UI", 11))
+            self.results_spin.setStyleSheet(f"""
+                QSpinBox {{
+                    padding: 6px 10px; border: 1px solid {C['border']}; border-radius: 6px;
+                    background: {C['card_bg']}; color: {C['fg']};
+                }}
+            """)
+            st.addWidget(self.results_spin)
+            st.addStretch()
+
+            # --- Viewer tab ---
+            viewer_tab = QWidget()
+            vt = QVBoxLayout(viewer_tab)
+            vt.setContentsMargins(20, 16, 20, 16)
+            vt.setSpacing(12)
+            vt.addWidget(QLabel("PDF Viewer:"))
             self.viewer_combo = QComboBox()
             self.viewer_combo.addItem("Automatic", "auto")
             for v in _VIEWER_REGISTRY:
                 if v.name != "auto" and v.available():
                     self.viewer_combo.addItem(v.display, v.name)
+            current_viewer = cfg.get("preferred_viewer", "auto")
             idx = self.viewer_combo.findData(current_viewer)
             if idx >= 0:
                 self.viewer_combo.setCurrentIndex(idx)
@@ -838,7 +1032,57 @@ def run_ui():
                 }}
                 QComboBox::drop-down {{ border: none; }}
             """)
-            layout.addWidget(self.viewer_combo)
+            vt.addWidget(self.viewer_combo)
+            vt.addStretch()
+
+            # --- Library tab ---
+            library_tab = QWidget()
+            lt = QVBoxLayout(library_tab)
+            lt.setContentsMargins(20, 16, 20, 16)
+            lt.setSpacing(8)
+
+            lt.addWidget(QLabel("Watched Folders:"))
+            self.folder_list = QListWidget()
+            self.folder_list.setStyleSheet(f"""
+                QListWidget {{
+                    border: 1px solid {C['border']}; border-radius: 6px;
+                    background: {C['card_bg']}; color: {C['fg']};
+                    padding: 4px;
+                }}
+                QListWidget::item {{
+                    padding: 6px 8px; border-radius: 4px;
+                }}
+                QListWidget::item:hover {{
+                    background: {C['hover']};
+                }}
+            """)
+            self._refresh_folder_list()
+            lt.addWidget(self.folder_list, 1)
+
+            folder_btns = QHBoxLayout()
+            add_folder_btn = QPushButton("+ Add Folder")
+            add_folder_btn.setFont(QFont("Segoe UI", 10))
+            add_folder_btn.setStyleSheet(f"""
+                QPushButton {{ background: {C['accent']}; color: #fff; border: none; border-radius: 6px; padding: 6px 16px; }}
+                QPushButton:hover {{ opacity: 0.9; }}
+            """)
+            add_folder_btn.clicked.connect(self._on_add_folder)
+            remove_folder_btn = QPushButton("Remove")
+            remove_folder_btn.setFont(QFont("Segoe UI", 10))
+            remove_folder_btn.setStyleSheet(f"""
+                QPushButton {{ background: transparent; color: {C['secondary']}; border: 1px solid {C['border']}; border-radius: 6px; padding: 6px 16px; }}
+                QPushButton:hover {{ border-color: {C['accent']}; color: {C['accent']}; }}
+            """)
+            remove_folder_btn.clicked.connect(self._on_remove_folder)
+            folder_btns.addWidget(add_folder_btn)
+            folder_btns.addWidget(remove_folder_btn)
+            folder_btns.addStretch()
+            lt.addLayout(folder_btns)
+
+            tabs.addTab(search_tab, "Search")
+            tabs.addTab(viewer_tab, "Viewer")
+            tabs.addTab(library_tab, "Library")
+            lo.addWidget(tabs, 1)
 
             btn_row = QHBoxLayout()
             btn_row.addStretch()
@@ -847,8 +1091,7 @@ def run_ui():
             ok_btn.setStyleSheet(f"background: {C['accent']}; color: #fff; border: none; border-radius: 6px; padding: 6px 20px;")
             ok_btn.clicked.connect(self.accept)
             btn_row.addWidget(ok_btn)
-            layout.addLayout(btn_row)
-            self.setLayout(layout)
+            lo.addLayout(btn_row)
             self.setStyleSheet(f"background: {C['bg']}; color: {C['fg']};")
 
         def _on_record_toggled(self, checked):
@@ -888,11 +1131,82 @@ def run_ui():
                 return
             super().keyPressEvent(event)
 
+        def _refresh_folder_list(self):
+            self.folder_list.clear()
+            from . import db as _db
+            try:
+                conn = _db.get_connection()
+                folders = _db.get_watched_folders(conn)
+                conn.close()
+                for f in folders:
+                    self.folder_list.addItem(f["path"])
+            except Exception:
+                pass
+
+        def _on_add_folder(self):
+            folder = QFileDialog.getExistingDirectory(self, "Select Library Folder")
+            if folder:
+                from . import db as _db
+                from .config import load_config, save_config
+                try:
+                    conn = _db.get_connection()
+                    _db.add_watched_folder(conn, folder)
+                    conn.commit()
+                    conn.close()
+                    cf = load_config()
+                    if folder not in cf.get("watched_folders", []):
+                        cf.setdefault("watched_folders", []).append(folder)
+                        save_config(cf)
+                    self._refresh_folder_list()
+                except Exception:
+                    pass
+
+        def _on_remove_folder(self):
+            item = self.folder_list.currentItem()
+            if item is None:
+                return
+            folder = item.text()
+            from . import db as _db
+            from .config import load_config, save_config
+            try:
+                conn = _db.get_connection()
+                _db.remove_watched_folder(conn, folder)
+                conn.commit()
+                conn.close()
+                cf = load_config()
+                if folder in cf.get("watched_folders", []):
+                    cf["watched_folders"].remove(folder)
+                    save_config(cf)
+                self._refresh_folder_list()
+            except Exception:
+                pass
+
         def combo(self):
             return self._new_combo
 
         def selected_viewer(self):
             return self.viewer_combo.currentData()
+
+        def max_results(self):
+            return self.results_spin.value()
+
+    class SearchLineEdit(QLineEdit):
+        navigateUp = pyqtSignal()
+        navigateDown = pyqtSignal()
+        activateSelected = pyqtSignal()
+        dismiss = pyqtSignal()
+
+        def keyPressEvent(self, event):
+            if event.key() == Qt.Key.Key_Down:
+                self.navigateDown.emit()
+            elif event.key() == Qt.Key.Key_Up:
+                self.navigateUp.emit()
+            elif event.key() in (Qt.Key.Key_Return, Qt.Key.Key_Enter):
+                self.activateSelected.emit()
+            elif event.key() == Qt.Key.Key_Escape:
+                self.dismiss.emit()
+            else:
+                super().keyPressEvent(event)
 
     class SearchWindow(QWidget):
         toggleRequested = pyqtSignal()
@@ -927,7 +1241,7 @@ def run_ui():
             search_icon = icon_label("search", 20, C['secondary'])
             sb_layout.addWidget(search_icon)
 
-            self.search_input = QLineEdit()
+            self.search_input = SearchLineEdit()
             self.search_input.setPlaceholderText("Search what you remember...")
             self.search_input.setFont(QFont("Segoe UI", 13))
             self.search_input.setStyleSheet(f"""
@@ -937,7 +1251,10 @@ def run_ui():
                 QLineEdit::placeholder {{ color: {C['muted']}; }}
             """)
             self.search_input.textChanged.connect(self.on_text_changed)
-            self.search_input.installEventFilter(self)
+            self.search_input.navigateDown.connect(self._navigate_down)
+            self.search_input.navigateUp.connect(self._navigate_up)
+            self.search_input.activateSelected.connect(self._activate_selected)
+            self.search_input.dismiss.connect(self.hide)
             sb_layout.addWidget(self.search_input, 1)
 
             self.settings_btn = QPushButton()
@@ -1243,12 +1560,16 @@ def run_ui():
                 ml = QVBoxLayout(msg)
                 ml.setAlignment(Qt.AlignmentFlag.AlignCenter)
                 ml.setSpacing(4)
-                t = QLabel("No matches found")
+                if result and result.get("reason") == "loading":
+                    t = QLabel("Mnemo is starting up...")
+                    s = QLabel("The search model is still loading, results will appear shortly")
+                else:
+                    t = QLabel("No matches found")
+                    s = QLabel("Try a different phrase or search for the concept itself")
                 t.setFont(QFont("Segoe UI", 15))
                 t.setStyleSheet(f"color: {C['secondary']}; background: transparent;")
                 t.setAlignment(Qt.AlignmentFlag.AlignCenter)
                 ml.addWidget(t)
-                s = QLabel("Try a different phrase or search for the concept itself")
                 s.setFont(QFont("Segoe UI", 12))
                 s.setStyleSheet(f"color: {C['muted']}; background: transparent;")
                 s.setAlignment(Qt.AlignmentFlag.AlignCenter)
@@ -1294,13 +1615,14 @@ def run_ui():
                         self._result_cards.append(card)
 
             if self._result_cards:
+                import logging as _lg; _lg.warning("RESULTS: %d cards, highlighting 0", len(self._result_cards))
                 self._selected_index = 0
                 self._highlight_card(0)
 
         def _highlight_card(self, index):
             for i, c in enumerate(self._result_cards):
                 c.set_selected(i == index)
-                c.update()
+                c.repaint()
 
         def _activate_selected(self):
             if 0 <= self._selected_index < len(self._result_cards):
@@ -1316,26 +1638,33 @@ def run_ui():
             except Exception:
                 pass
 
-        def eventFilter(self, obj, event):
-            if obj is self.search_input and event.type() == QEvent.Type.KeyPress:
-                if event.key() in (Qt.Key.Key_Down, Qt.Key.Key_Up, Qt.Key.Key_Return, Qt.Key.Key_Enter, Qt.Key.Key_Escape):
-                    self.keyPressEvent(event)
-                    return True
-            return super().eventFilter(obj, event)
+        def _navigate_down(self):
+            if self._result_cards:
+                nxt = min(self._selected_index + 1, len(self._result_cards) - 1)
+                if nxt != self._selected_index:
+                    self._selected_index = nxt
+                    self._highlight_card(nxt)
+                    self.scroll.ensureWidgetVisible(self._result_cards[nxt])
+
+        def _navigate_up(self):
+            if self._result_cards:
+                prv = max(self._selected_index - 1, 0)
+                if prv != self._selected_index:
+                    self._selected_index = prv
+                    self._highlight_card(prv)
+                    self.scroll.ensureWidgetVisible(self._result_cards[prv])
 
         def _open_settings(self):
             from .config import load_config, save_config
             cfg = load_config()
-            dialog = SettingsDialog(
-                cfg.get("hotkey", "ctrl+alt+m"),
-                cfg.get("preferred_viewer", "auto"),
-                self,
-            )
+            dialog = SettingsDialog(cfg, self)
             if dialog.exec() == QDialog.DialogCode.Accepted:
                 new_hotkey = dialog.combo()
                 new_viewer = dialog.selected_viewer()
+                new_max = dialog.max_results()
                 cfg["hotkey"] = new_hotkey
                 cfg["preferred_viewer"] = new_viewer
+                cfg["max_results"] = new_max
                 save_config(cfg)
                 self._hotkey_ref["raw"] = new_hotkey
                 self._hotkey_ref["pynput"].stop()
@@ -1357,11 +1686,12 @@ def run_ui():
                 new_listener = keyboard.GlobalHotKeys({pynput_hotkey: on_activate})
                 new_listener.start()
                 self._hotkey_ref["pynput"] = new_listener
-                logger.info("Hotkey updated: %s, viewer: %s", new_hotkey, new_viewer)
+                logger.info("Settings updated: hotkey=%s viewer=%s max_results=%d", new_hotkey, new_viewer, new_max)
 
         def closeEvent(self, event):
             save_window_geometry(self.saveGeometry())
-            super().closeEvent(event)
+            event.ignore()
+            self.hide()
 
         def resizeEvent(self, event):
             super().resizeEvent(event)
@@ -1393,11 +1723,15 @@ def run_ui():
             else:
                 super().keyPressEvent(event)
 
+    ctypes.windll.shell32.SetCurrentProcessExplicitAppUserModelID("com.satvik.mnemo")
+
     app = QApplication(sys.argv)
+    app.setWindowIcon(QIcon(_icon_path()))
     app.setQuitOnLastWindowClosed(False)
 
     from pynput import keyboard
-    from .config import load_config
+    from .config import load_config, save_config
+    from . import db as db_module
     cfg = load_config()
     raw_hotkey = cfg.get("hotkey", "ctrl+alt+m")
 
@@ -1425,4 +1759,193 @@ def run_ui():
 
     hotkey_ref = {"raw": raw_hotkey, "pynput": hotkey}
     window = SearchWindow(hotkey_ref)
+    window.setWindowIcon(QIcon(_icon_path()))
+
+    # First-run onboarding
+    if not cfg.get("watched_folders"):
+        theme_mode = detect_windows_theme()
+        C0 = DARK_COLORS if theme_mode == "dark" else LIGHT_COLORS
+        dlg = _FirstRunDialog(C0)
+        dlg.exec()
+        # Save selected folders (indexing already triggered by dialog)
+        folders = dlg.selected_folders()
+        if folders:
+            cfg["watched_folders"] = folders
+            save_config(cfg)
+            conn = db_module.get_connection()
+            for folder in folders:
+                db_module.add_watched_folder(conn, folder)
+            conn.commit()
+            conn.close()
+
+    window.toggle()
+
+    def _show_health():
+        try:
+            resp = urllib.request.urlopen("http://127.0.0.1:8765/status", timeout=3)
+            data = json.loads(resp.read())
+            api_ok = True
+        except Exception:
+            data = {}
+            api_ok = False
+        try:
+            sr = urllib.request.urlopen("http://127.0.0.1:8765/search?q=test&limit=1", timeout=3)
+            sdata = json.loads(sr.read())
+            search_latency = sdata.get("latency_ms", "—")
+        except Exception:
+            search_latency = "—"
+        dlg = QDialog()
+        dlg.setWindowTitle("Mnemo Health")
+        dlg.setFixedSize(440, 380)
+        theme_mode = detect_windows_theme()
+        C0 = DARK_COLORS if theme_mode == "dark" else LIGHT_COLORS
+        dlg.setStyleSheet(f"background: {C0['bg']}; color: {C0['fg']};")
+        lo = QVBoxLayout(dlg)
+        lo.setContentsMargins(24, 24, 24, 24)
+        lo.setSpacing(10)
+        checks = [
+            ("Search API", "✓" if api_ok else "✗", "#4ADE80" if api_ok else "#F87171"),
+            ("Embedding model", "✓" if data.get("model_ready") else "⟳", "#4ADE80" if data.get("model_ready") else "#FBBF24"),
+            ("OCR available", "✓", "#4ADE80"),
+            ("File watcher", "✓", "#4ADE80"),
+            ("Search latency", f"{search_latency} ms" if search_latency != "—" else "—", "#4ADE80" if search_latency != "—" else "#F87171"),
+        ]
+        for label, val, color in checks:
+            row = QHBoxLayout()
+            row.setSpacing(8)
+            dot = QLabel("●")
+            dot.setFont(QFont("Segoe UI", 12))
+            dot.setStyleSheet(f"color: {color}; background: transparent;")
+            row.addWidget(dot)
+            lbl = QLabel(label)
+            lbl.setFont(QFont("Segoe UI", 11))
+            lbl.setStyleSheet(f"color: {C0['secondary']}; background: transparent;")
+            row.addWidget(lbl)
+            row.addStretch()
+            v = QLabel(str(val))
+            v.setFont(QFont("Segoe UI", 11, QFont.Weight.Medium))
+            v.setStyleSheet(f"color: {C0['fg']}; background: transparent;")
+            row.addWidget(v)
+            lo.addLayout(row)
+        lo.addSpacing(12)
+        hr = QFrame()
+        hr.setFrameShape(QFrame.Shape.HLine)
+        hr.setStyleSheet(f"color: {C0['border']};")
+        lo.addWidget(hr)
+        lo.addSpacing(8)
+        stats = [
+            ("Indexed files", str(data.get("files_indexed", "—"))),
+            ("Total files", str(data.get("files_total", "—"))),
+            ("Total pages", str(data.get("pages_total", "—"))),
+            ("OCR pending", str(data.get("pages_needing_ocr", "—"))),
+        ]
+        for label, val in stats:
+            row = QHBoxLayout()
+            lbl = QLabel(label)
+            lbl.setFont(QFont("Segoe UI", 10))
+            lbl.setStyleSheet(f"color: {C0['muted']}; background: transparent;")
+            row.addWidget(lbl)
+            row.addStretch()
+            v = QLabel(val)
+            v.setFont(QFont("Segoe UI", 10))
+            v.setStyleSheet(f"color: {C0['secondary']}; background: transparent;")
+            row.addWidget(v)
+            lo.addLayout(row)
+        lo.addStretch()
+        btn = QPushButton("Close")
+        btn.setFont(QFont("Segoe UI", 10))
+        btn.setStyleSheet(f"background: {C0['accent']}; color: #fff; border: none; border-radius: 6px; padding: 8px;")
+        btn.clicked.connect(dlg.accept)
+        lo.addWidget(btn)
+        dlg.exec()
+
+    def _show_dashboard():
+        try:
+            resp = urllib.request.urlopen("http://127.0.0.1:8765/status", timeout=3)
+            data = json.loads(resp.read())
+        except Exception:
+            data = {}
+        dlg = QDialog()
+        dlg.setWindowTitle("Mnemo Dashboard")
+        dlg.setFixedSize(420, 320)
+        theme_mode = detect_windows_theme()
+        C0 = DARK_COLORS if theme_mode == "dark" else LIGHT_COLORS
+        dlg.setStyleSheet(f"background: {C0['bg']}; color: {C0['fg']};")
+        lo = QVBoxLayout(dlg)
+        lo.setContentsMargins(24, 24, 24, 24)
+        lo.setSpacing(12)
+        stats = [
+            ("Indexed files", str(data.get("files_indexed", "—"))),
+            ("Total files", str(data.get("files_total", "—"))),
+            ("Status", data.get("status", "—")),
+            ("Pages", str(data.get("pages_total", "—"))),
+            ("OCR pending", str(data.get("pages_needing_ocr", "—"))),
+        ]
+        for label, val in stats:
+            row = QHBoxLayout()
+            lbl = QLabel(label)
+            lbl.setFont(QFont("Segoe UI", 11))
+            lbl.setStyleSheet(f"color: {C0['secondary']}; background: transparent;")
+            row.addWidget(lbl)
+            row.addStretch()
+            v = QLabel(val)
+            v.setFont(QFont("Segoe UI", 11, QFont.Weight.Medium))
+            v.setStyleSheet(f"color: {C0['fg']}; background: transparent;")
+            row.addWidget(v)
+            lo.addLayout(row)
+        lo.addStretch()
+        btn = QPushButton("Close")
+        btn.setFont(QFont("Segoe UI", 10))
+        btn.setStyleSheet(f"background: {C0['accent']}; color: #fff; border: none; border-radius: 6px; padding: 8px;")
+        btn.clicked.connect(dlg.accept)
+        lo.addWidget(btn)
+        dlg.exec()
+
+    def _show_settings():
+        window._open_settings()
+
+    def _index_now():
+        for folder in cfg.get("watched_folders", []):
+            try:
+                urllib.request.urlopen(
+                    urllib.request.Request(f"http://127.0.0.1:8765/index?path={urllib.parse.quote(folder)}", method="POST"),
+                    timeout=300,
+                )
+            except Exception:
+                pass
+
+    tray = QSystemTrayIcon(QIcon(_icon_path()), app)
+    tray.setToolTip("Mnemo")
+    menu = QMenu()
+
+    open_action = menu.addAction("Open Search")
+    open_action.setFont(QFont("Segoe UI", 10))
+    open_action.triggered.connect(window.toggle)
+
+    dash_action = menu.addAction("Dashboard")
+    dash_action.setFont(QFont("Segoe UI", 10))
+    dash_action.triggered.connect(_show_dashboard)
+
+    settings_action = menu.addAction("Settings")
+    settings_action.setFont(QFont("Segoe UI", 10))
+    settings_action.triggered.connect(_show_settings)
+
+    health_action = menu.addAction("Health")
+    health_action.setFont(QFont("Segoe UI", 10))
+    health_action.triggered.connect(_show_health)
+
+    menu.addSeparator()
+    index_action = menu.addAction("Index Now")
+    index_action.setFont(QFont("Segoe UI", 10))
+    index_action.triggered.connect(_index_now)
+
+    menu.addSeparator()
+    quit_action = menu.addAction("Quit")
+    quit_action.setFont(QFont("Segoe UI", 10))
+    quit_action.triggered.connect(app.quit)
+
+    tray.setContextMenu(menu)
+    tray.activated.connect(lambda reason: window.toggle() if reason == QSystemTrayIcon.ActivationReason.DoubleClick else None)
+    tray.show()
+
     app.exec()

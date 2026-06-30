@@ -6,12 +6,13 @@ from pydantic import BaseModel
 from . import db as db_module
 from . import indexer
 from .config import load_config
-from .embedder import get_model_name
+from .embedder import get_model_name, is_model_ready
 from .search import search
 
 app = FastAPI(title="Mnemo", version="0.1.0")
 
 _local = threading.local()
+_index_lock = threading.Lock()
 
 
 def _get_conn():
@@ -29,22 +30,28 @@ class OpenLogRequest(BaseModel):
 @app.get("/search")
 def search_endpoint(q: str = Query(...), limit: int = Query(8, le=50)):
     conn = _get_conn()
-    results, cached, latency_ms = search(conn, q, limit=limit)
+    results, cached, latency_ms, reason = search(conn, q, limit=limit)
     return {
         "query": q,
         "results": results,
         "cached": cached,
         "latency_ms": latency_ms,
+        "reason": reason,
     }
 
 
 @app.post("/index")
 def add_folder(path: str = Query(...)):
-    conn = _get_conn()
-    db_module.add_watched_folder(conn, path)
-    conn.commit()
-    model_name = get_model_name() or load_config()["embedding_model"]
-    indexer.index_folder(conn, path, model_name)
+    # Wait for model to finish loading — indexing needs embeddings
+    while not is_model_ready():
+        import time as _t
+        _t.sleep(0.5)
+    with _index_lock:
+        conn = _get_conn()
+        db_module.add_watched_folder(conn, path)
+        conn.commit()
+        model_name = get_model_name() or load_config()["embedding_model"]
+        indexer.index_folder(conn, path, model_name)
     return {"status": "ok", "path": path}
 
 
@@ -60,6 +67,7 @@ def daemon_status():
     stats = db_module.get_page_stats(conn)
     return {
         "status": "running",
+        "model_ready": is_model_ready(),
         "files_total": total,
         "files_indexed": indexed,
         "pages_total": stats["total"],

@@ -1,7 +1,9 @@
 import json
+import os
 from pathlib import Path
 
-CONFIG_DIR = Path.home() / ".mnemo"
+localappdata = os.environ.get("LOCALAPPDATA", str(Path.home() / "AppData" / "Local"))
+CONFIG_DIR = Path(localappdata) / "Mnemo"
 CONFIG_FILE = CONFIG_DIR / "config.json"
 DB_PATH = CONFIG_DIR / "mnemo.db"
 
@@ -12,6 +14,11 @@ DEFAULT_CONFIG = {
     "max_results": 8,
     "theme": "light",
     "preferred_viewer": "auto",
+    "noise_cleaning": {
+        "enabled": True,
+        "min_occurrences": 10,
+        "max_words": 8,
+    },
 }
 
 

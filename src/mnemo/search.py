@@ -7,6 +7,20 @@ from pathlib import Path
 from . import db as db_module
 from .embedder import safe_embed, get_model
 
+_spell = None
+
+def _autocorrect(query: str) -> str:
+    global _spell
+    if _spell is None:
+        try:
+            from spellchecker import SpellChecker
+            _spell = SpellChecker()
+        except Exception:
+            return query
+    words = query.split()
+    return ' '.join(_spell.correction(w) or w if len(w) >= 5 and w.islower() else w for w in words)
+
+
 SEMANTIC_WEIGHT = 0.80
 RECENCY_WEIGHT = 0.10
 ACCESS_WEIGHT = 0.10
@@ -75,17 +89,41 @@ def _filename_boost(query, filename):
     return min(boost, FILENAME_BOOST_MAX)
 
 
+def _mmr(results, lambda_mmr=0.5):
+    """Re-rank with Maximal Marginal Relevance to penalize same-book clusters."""
+    if not results:
+        return results
+    selected = []
+    remaining = list(results)
+    while remaining and len(selected) < len(results):
+        best_i = None
+        best_score = -float("inf")
+        for i, r in enumerate(remaining):
+            raw = r["_raw_score"]
+            same_book = sum(1 for s in selected if s["file_id"] == r["file_id"])
+            diversity = 1.0 / (1.0 + same_book)
+            mmr = lambda_mmr * raw + (1.0 - lambda_mmr) * diversity
+            if mmr > best_score:
+                best_score = mmr
+                best_i = i
+        selected.append(remaining.pop(best_i))
+    return selected
+
+
 def search(conn, query, limit=8):
     start = time.time()
+    query = _autocorrect(query)
     query_hash = hashlib.sha256(query.encode()).hexdigest()
     cached = db_module.get_cache(conn, query_hash)
     if cached:
         elapsed = round((time.time() - start) * 1000, 1)
-        return json.loads(cached), True, elapsed
+        return json.loads(cached), True, elapsed, ""
+
+    from .embedder import is_model_ready
+    if not is_model_ready():
+        return [], False, 0, "loading"
 
     model = get_model()
-    if model is None:
-        return [], False, 0
 
     embedding, _ = safe_embed(query)
 
@@ -95,13 +133,15 @@ def search(conn, query, limit=8):
     # 2. FTS5 keyword search
     fts_raw = db_module.fts_search_detailed(conn, query, limit=limit * 3)
 
-    # Normalize FTS BM25 ranks (more negative = better match)
+    # Normalize FTS BM25 ranks (more negative = better match in FTS5)
     fts_norm = {}
     if fts_raw:
-        ranks = [abs(r["bm25_rank"]) for r in fts_raw]
-        max_rank = max(ranks) if ranks else 1
+        ranks = [r["bm25_rank"] for r in fts_raw]
+        min_rank, max_rank = min(ranks), max(ranks)
         for r in fts_raw:
-            fts_norm[r["chunk_id"]] = 1.0 - (abs(r["bm25_rank"]) / max_rank) if max_rank > 0 else 0.0
+            v = r["bm25_rank"]
+            # FTS5: most negative → 1.0 (best), most positive → 0.0 (worst)
+            fts_norm[r["chunk_id"]] = 1.0 - (v - min_rank) / (max_rank - min_rank) if max_rank > min_rank else 1.0
 
     # Build chunk map from vector results
     chunks = {}
@@ -176,7 +216,14 @@ def search(conn, query, limit=8):
         })
 
     results.sort(key=lambda r: r["score"], reverse=True)
-    results = results[:limit]
+    # MMR diversification on top candidates
+    candidates = results[:limit * 3]
+    for r in candidates:
+        r["_raw_score"] = r["score"]
+    diversified = _mmr(candidates, lambda_mmr=0.5)
+    results = diversified[:limit]
+    for r in results:
+        r.pop("_raw_score", None)
 
     chunk_ids = [r["chunk_id"] for r in results]
     metadata = db_module.get_chunk_metadata_batch(conn, chunk_ids)
@@ -185,8 +232,12 @@ def search(conn, query, limit=8):
         r["heading"] = meta.get("heading")
         r["concepts"] = meta.get("concepts", [])
 
-    db_module.set_cache(conn, query_hash, json.dumps(results))
-    db_module.log_search_event(conn, query, len(results), None)
+    try:
+        db_module.set_cache(conn, query_hash, json.dumps(results))
+        db_module.log_search_event(conn, query, len(results), None)
+        conn.commit()
+    except Exception:
+        conn.rollback()
 
     elapsed = round((time.time() - start) * 1000, 1)
-    return results, False, elapsed
+    return results, False, elapsed, ""

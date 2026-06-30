@@ -1422,7 +1422,7 @@
   },
   {
     "category": "human_memory",
-    "query": "the chapter where Alex Xu designs Twitter",
+    "query": "the chapter where Alex Xu designs URL Shortener",
     "acceptable": [
       "System_Design_Interview_-_An_Insiders_Guide_Volume_2_-_Alex_XU.pdf"
     ]
